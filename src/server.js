@@ -1,7 +1,9 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const routes = require('./routes');
+import dotenv from 'dotenv';
+import express from 'express';
+import cors from 'cors';
+import routes from './routes/index.js';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,10 +28,23 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-if (require.main === module) {
-  app.listen(PORT, () => {
+const startServer = () => {
+  const server = app.listen(PORT, () => {
     console.log(`Servidor rodando na porta ${PORT}`);
   });
+
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`Porta ${PORT} já está em uso. Tente uma porta diferente ou encerre o processo usando a porta.`);
+      process.exit(1);
+    } else {
+      throw err;
+    }
+  });
+};
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  startServer();
 }
 
-module.exports = app;
+export default app;

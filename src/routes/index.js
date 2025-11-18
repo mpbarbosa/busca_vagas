@@ -1,11 +1,11 @@
-const express = require('express');
-const router = express.Router();
-const vagasRoutes = require('./vagasRoutes');
+import express from 'express';
+import vagasRoutes from './vagasRoutes.js';
 
 /**
  * Arquivo principal de rotas
  * Centraliza todas as rotas da API
  */
+const router = express.Router();
 
 // Rota de health check
 router.get('/health', (req, res) => {
@@ -15,4 +15,4 @@ router.get('/health', (req, res) => {
 // Rotas de vagas
 router.use('/vagas', vagasRoutes);
 
-module.exports = router;
+export default router;

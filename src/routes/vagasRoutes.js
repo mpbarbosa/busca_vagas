@@ -1,10 +1,10 @@
-const express = require('express');
-const router = express.Router();
-const vagasController = require('../controllers/vagasController');
+import express from 'express';
+import * as vagasController from '../controllers/vagasController.js';
 
 /**
  * Rotas para gerenciamento de vagas
  */
+const router = express.Router();
 
 // GET /api/vagas - Lista todas as vagas
 router.get('/', vagasController.listarVagas);
@@ -21,4 +21,4 @@ router.put('/:id', vagasController.atualizarVaga);
 // DELETE /api/vagas/:id - Remove vaga
 router.delete('/:id', vagasController.removerVaga);
 
-module.exports = router;
+export default router;

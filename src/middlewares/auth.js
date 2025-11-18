@@ -2,7 +2,7 @@
  * Middleware de autenticação
  * Exemplo de middleware para validar tokens de autenticação
  */
-const authMiddleware = (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
   try {
     const token = req.headers.authorization;
     
@@ -20,4 +20,4 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+export default authMiddleware;

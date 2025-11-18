@@ -2,7 +2,7 @@
  * Serviço de busca de vagas
  * Contém a lógica de negócio para busca e gerenciamento de vagas
  */
-class VagasService {
+export class VagasService {
   /**
    * Busca vagas com filtros
    */
@@ -50,4 +50,4 @@ class VagasService {
   }
 }
 
-module.exports = new VagasService();
+export default new VagasService();

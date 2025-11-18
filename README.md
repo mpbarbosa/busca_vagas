@@ -1,57 +1,50 @@
-# Busca Vagas
+# Busca Vagas API
 
-Aplicação web para busca de vagas em hotéis de sindicatos.
+API RESTful para gerenciamento de vagas em hotéis de sindicatos.
 
 ## 📋 Descrição
 
-Sistema web desenvolvido para facilitar a busca e o gerenciamento de vagas de emprego em hotéis vinculados a sindicatos.
+API desenvolvida para facilitar a busca e o gerenciamento de vagas de emprego em hotéis vinculados a sindicatos. Esta API fornece endpoints para criação, listagem, atualização e remoção de vagas.
 
 ## 🚀 Tecnologias
 
-### Backend
+### API
+
 - Node.js
 - Express.js
-- dotenv (gerenciamento de variáveis de ambiente)
-
-### Frontend
-- React
-- React Router
-- Axios
-- HTML5
-- CSS3
-- JavaScript (ES6+)
+- CORS (Cross-Origin Resource Sharing)
+- dotenv (gerenciam/ento de variáveis de ambiente)
 
 ### Testes
+
 - Jest (testes unitários e de integração)
-- Selenium WebDriver (testes E2E)
 - Supertest (testes de API)
+- Selenium WebDriver (testes E2E)
+
+### Qualidade de Código
+
+- ESLint
 
 ## 📁 Estrutura do Projeto
 
-```
+```plaintext
 busca_vagas/
-├── client/              # Frontend React
-│   ├── public/         # Arquivos estáticos
-│   └── src/            # Código fonte
-│       ├── components/ # Componentes React
-│       ├── pages/      # Páginas
-│       ├── services/   # Serviços API
-│       ├── styles/     # Estilos CSS
-│       └── utils/      # Utilitários
-├── src/                # Backend Node.js/Express
+├── src/                # API Node.js/Express
 │   ├── config/        # Configurações
-│   ├── controllers/   # Controllers
-│   ├── models/        # Modelos
-│   ├── routes/        # Rotas
-│   ├── middlewares/   # Middlewares
-│   ├── services/      # Serviços
-│   └── utils/         # Utilitários
-├── tests/             # Testes
+│   ├── controllers/   # Controllers (lógica de requisições)
+│   ├── models/        # Modelos de dados
+│   ├── routes/        # Definição de rotas da API
+│   ├── middlewares/   # Middlewares (auth, validação, etc)
+│   ├── services/      # Lógica de negócio
+│   ├── utils/         # Utilitários
+│   └── server.js      # Entry point da API
+├── tests/             # Testes automatizados
 │   ├── unit/         # Testes unitários
 │   ├── integration/  # Testes de integração
 │   └── e2e/          # Testes E2E
+├── client/           # Cliente de exemplo (opcional)
 ├── scripts/          # Scripts auxiliares
-└── docs/             # Documentação
+└── docs/             # Documentação da API
 ```
 
 Para mais detalhes sobre a estrutura, consulte [docs/STRUCTURE.md](docs/STRUCTURE.md).
@@ -59,6 +52,7 @@ Para mais detalhes sobre a estrutura, consulte [docs/STRUCTURE.md](docs/STRUCTUR
 ## 🔧 Instalação
 
 ### Pré-requisitos
+
 - Node.js (versão 14 ou superior)
 - npm ou yarn
 
@@ -74,42 +68,44 @@ cd busca_vagas
 
 # Ou instale manualmente:
 npm install
-cd client && npm install && cd ..
 ```
 
 ### Configuração
 
 1. Copie o arquivo `.env.example` para `.env`:
-```bash
-cp .env.example .env
-```
+
+    ```bash
+    cp .env.example .env
+    ```
 
 2. Configure as variáveis de ambiente conforme necessário
 
 ## 🏃 Execução
 
-### Backend
-```bash
-# Desenvolvimento
-npm run dev
+### Modo Desenvolvimento
 
-# Produção
+```bash
+npm run dev
+```
+
+### Modo Produção
+
+```bash
 npm start
 ```
 
-### Frontend
-```bash
-# Em um terminal separado
-npm run client
-```
+A API estará disponível em `http://localhost:3000`
 
-### Ambos simultaneamente
-```bash
-npm run dev:all
-```
+### Endpoints Principais
 
-O backend estará disponível em `http://localhost:3000`
-O frontend estará disponível em `http://localhost:3001`
+- `GET /` - Informações da API
+- `GET /api/health` - Health check
+- `GET /api/vagas` - Listar vagas
+- `POST /api/vagas` - Criar vaga
+- `PUT /api/vagas/:id` - Atualizar vaga
+- `DELETE /api/vagas/:id` - Remover vaga
+
+Para documentação completa dos endpoints, veja [docs/API.md](docs/API.md)
 
 ## 🧪 Testes
 
@@ -132,8 +128,12 @@ npm run test:e2e
 
 ## 📚 Documentação
 
-- [Estrutura do Projeto](docs/STRUCTURE.md)
-- [Documentação da API](docs/API.md)
+- [Documentação da API](docs/API.md) - Endpoints, requisições e respostas
+- [Estrutura do Projeto](docs/STRUCTURE.md) - Organização de diretórios e arquivos
+
+## 🔌 Integração
+
+Esta API pode ser consumida por qualquer cliente HTTP. Um cliente de exemplo está disponível na pasta `client/` para demonstração.
 
 ## 🤝 Contribuindo
 
