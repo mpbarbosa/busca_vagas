@@ -5,14 +5,14 @@
 /**
  * Gera um ID único
  */
-const gerarId = () => {
+export const gerarId = () => {
   return Date.now().toString(36) + Math.random().toString(36).substr(2);
 };
 
 /**
  * Formata resposta de sucesso
  */
-const respostaSucesso = (data, mensagem = 'Sucesso') => {
+export const respostaSucesso = (data, mensagem = 'Sucesso') => {
   return {
     sucesso: true,
     mensagem,
@@ -23,7 +23,7 @@ const respostaSucesso = (data, mensagem = 'Sucesso') => {
 /**
  * Formata resposta de erro
  */
-const respostaErro = (mensagem, erros = []) => {
+export const respostaErro = (mensagem, erros = []) => {
   return {
     sucesso: false,
     mensagem,
@@ -34,14 +34,7 @@ const respostaErro = (mensagem, erros = []) => {
 /**
  * Valida email
  */
-const validarEmail = (email) => {
+export const validarEmail = (email) => {
   const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return regex.test(email);
-};
-
-module.exports = {
-  gerarId,
-  respostaSucesso,
-  respostaErro,
-  validarEmail
 };

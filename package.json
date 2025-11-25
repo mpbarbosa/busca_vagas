@@ -1,7 +1,8 @@
 {
-  "name": "busca_vagas",
+  "name": "busca_vagas_api",
   "version": "1.0.0",
-  "description": "Aplicação web para busca de vagas em hotéis de sindicatos",
+  "description": "API RESTful para gerenciamento de vagas em hotéis de sindicatos",
+  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
@@ -16,10 +17,15 @@
     "lint:fix": "eslint . --fix"
   },
   "keywords": [
+    "api",
+    "rest",
+    "restful",
     "busca",
     "vagas",
     "hotéis",
-    "sindicatos"
+    "sindicatos",
+    "express",
+    "nodejs"
   ],
   "author": "",
   "license": "ISC",

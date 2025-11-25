@@ -1,26 +1,13 @@
 # Estrutura do Projeto
 
 ## Visão Geral
-Este projeto segue uma estrutura padrão para aplicações web desenvolvidas com Node.js, Express, React e Selenium.
+Este projeto é uma API RESTful desenvolvida com Node.js e Express, seguindo as melhores práticas de arquitetura de APIs.
 
 ## Estrutura de Diretórios
 
 ```
 busca_vagas/
-├── client/                 # Frontend React
-│   ├── public/            # Arquivos estáticos
-│   │   └── index.html     # HTML principal
-│   ├── src/               # Código fonte React
-│   │   ├── components/    # Componentes reutilizáveis
-│   │   ├── pages/         # Páginas/views
-│   │   ├── services/      # Serviços para chamadas API
-│   │   ├── styles/        # Arquivos CSS
-│   │   ├── utils/         # Funções utilitárias
-│   │   ├── App.js         # Componente principal
-│   │   └── index.js       # Entry point React
-│   └── package.json       # Dependências do frontend
-│
-├── src/                   # Backend Node.js/Express
+├── src/                   # API Node.js/Express
 │   ├── config/           # Configurações
 │   │   ├── database.js   # Configuração do banco de dados
 │   │   └── server.js     # Configuração do servidor
@@ -49,53 +36,54 @@ busca_vagas/
 │   └── e2e/             # Testes E2E com Selenium
 │       └── busca-vagas.test.js
 │
+├── client/              # Cliente de exemplo (opcional)
 ├── scripts/             # Scripts de build/deploy
-├── docs/                # Documentação
-│   └── STRUCTURE.md     # Este arquivo
+├── docs/                # Documentação da API
+│   ├── API.md          # Documentação dos endpoints
+│   └── STRUCTURE.md    # Este arquivo
 │
 ├── .env.example         # Exemplo de variáveis de ambiente
 ├── .gitignore          # Arquivos ignorados pelo Git
 ├── jest.config.js      # Configuração do Jest
-├── package.json        # Dependências do projeto
+├── package.json        # Dependências da API
 ├── LICENSE             # Licença do projeto
 └── README.md           # Documentação principal
 ```
 
 ## Convenções
 
-### Backend (src/)
+### API (src/)
 - **config/**: Arquivos de configuração (banco de dados, servidor, etc.)
-- **controllers/**: Implementação da lógica de cada rota
+- **controllers/**: Implementação da lógica de cada rota da API
 - **models/**: Definição de modelos/schemas de dados
-- **routes/**: Definição de endpoints da API
-- **middlewares/**: Funções intermediárias (autenticação, validação, etc.)
+- **routes/**: Definição de endpoints da API REST
+- **middlewares/**: Funções intermediárias (autenticação, validação, CORS, etc.)
 - **services/**: Lógica de negócio complexa
 - **utils/**: Funções auxiliares reutilizáveis
-
-### Frontend (client/)
-- **components/**: Componentes React reutilizáveis
-- **pages/**: Componentes de página/view
-- **services/**: Comunicação com API backend
-- **styles/**: Arquivos CSS/SCSS
-- **utils/**: Funções auxiliares do frontend
+- **server.js**: Entry point da aplicação
 
 ### Testes (tests/)
 - **unit/**: Testes de funções e classes isoladas
-- **integration/**: Testes de integração entre componentes
+- **integration/**: Testes de integração da API
 - **e2e/**: Testes de ponta a ponta com Selenium
+
+### Cliente (client/) - Opcional
+Cliente de exemplo para demonstração do consumo da API
 
 ## Como Começar
 
-### Backend
+### API
 ```bash
+# Instalar dependências
 npm install
-npm run dev
-```
 
-### Frontend
-```bash
-cd client
-npm install
+# Configurar variáveis de ambiente
+cp .env.example .env
+
+# Executar em modo desenvolvimento
+npm run dev
+
+# Executar em modo produção
 npm start
 ```
 
@@ -115,7 +103,15 @@ npm run test:e2e
 ```
 
 ## Tecnologias Utilizadas
-- **Backend**: Node.js, Express
-- **Frontend**: React, HTML, CSS, JavaScript
-- **Testes**: Jest, Selenium WebDriver
-- **Ferramentas**: ESLint, Nodemon
+- **API**: Node.js, Express, CORS
+- **Testes**: Jest, Supertest, Selenium WebDriver
+- **Ferramentas**: ESLint, Nodemon, dotenv
+
+## Arquitetura
+
+A API segue o padrão MVC (Model-View-Controller) adaptado para APIs RESTful:
+- **Models**: Representam a estrutura dos dados
+- **Controllers**: Gerenciam as requisições HTTP e respostas
+- **Services**: Contêm a lógica de negócio
+- **Routes**: Definem os endpoints da API
+- **Middlewares**: Interceptam requisições para validação, autenticação, etc.

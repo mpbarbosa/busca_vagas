@@ -2,7 +2,7 @@
  * Middleware de validação de dados
  * Exemplo de middleware para validar dados de entrada
  */
-const validarVaga = (req, res, next) => {
+export const validarVaga = (req, res, next) => {
   const { titulo, hotel, sindicato } = req.body;
 
   if (!titulo) {
@@ -18,8 +18,4 @@ const validarVaga = (req, res, next) => {
   }
 
   next();
-};
-
-module.exports = {
-  validarVaga
 };

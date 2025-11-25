@@ -2,7 +2,7 @@
  * Modelo de exemplo para Vaga
  * Este arquivo serve como modelo para definir estruturas de dados
  */
-class Vaga {
+export default class Vaga {
   constructor(data) {
     this.id = data.id;
     this.titulo = data.titulo;
@@ -25,5 +25,3 @@ class Vaga {
     return true;
   }
 }
-
-module.exports = Vaga;

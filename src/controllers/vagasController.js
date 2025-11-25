@@ -3,10 +3,29 @@
  * Exemplo de controller para gerenciar operações relacionadas a vagas
  */
 
+import { Builder, By, until, Select } from 'selenium-webdriver';
+
+async function openVagasPage() {
+  // Create a new WebDriver instance (using Chrome by default)
+  const driver = await new Builder().forBrowser('chrome').build();
+
+  console.log('Navigating to Vagas page...');
+  // Navigate to the Vagas page
+  await driver.get('https://associadoh.afpesp.org.br/Servicos/Reservas/Vagas-disponiveis.aspx');
+
+  // Wait for the page to load (wait for body element)
+  await driver.wait(until.elementLocated(By.css('body')), 10000);
+
+  console.log('Vagas page loaded successfully!');
+  return driver;
+}
+
 /**
  * Lista todas as vagas
  */
-const listarVagas = async (req, res) => {
+export const listarVagas = async (req, res) => {
+
+  const driver = await openVagasPage();
   try {
     // TODO: Implementar lógica para buscar vagas do banco de dados
     const vagas = [];
@@ -19,7 +38,7 @@ const listarVagas = async (req, res) => {
 /**
  * Busca vaga por ID
  */
-const buscarVagaPorId = async (req, res) => {
+export const buscarVagaPorId = async (req, res) => {
   try {
     const { id } = req.params;
     // TODO: Implementar lógica para buscar vaga específica
@@ -32,7 +51,7 @@ const buscarVagaPorId = async (req, res) => {
 /**
  * Cria nova vaga
  */
-const criarVaga = async (req, res) => {
+export const criarVaga = async (req, res) => {
   try {
     const vagaData = req.body;
     // TODO: Implementar lógica para criar vaga no banco de dados
@@ -45,7 +64,7 @@ const criarVaga = async (req, res) => {
 /**
  * Atualiza vaga existente
  */
-const atualizarVaga = async (req, res) => {
+export const atualizarVaga = async (req, res) => {
   try {
     const { id } = req.params;
     const vagaData = req.body;
@@ -59,7 +78,7 @@ const atualizarVaga = async (req, res) => {
 /**
  * Remove vaga
  */
-const removerVaga = async (req, res) => {
+export const removerVaga = async (req, res) => {
   try {
     const { id } = req.params;
     // TODO: Implementar lógica para remover vaga
@@ -67,12 +86,4 @@ const removerVaga = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'Erro ao remover vaga' });
   }
-};
-
-module.exports = {
-  listarVagas,
-  buscarVagaPorId,
-  criarVaga,
-  atualizarVaga,
-  removerVaga
 };
