@@ -1,15 +1,15 @@
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const routes = require('./routes');
+import express, { json, urlencoded } from 'express';
+import cors from 'cors';
+import routes from './routes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 
 // Routes
 app.get('/', (req, res) => {
@@ -32,4 +32,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = app;
+export default app;
