@@ -37,10 +37,12 @@ busca_vagas/
 │       └── busca-vagas.test.js
 │
 ├── client/              # Cliente de exemplo (opcional)
-├── scripts/             # Scripts de build/deploy
+├── scripts/             # Scripts shell de build/deploy/test
+├── prompts/             # Workflows e prompts de automação
 ├── docs/                # Documentação da API
 │   ├── API.md          # Documentação dos endpoints
-│   └── STRUCTURE.md    # Este arquivo
+│   ├── STRUCTURE.md    # Este arquivo
+│   └── PROJECT_TREE.md # Árvore completa do projeto
 │
 ├── .env.example         # Exemplo de variáveis de ambiente
 ├── .gitignore          # Arquivos ignorados pelo Git

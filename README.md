@@ -43,7 +43,8 @@ busca_vagas/
 │   ├── integration/  # Testes de integração
 │   └── e2e/          # Testes E2E
 ├── client/           # Cliente de exemplo (opcional)
-├── scripts/          # Scripts auxiliares
+├── scripts/          # Scripts auxiliares shell
+├── prompts/          # Workflows e prompts de automação
 └── docs/             # Documentação da API
 ```
 

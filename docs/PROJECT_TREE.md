@@ -82,6 +82,9 @@ busca_vagas/
 │   ├── setup.sh                 # Script de instalação
 │   └── test.sh                  # Script de testes
 │
+├── prompts/                      # ========== WORKFLOWS ==========
+│   └── tests_documentation_update_enhanced.txt  # Workflow de testes e documentação
+│
 └── docs/                         # ========== DOCUMENTAÇÃO ==========
     ├── STRUCTURE.md             # Documentação da estrutura
     ├── API.md                   # Documentação da API
@@ -129,6 +132,7 @@ Estrutura completa de testes.
 | Diretório | Descrição |
 |-----------|-----------|
 | `scripts/` | Scripts shell para automação (setup, deploy, etc.) |
+| `prompts/` | Workflows e prompts para automação de tarefas |
 | `docs/` | Documentação técnica e guias |
 
 ## Arquivos de Configuração
