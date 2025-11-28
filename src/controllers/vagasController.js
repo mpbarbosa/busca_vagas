@@ -100,7 +100,7 @@ export const searchByDates = async (req, res) => {
     }
 
     const { searchVacanciesByDay } = await import('./selenium-script.cjs');
-    const results = await searchVacanciesByDay(startDate);
+    const results = await searchVacanciesByDay(startDate, endDate);
     
     res.json(results);
   } catch (error) {

@@ -6,45 +6,60 @@ const { Builder, By, until, Select } = require('selenium-webdriver');
  * This script provides automated searching for hotel vacancies using Selenium WebDriver.
  * 
  * Main Functions:
- * 1. searchVacanciesByDay(date) - Search all hotels for a specific date
+ * 1. searchVacanciesByDay(startDate, endDate) - Search all hotels for a date range
  * 2. searchWeekendVacancies() - Search all upcoming weekends
  * 3. openVagasPage(checkinDate, checkoutDate) - Core search function
  * 
  * Usage Examples:
- * - Search specific date: searchVacanciesByDay('2024-12-25')
- * - Search with Date object: searchVacanciesByDay(new Date(2024, 11, 25))
+ * - Search date range: searchVacanciesByDay('2024-12-25', '2024-12-26')
+ * - Search with Date objects: searchVacanciesByDay(new Date(2024, 11, 25), new Date(2024, 11, 26))
  * - Search weekends: searchWeekendVacancies()
  */
 
 /**
- * Search for vacancies in all hotels for a specific day
- * @param {Date|string} searchDate - The date to search for vacancies (can be Date object or string)
+ * Search for vacancies in all hotels for a date range
+ * @param {Date|string} startDate - The check-in date (can be Date object or string)
+ * @param {Date|string} endDate - The check-out date (can be Date object or string)
  * @returns {Promise<Object>} Search results with availability information
  */
-async function searchVacanciesByDay(searchDate) {
-  let searchDateObj;
+async function searchVacanciesByDay(startDate, endDate) {
+  let checkInDate;
+  let checkOutDate;
   
-  // Convert input to Date object if it's a string
-  if (typeof searchDate === 'string') {
-    searchDateObj = new Date(searchDate);
-  } else if (searchDate instanceof Date) {
-    searchDateObj = new Date(searchDate);
+  // Convert startDate to Date object if it's a string
+  if (typeof startDate === 'string') {
+    checkInDate = new Date(startDate);
+  } else if (startDate instanceof Date) {
+    checkInDate = new Date(startDate);
   } else {
-    throw new Error('Invalid date parameter. Please provide a Date object or date string.');
+    throw new Error('Invalid startDate parameter. Please provide a Date object or date string.');
   }
   
-  // Validate the date
-  if (isNaN(searchDateObj.getTime())) {
-    throw new Error('Invalid date provided. Please check the date format.');
+  // Convert endDate to Date object if it's a string
+  if (typeof endDate === 'string') {
+    checkOutDate = new Date(endDate);
+  } else if (endDate instanceof Date) {
+    checkOutDate = new Date(endDate);
+  } else {
+    throw new Error('Invalid endDate parameter. Please provide a Date object or date string.');
   }
   
-  // Set check-in and check-out (same day search, check-out is next day)
-  const checkInDate = new Date(searchDateObj);
-  const checkOutDate = new Date(searchDateObj);
-  checkOutDate.setDate(checkOutDate.getDate() + 1);
+  // Validate the dates
+  if (isNaN(checkInDate.getTime())) {
+    throw new Error('Invalid startDate provided. Please check the date format.');
+  }
+  
+  if (isNaN(checkOutDate.getTime())) {
+    throw new Error('Invalid endDate provided. Please check the date format.');
+  }
+  
+  // Validate that endDate is after startDate
+  if (checkOutDate <= checkInDate) {
+    throw new Error('endDate must be after startDate.');
+  }
   
   console.log(`\n${'='.repeat(80)}`);
-  console.log(`🔍 SEARCHING VACANCIES FOR: ${checkInDate.toLocaleDateString()}`);
+  console.log(`🔍 SEARCHING VACANCIES FOR DATE RANGE`);
   console.log(`   Check-in: ${checkInDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkInDate.getDay()]})`);
   console.log(`   Check-out: ${checkOutDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkOutDate.getDay()]})`);
   console.log(`${'='.repeat(80)}`);
@@ -1684,13 +1699,14 @@ module.exports = {
 if (require.main === module) {
   // Uncomment one of the following to run:
 
-  // Option 1: Search for vacancies on a specific day
-  // Example: Search for December 25, 2024
-  // searchVacanciesByDay('2024-12-25').catch(console.error);
+  // Option 1: Search for vacancies for a date range
+  // Example: Search from December 25 to December 26, 2024
+  // searchVacanciesByDay('2024-12-25', '2024-12-26').catch(console.error);
 
-  // Option 2: Search for vacancies on a specific Date object
-  // const specificDate = new Date(2024, 11, 25); // December 25, 2024 (month is 0-indexed)
-  // searchVacanciesByDay(specificDate).catch(console.error);
+  // Option 2: Search with Date objects
+  // const startDate = new Date(2024, 11, 25); // December 25, 2024 (month is 0-indexed)
+  // const endDate = new Date(2024, 11, 26); // December 26, 2024
+  // searchVacanciesByDay(startDate, endDate).catch(console.error);
 
   // Option 3: Run the weekend vacancy search (default)
   searchWeekendVacancies().catch(console.error);
