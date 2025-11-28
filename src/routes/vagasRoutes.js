@@ -10,7 +10,7 @@ const router = express.Router();
 router.get('/', vagasController.listarVagas);
 
 // GET /api/vagas/search/bydates - Simple search for vacancies by day
-router.get('/search/bydates', vagasController.simpleSearch);
+router.get('/search/bydates', vagasController.searchByDates);
 
 // GET /api/vagas/:id - Busca vaga por ID
 router.get('/:id', vagasController.buscarVagaPorId);

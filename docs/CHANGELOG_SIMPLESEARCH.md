@@ -12,7 +12,7 @@
   - Response time: 20-30 seconds (browser automation)
 
 #### Controller Function
-- **`simpleSearch`** in `src/controllers/vagasController.js`
+- **`searchByDates`** in `src/controllers/vagasController.js`
   - Validates date parameter
   - Dynamically imports `searchVacanciesByDay` from CommonJS module
   - Proper error handling for invalid dates
@@ -22,7 +22,7 @@
 - Added route in `src/routes/vagasRoutes.js`
   - Path: `/search/bydates` (before `/:id` to avoid conflicts)
   - Method: GET
-  - Handler: `vagasController.simpleSearch`
+  - Handler: `vagasController.searchByDates`
 
 #### Testing
 - **E2E Test Suite**: `tests/e2e/simpleSearch.test.js`

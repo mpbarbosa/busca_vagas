@@ -89,9 +89,9 @@ export const removerVaga = async (req, res) => {
 };
 
 /**
- * Simple search for vacancies by day
+ * Search for vacancies by dates
  */
-export const simpleSearch = async (req, res) => {
+export const searchByDates = async (req, res) => {
   try {
     const { date } = req.query;
     
