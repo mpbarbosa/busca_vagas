@@ -9,6 +9,9 @@ const router = express.Router();
 // GET /api/vagas - Lista todas as vagas
 router.get('/', vagasController.listarVagas);
 
+// GET /api/vagas/search/bydates - Simple search for vacancies by day
+router.get('/search/bydates', vagasController.simpleSearch);
+
 // GET /api/vagas/:id - Busca vaga por ID
 router.get('/:id', vagasController.buscarVagaPorId);
 
@@ -20,8 +23,5 @@ router.put('/:id', vagasController.atualizarVaga);
 
 // DELETE /api/vagas/:id - Remove vaga
 router.delete('/:id', vagasController.removerVaga);
-
-// GET /api/vagas/search/simple - Simple search for vacancies by day
-router.get('/search/simple', vagasController.simpleSearch);
 
 export default router;

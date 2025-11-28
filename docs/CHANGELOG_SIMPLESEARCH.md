@@ -5,7 +5,7 @@
 ### Added
 
 #### New Endpoint
-- **`GET /api/vagas/search/simple`** - Automated vacancy search by date
+- **`GET /api/vagas/search/bydates`** - Automated vacancy search by date
   - Query parameter: `date` (required, format: YYYY-MM-DD)
   - Uses Selenium WebDriver for automated web scraping
   - Returns hotel availability for specified date
@@ -20,7 +20,7 @@
 
 #### Route
 - Added route in `src/routes/vagasRoutes.js`
-  - Path: `/search/simple` (before `/:id` to avoid conflicts)
+  - Path: `/search/bydates` (before `/:id` to avoid conflicts)
   - Method: GET
   - Handler: `vagasController.simpleSearch`
 

@@ -131,7 +131,7 @@ Verifica se a API está funcionando.
 
 #### Busca Simples de Vagas por Dia
 
-**GET** `/vagas/search/simple`
+**GET** `/vagas/search/bydates`
 
 Realiza uma busca automatizada de vagas disponíveis em hotéis para uma data específica usando Selenium WebDriver.
 
@@ -142,7 +142,7 @@ Realiza uma busca automatizada de vagas disponíveis em hotéis para uma data es
 **Example Request:**
 
 ```plaintext
-GET /api/vagas/search/simple?date=2025-12-25
+GET /api/vagas/search/bydates?date=2025-12-25
 ```
 
 **Response:**

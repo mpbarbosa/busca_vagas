@@ -1,6 +1,6 @@
 /**
  * E2E Test for Simple Search Endpoint
- * Tests the /api/vagas/search/simple endpoint using Selenium
+ * Tests the /api/vagas/search/bydates endpoint using Selenium
  * 
  * IMPORTANT: The API server must be running before executing these tests.
  * Start the server with: npm run dev (in a separate terminal)
@@ -62,14 +62,14 @@ describe('E2E - Simple Search Endpoint', () => {
     }
   });
 
-  describe('GET /api/vagas/search/simple', () => {
+  describe('GET /api/vagas/search/bydates', () => {
     test('should return 400 when date parameter is missing', async () => {
       if (!serverRunning) {
         console.log('   Skipping test - server not running');
         return;
       }
       
-      const url = `${BASE_URL}/api/vagas/search/simple`;
+      const url = `${BASE_URL}/api/vagas/search/bydates`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 10000);
@@ -92,7 +92,7 @@ describe('E2E - Simple Search Endpoint', () => {
       futureDate.setDate(futureDate.getDate() + 30);
       const dateString = futureDate.toISOString().split('T')[0];
       
-      const url = `${BASE_URL}/api/vagas/search/simple?date=${dateString}`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?date=${dateString}`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 60000);
@@ -112,7 +112,7 @@ describe('E2E - Simple Search Endpoint', () => {
         return;
       }
       
-      const url = `${BASE_URL}/api/vagas/search/simple?date=invalid-date`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?date=invalid-date`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 10000);
@@ -129,7 +129,7 @@ describe('E2E - Simple Search Endpoint', () => {
         return;
       }
       
-      const url = `${BASE_URL}/api/vagas/search/simple?date=2025-12-25`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?date=2025-12-25`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 60000);
