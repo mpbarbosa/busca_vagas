@@ -13,7 +13,7 @@
 
 #### Controller Function
 - **`searchByDates`** in `src/controllers/vagasController.js`
-  - Validates date parameter
+  - Validates startDate and endDate parameters
   - Dynamically imports `searchVacanciesByDay` from CommonJS module
   - Proper error handling for invalid dates
   - Returns JSON response with search results

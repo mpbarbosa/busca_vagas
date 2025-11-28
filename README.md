@@ -105,7 +105,7 @@ A API estará disponível em `http://localhost:3005`
 - `POST /api/vagas` - Criar vaga
 - `PUT /api/vagas/:id` - Atualizar vaga
 - `DELETE /api/vagas/:id` - Remover vaga
-- `GET /api/vagas/search/bydates?date=YYYY-MM-DD` - Busca automatizada de vagas por data
+- `GET /api/vagas/search/bydates?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD` - Busca automatizada de vagas por intervalo de datas
 
 Para documentação completa dos endpoints, veja [docs/API.md](docs/API.md)
 

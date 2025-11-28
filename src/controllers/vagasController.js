@@ -93,14 +93,14 @@ export const removerVaga = async (req, res) => {
  */
 export const searchByDates = async (req, res) => {
   try {
-    const { date } = req.query;
+    const { startDate, endDate } = req.query;
     
-    if (!date) {
-      return res.status(400).json({ error: 'Date parameter is required' });
+    if (!startDate || !endDate) {
+      return res.status(400).json({ error: 'Both startDate and endDate parameters are required' });
     }
 
     const { searchVacanciesByDay } = await import('./selenium-script.cjs');
-    const results = await searchVacanciesByDay(date);
+    const results = await searchVacanciesByDay(startDate);
     
     res.json(results);
   } catch (error) {

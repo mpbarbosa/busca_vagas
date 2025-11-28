@@ -63,7 +63,7 @@ describe('E2E - Simple Search Endpoint', () => {
   });
 
   describe('GET /api/vagas/search/bydates', () => {
-    test('should return 400 when date parameter is missing', async () => {
+    test('should return 400 when date parameters are missing', async () => {
       if (!serverRunning) {
         console.log('   Skipping test - server not running');
         return;
@@ -78,21 +78,25 @@ describe('E2E - Simple Search Endpoint', () => {
       const response = JSON.parse(bodyText);
       
       expect(response).toHaveProperty('error');
-      expect(response.error).toBe('Date parameter is required');
+      expect(response.error).toBe('Both startDate and endDate parameters are required');
     }, 30000);
 
-    test('should return results when valid date is provided', async () => {
+    test('should return results when valid dates are provided', async () => {
       if (!serverRunning) {
         console.log('   Skipping test - server not running');
         return;
       }
       
       // Calculate a future date for testing (30 days from now)
-      const futureDate = new Date();
-      futureDate.setDate(futureDate.getDate() + 30);
-      const dateString = futureDate.toISOString().split('T')[0];
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() + 30);
+      const endDate = new Date(startDate);
+      endDate.setDate(endDate.getDate() + 1);
       
-      const url = `${BASE_URL}/api/vagas/search/bydates?date=${dateString}`;
+      const startDateString = startDate.toISOString().split('T')[0];
+      const endDateString = endDate.toISOString().split('T')[0];
+      
+      const url = `${BASE_URL}/api/vagas/search/bydates?startDate=${startDateString}&endDate=${endDateString}`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 60000);
@@ -112,7 +116,7 @@ describe('E2E - Simple Search Endpoint', () => {
         return;
       }
       
-      const url = `${BASE_URL}/api/vagas/search/bydates?date=invalid-date`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?startDate=invalid-date&endDate=invalid-date`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 10000);
@@ -123,13 +127,13 @@ describe('E2E - Simple Search Endpoint', () => {
       expect(response).toHaveProperty('error');
     }, 30000);
 
-    test('should accept date in YYYY-MM-DD format', async () => {
+    test('should accept dates in YYYY-MM-DD format', async () => {
       if (!serverRunning) {
         console.log('   Skipping test - server not running');
         return;
       }
       
-      const url = `${BASE_URL}/api/vagas/search/bydates?date=2025-12-25`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?startDate=2025-12-25&endDate=2025-12-26`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 60000);
