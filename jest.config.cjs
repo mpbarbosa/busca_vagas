@@ -12,11 +12,7 @@ module.exports = {
   ],
   verbose: true,
   transform: {},
-  extensionsToTreatAsEsm: ['.js'],
   moduleNameMapper: {
     '^(\\.{1,2}/.*)\\.js$': '$1',
-  },
-  testEnvironmentOptions: {
-    NODE_OPTIONS: '--experimental-vm-modules',
   },
 };

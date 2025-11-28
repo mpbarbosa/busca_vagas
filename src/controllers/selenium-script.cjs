@@ -1,5 +1,102 @@
 const { Builder, By, until, Select } = require('selenium-webdriver');
 
+/**
+ * Selenium Script for Hotel Vacancy Search
+ * 
+ * This script provides automated searching for hotel vacancies using Selenium WebDriver.
+ * 
+ * Main Functions:
+ * 1. searchVacanciesByDay(date) - Search all hotels for a specific date
+ * 2. searchWeekendVacancies() - Search all upcoming weekends
+ * 3. openVagasPage(checkinDate, checkoutDate) - Core search function
+ * 
+ * Usage Examples:
+ * - Search specific date: searchVacanciesByDay('2024-12-25')
+ * - Search with Date object: searchVacanciesByDay(new Date(2024, 11, 25))
+ * - Search weekends: searchWeekendVacancies()
+ */
+
+/**
+ * Search for vacancies in all hotels for a specific day
+ * @param {Date|string} searchDate - The date to search for vacancies (can be Date object or string)
+ * @returns {Promise<Object>} Search results with availability information
+ */
+async function searchVacanciesByDay(searchDate) {
+  let searchDateObj;
+  
+  // Convert input to Date object if it's a string
+  if (typeof searchDate === 'string') {
+    searchDateObj = new Date(searchDate);
+  } else if (searchDate instanceof Date) {
+    searchDateObj = new Date(searchDate);
+  } else {
+    throw new Error('Invalid date parameter. Please provide a Date object or date string.');
+  }
+  
+  // Validate the date
+  if (isNaN(searchDateObj.getTime())) {
+    throw new Error('Invalid date provided. Please check the date format.');
+  }
+  
+  // Set check-in and check-out (same day search, check-out is next day)
+  const checkInDate = new Date(searchDateObj);
+  const checkOutDate = new Date(searchDateObj);
+  checkOutDate.setDate(checkOutDate.getDate() + 1);
+  
+  console.log(`\n${'='.repeat(80)}`);
+  console.log(`🔍 SEARCHING VACANCIES FOR: ${checkInDate.toLocaleDateString()}`);
+  console.log(`   Check-in: ${checkInDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkInDate.getDay()]})`);
+  console.log(`   Check-out: ${checkOutDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkOutDate.getDay()]})`);
+  console.log(`${'='.repeat(80)}`);
+  
+  try {
+    const result = await openVagasPage(checkInDate, checkOutDate, 1, 1);
+    
+    if (result && result.hasAvailability) {
+      console.log(`\n✅ VACANCIES FOUND for ${checkInDate.toLocaleDateString()}`);
+      console.log(`📊 ${result.summary}`);
+      
+      if (result.hotelGroups && Object.keys(result.hotelGroups).length > 0) {
+        console.log(`\n🏨 HOTELS WITH AVAILABILITY (${Object.keys(result.hotelGroups).length} total):`);
+        Object.entries(result.hotelGroups).forEach(([hotel, vacancies], index) => {
+          console.log(`\n${index + 1}. 🏨 ${hotel} (${vacancies.length} room type${vacancies.length > 1 ? 's' : ''})`);
+          let vIndex = 0;
+          vacancies.forEach((vacancy) => {
+            const cleanVacancy = vacancy.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
+            console.log(`   ${String.fromCharCode(97 + vIndex)}. ${cleanVacancy}`);
+            vIndex++;
+          });
+        });
+      }
+      
+      return {
+        success: true,
+        date: checkInDate.toLocaleDateString(),
+        hasAvailability: true,
+        result: result
+      };
+    } else {
+      console.log(`\n🔴 NO VACANCIES AVAILABLE for ${checkInDate.toLocaleDateString()}`);
+      console.log(`📊 ${result ? result.summary : 'No results returned'}`);
+      
+      return {
+        success: true,
+        date: checkInDate.toLocaleDateString(),
+        hasAvailability: false,
+        result: result
+      };
+    }
+  } catch (error) {
+    console.error(`\n❌ ERROR searching for vacancies on ${checkInDate.toLocaleDateString()}: ${error.message}`);
+    
+    return {
+      success: false,
+      date: checkInDate.toLocaleDateString(),
+      hasAvailability: false,
+      error: error.message
+    };
+  }
+}
 
 function getVacanciesOnPeriod(periodStart,periodEnd) {
   const vacancySummary = {};
@@ -1576,5 +1673,25 @@ async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber
   }
 }
 
-// Run the weekend vacancy search
-searchWeekendVacancies().catch(console.error);
+// Export functions for use in other modules
+module.exports = {
+  searchVacanciesByDay,
+  searchWeekendVacancies,
+  openVagasPage
+};
+
+// Main execution - only run if this file is executed directly, not when imported
+if (require.main === module) {
+  // Uncomment one of the following to run:
+
+  // Option 1: Search for vacancies on a specific day
+  // Example: Search for December 25, 2024
+  // searchVacanciesByDay('2024-12-25').catch(console.error);
+
+  // Option 2: Search for vacancies on a specific Date object
+  // const specificDate = new Date(2024, 11, 25); // December 25, 2024 (month is 0-indexed)
+  // searchVacanciesByDay(specificDate).catch(console.error);
+
+  // Option 3: Run the weekend vacancy search (default)
+  searchWeekendVacancies().catch(console.error);
+}

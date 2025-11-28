@@ -87,3 +87,23 @@ export const removerVaga = async (req, res) => {
     res.status(500).json({ error: 'Erro ao remover vaga' });
   }
 };
+
+/**
+ * Simple search for vacancies by day
+ */
+export const simpleSearch = async (req, res) => {
+  try {
+    const { date } = req.query;
+    
+    if (!date) {
+      return res.status(400).json({ error: 'Date parameter is required' });
+    }
+
+    const { searchVacanciesByDay } = await import('./selenium-script.cjs');
+    const results = await searchVacanciesByDay(date);
+    
+    res.json(results);
+  } catch (error) {
+    res.status(500).json({ error: error.message || 'Erro ao buscar vagas' });
+  }
+};

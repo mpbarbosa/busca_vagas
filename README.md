@@ -95,7 +95,7 @@ npm run dev
 npm start
 ```
 
-A API estará disponível em `http://localhost:3000`
+A API estará disponível em `http://localhost:3005`
 
 ### Endpoints Principais
 
@@ -105,6 +105,7 @@ A API estará disponível em `http://localhost:3000`
 - `POST /api/vagas` - Criar vaga
 - `PUT /api/vagas/:id` - Atualizar vaga
 - `DELETE /api/vagas/:id` - Remover vaga
+- `GET /api/vagas/search/simple?date=YYYY-MM-DD` - Busca automatizada de vagas por data
 
 Para documentação completa dos endpoints, veja [docs/API.md](docs/API.md)
 
@@ -120,17 +121,25 @@ npm run test:unit
 # Testes de integração
 npm run test:integration
 
-# Testes E2E
+# Testes E2E (requer servidor rodando em outra sessão)
 npm run test:e2e
 
 # Ou use o script
 ./scripts/test.sh
 ```
 
+**Importante para testes E2E:** 
+- Inicie o servidor antes: `npm run dev` (em um terminal separado)
+- Os testes E2E usam Selenium WebDriver e podem levar mais tempo para executar
+- O servidor deve estar rodando na porta 3005
+
 ## 📚 Documentação
 
 - [Documentação da API](docs/API.md) - Endpoints, requisições e respostas
 - [Estrutura do Projeto](docs/STRUCTURE.md) - Organização de diretórios e arquivos
+- [Busca por Dia](docs/SEARCH_BY_DAY.md) - Funcionalidade de busca automatizada com Selenium
+- [Guia Rápido](docs/QUICK_REFERENCE.md) - Referência rápida de comandos
+- [Correção ES Modules](docs/FIX_ES_MODULE.md) - Solução para problemas com ES Modules
 
 ## 🔌 Integração
 

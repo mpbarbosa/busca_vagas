@@ -21,4 +21,7 @@ router.put('/:id', vagasController.atualizarVaga);
 // DELETE /api/vagas/:id - Remove vaga
 router.delete('/:id', vagasController.removerVaga);
 
+// GET /api/vagas/search/simple - Simple search for vacancies by day
+router.get('/search/simple', vagasController.simpleSearch);
+
 export default router;
