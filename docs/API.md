@@ -137,13 +137,15 @@ Realiza uma busca automatizada de vagas disponíveis em hotéis para uma data es
 
 **Query Parameters:**
 
-- `startDate` (required): Data inicial para busca no formato YYYY-MM-DD (ex: 2025-12-25)
-- `endDate` (required): Data final para busca no formato YYYY-MM-DD (ex: 2025-12-26)
+- `checkin` (required): Data inicial para busca no formato YYYY-MM-DD (ex: 2025-12-25)
+- `checkout` (required): Data final para busca no formato YYYY-MM-DD (ex: 2025-12-26)
+- `headless` (optional): Define se o navegador será executado em modo headless. Valores: `true` (padrão) ou `false`
 
 **Example Request:**
 
 ```plaintext
-GET /api/vagas/search/bydates?startDate=2025-12-25&endDate=2025-12-26
+GET /api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26
+GET /api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26&headless=false
 ```
 
 **Response:**
@@ -164,7 +166,7 @@ GET /api/vagas/search/bydates?startDate=2025-12-25&endDate=2025-12-26
 
 ```json
 {
-  "error": "Both startDate and endDate parameters are required"
+  "error": "Both checkin and checkout parameters are required"
 }
 ```
 

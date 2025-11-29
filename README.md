@@ -56,6 +56,8 @@ Para mais detalhes sobre a estrutura, consulte [docs/STRUCTURE.md](docs/STRUCTUR
 
 - Node.js (versão 14 ou superior)
 - npm ou yarn
+- Google Chrome (para testes E2E e busca automatizada)
+- ChromeDriver (instalado automaticamente via selenium-webdriver)
 
 ### Instalação Rápida
 
@@ -105,7 +107,7 @@ A API estará disponível em `http://localhost:3005`
 - `POST /api/vagas` - Criar vaga
 - `PUT /api/vagas/:id` - Atualizar vaga
 - `DELETE /api/vagas/:id` - Remover vaga
-- `GET /api/vagas/search/bydates?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD` - Busca automatizada de vagas por intervalo de datas
+- `GET /api/vagas/search/bydates?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD&headless=true|false` - Busca automatizada de vagas por intervalo de datas
 
 Para documentação completa dos endpoints, veja [docs/API.md](docs/API.md)
 

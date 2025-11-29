@@ -78,7 +78,7 @@ describe('E2E - Simple Search Endpoint', () => {
       const response = JSON.parse(bodyText);
       
       expect(response).toHaveProperty('error');
-      expect(response.error).toBe('Both startDate and endDate parameters are required');
+      expect(response.error).toBe('Both checkin and checkout parameters are required');
     }, 30000);
 
     test('should return results when valid dates are provided', async () => {
@@ -96,7 +96,7 @@ describe('E2E - Simple Search Endpoint', () => {
       const startDateString = startDate.toISOString().split('T')[0];
       const endDateString = endDate.toISOString().split('T')[0];
       
-      const url = `${BASE_URL}/api/vagas/search/bydates?startDate=${startDateString}&endDate=${endDateString}`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?checkin=${startDateString}&checkout=${endDateString}`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 60000);
@@ -116,7 +116,7 @@ describe('E2E - Simple Search Endpoint', () => {
         return;
       }
       
-      const url = `${BASE_URL}/api/vagas/search/bydates?startDate=invalid-date&endDate=invalid-date`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?checkin=invalid-date&checkout=invalid-date`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 10000);
@@ -133,7 +133,7 @@ describe('E2E - Simple Search Endpoint', () => {
         return;
       }
       
-      const url = `${BASE_URL}/api/vagas/search/bydates?startDate=2025-12-25&endDate=2025-12-26`;
+      const url = `${BASE_URL}/api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 60000);
@@ -142,6 +142,46 @@ describe('E2E - Simple Search Endpoint', () => {
       
       // Should not throw JSON parse error (valid response)
       expect(() => JSON.parse(bodyText)).not.toThrow();
+    }, 120000);
+
+    test('should accept headless parameter (true by default)', async () => {
+      if (!serverRunning) {
+        console.log('   Skipping test - server not running');
+        return;
+      }
+      
+      // Test with explicit headless=true
+      const url = `${BASE_URL}/api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26&headless=true`;
+      
+      await driver.get(url);
+      await driver.wait(until.elementLocated(By.css('body')), 60000);
+      
+      const bodyText = await driver.findElement(By.css('body')).getText();
+      const response = JSON.parse(bodyText);
+      
+      // Should return valid response structure
+      expect(response).toBeDefined();
+      expect(typeof response).toBe('object');
+    }, 120000);
+
+    test('should support headless=false for debugging', async () => {
+      if (!serverRunning) {
+        console.log('   Skipping test - server not running');
+        return;
+      }
+      
+      // Test with explicit headless=false (will open visible browser on server)
+      const url = `${BASE_URL}/api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26&headless=false`;
+      
+      await driver.get(url);
+      await driver.wait(until.elementLocated(By.css('body')), 60000);
+      
+      const bodyText = await driver.findElement(By.css('body')).getText();
+      const response = JSON.parse(bodyText);
+      
+      // Should return valid response structure even with visible browser
+      expect(response).toBeDefined();
+      expect(typeof response).toBe('object');
     }, 120000);
   });
 });

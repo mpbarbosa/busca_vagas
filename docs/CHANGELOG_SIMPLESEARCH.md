@@ -1,5 +1,75 @@
 # Changelog - Simple Search Feature
 
+## 2025-11-29 - Headless Mode & Date Parsing Enhancement
+
+### Added
+
+#### Headless Browser Parameter
+- **`headless` query parameter** (optional) for `/api/vagas/search/bydates`
+  - Default: `true` (headless mode for production)
+  - Set to `false` for visible browser (debugging)
+  - Chrome options configured: `--headless`, `--disable-gpu`, `--no-sandbox`, `--disable-dev-shm-usage`
+
+### Fixed
+
+#### Date Parsing Timezone Issue
+- **Fixed timezone bug in date parsing** (`selenium-script.cjs`)
+  - Issue: `new Date('YYYY-MM-DD')` parsed as UTC causing date shifts
+  - Solution: Manual parsing to local time `new Date(year, month - 1, day)`
+  - Example: '2025-12-22' now correctly parses as Dec 22 instead of Dec 21
+
+#### Function Signatures Updated
+- **`searchVacanciesByDay(startDate, endDate, headless = true)`**
+  - Added headless parameter with default value
+- **`openVagasPage(fridayDate, sundayDate, weekendNumber, totalWeekends, headless = true)`**
+  - Added headless parameter support
+
+### Modified
+
+#### Documentation
+- **`docs/API.md`**
+  - Added `headless` parameter documentation
+  - Updated example requests with headless usage
+  
+#### Testing
+- **Confirmed headless mode compatibility**
+  - All Selenium operations work in headless mode
+  - Tested successfully with real hotel search
+  - Production-ready for AWS deployment
+
+### Technical Details
+
+#### Headless Mode Implementation
+```javascript
+// Controller parsing
+const isHeadless = headless === 'false' ? false : true;
+
+// Chrome configuration
+if (headless) {
+  options.addArguments('--headless');
+  options.addArguments('--disable-gpu');
+  options.addArguments('--no-sandbox');
+  options.addArguments('--disable-dev-shm-usage');
+}
+```
+
+#### Date Parsing Fix
+```javascript
+// Before (timezone issue)
+checkInDate = new Date(startDate); // UTC interpretation
+
+// After (local time)
+const [year, month, day] = startDate.split('-').map(Number);
+checkInDate = new Date(year, month - 1, day); // Local time
+```
+
+### Benefits
+- **Production**: Headless mode optimized for AWS servers
+- **Development**: Visible mode for debugging
+- **Accuracy**: Dates now parse correctly regardless of timezone
+
+---
+
 ## 2025-01-28 - Simple Search Endpoint Implementation
 
 ### Added
@@ -13,9 +83,9 @@
 
 #### Controller Function
 - **`searchByDates`** in `src/controllers/vagasController.js`
-  - Validates startDate and endDate parameters
+  - Validates checkin and checkout parameters
   - Dynamically imports `searchVacanciesByDay` from CommonJS module
-  - Calls `searchVacanciesByDay(startDate, endDate)` with both date parameters
+  - Calls `searchVacanciesByDay(checkin, checkout)` with both date parameters
   - Proper error handling for invalid dates
   - Returns JSON response with search results
 
@@ -95,4 +165,4 @@ N/A - New feature, no migration required.
 - Add caching for search results
 - Implement rate limiting for Selenium operations
 - Add more search filters (date range, hotel type, etc.)
-- Consider headless browser mode for production
+- ~~Consider headless browser mode for production~~ ✅ **Implemented (2025-11-29)**

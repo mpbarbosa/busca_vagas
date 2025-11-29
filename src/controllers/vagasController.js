@@ -93,14 +93,17 @@ export const removerVaga = async (req, res) => {
  */
 export const searchByDates = async (req, res) => {
   try {
-    const { startDate, endDate } = req.query;
+    const { checkin, checkout, headless } = req.query;
     
-    if (!startDate || !endDate) {
-      return res.status(400).json({ error: 'Both startDate and endDate parameters are required' });
+    if (!checkin || !checkout) {
+      return res.status(400).json({ error: 'Both checkin and checkout parameters are required' });
     }
 
+    // Parse headless parameter (default to true)
+    const isHeadless = headless === 'false' ? false : true;
+
     const { searchVacanciesByDay } = await import('./selenium-script.cjs');
-    const results = await searchVacanciesByDay(startDate, endDate);
+    const results = await searchVacanciesByDay(checkin, checkout, isHeadless);
     
     res.json(results);
   } catch (error) {

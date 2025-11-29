@@ -6,12 +6,14 @@ const { Builder, By, until, Select } = require('selenium-webdriver');
  * This script provides automated searching for hotel vacancies using Selenium WebDriver.
  * 
  * Main Functions:
- * 1. searchVacanciesByDay(startDate, endDate) - Search all hotels for a date range
+ * 1. searchVacanciesByDay(startDate, endDate, headless) - Search all hotels for a date range
  * 2. searchWeekendVacancies() - Search all upcoming weekends
- * 3. openVagasPage(checkinDate, checkoutDate) - Core search function
+ * 3. openVagasPage(checkinDate, checkoutDate, weekendNumber, totalWeekends, headless) - Core search function
  * 
  * Usage Examples:
  * - Search date range: searchVacanciesByDay('2024-12-25', '2024-12-26')
+ * - Search with headless mode: searchVacanciesByDay('2024-12-25', '2024-12-26', true)
+ * - Search with visible browser: searchVacanciesByDay('2024-12-25', '2024-12-26', false)
  * - Search with Date objects: searchVacanciesByDay(new Date(2024, 11, 25), new Date(2024, 11, 26))
  * - Search weekends: searchWeekendVacancies()
  */
@@ -20,15 +22,18 @@ const { Builder, By, until, Select } = require('selenium-webdriver');
  * Search for vacancies in all hotels for a date range
  * @param {Date|string} startDate - The check-in date (can be Date object or string)
  * @param {Date|string} endDate - The check-out date (can be Date object or string)
+ * @param {boolean} headless - Whether to run browser in headless mode (default: true)
  * @returns {Promise<Object>} Search results with availability information
  */
-async function searchVacanciesByDay(startDate, endDate) {
+async function searchVacanciesByDay(startDate, endDate, headless = true) {
   let checkInDate;
   let checkOutDate;
   
   // Convert startDate to Date object if it's a string
   if (typeof startDate === 'string') {
-    checkInDate = new Date(startDate);
+    // Parse date string as local time to avoid timezone issues
+    const [year, month, day] = startDate.split('-').map(Number);
+    checkInDate = new Date(year, month - 1, day);
   } else if (startDate instanceof Date) {
     checkInDate = new Date(startDate);
   } else {
@@ -37,7 +42,9 @@ async function searchVacanciesByDay(startDate, endDate) {
   
   // Convert endDate to Date object if it's a string
   if (typeof endDate === 'string') {
-    checkOutDate = new Date(endDate);
+    // Parse date string as local time to avoid timezone issues
+    const [year, month, day] = endDate.split('-').map(Number);
+    checkOutDate = new Date(year, month - 1, day);
   } else if (endDate instanceof Date) {
     checkOutDate = new Date(endDate);
   } else {
@@ -62,10 +69,11 @@ async function searchVacanciesByDay(startDate, endDate) {
   console.log(`🔍 SEARCHING VACANCIES FOR DATE RANGE`);
   console.log(`   Check-in: ${checkInDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkInDate.getDay()]})`);
   console.log(`   Check-out: ${checkOutDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkOutDate.getDay()]})`);
+  console.log(`   Headless mode: ${headless}`);
   console.log(`${'='.repeat(80)}`);
   
   try {
-    const result = await openVagasPage(checkInDate, checkOutDate, 1, 1);
+    const result = await openVagasPage(checkInDate, checkOutDate, 1, 1, headless);
     
     if (result && result.hasAvailability) {
       console.log(`\n✅ VACANCIES FOUND for ${checkInDate.toLocaleDateString()}`);
@@ -273,9 +281,22 @@ async function searchWeekendVacancies() {
   displayWeekendSummary(searchResults);
 }
 
-async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber = null, totalWeekends = null) {
+async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber = null, totalWeekends = null, headless = true) {
   // Create a new WebDriver instance (using Chrome by default)
-  const driver = await new Builder().forBrowser('chrome').build();
+  const chrome = require('selenium-webdriver/chrome');
+  const options = new chrome.Options();
+  
+  if (headless) {
+    options.addArguments('--headless');
+    options.addArguments('--disable-gpu');
+    options.addArguments('--no-sandbox');
+    options.addArguments('--disable-dev-shm-usage');
+  }
+  
+  const driver = await new Builder()
+    .forBrowser('chrome')
+    .setChromeOptions(options)
+    .build();
     
   // Declare dates in broader scope so they're available throughout the function
   let nextFriday, nextSunday;
