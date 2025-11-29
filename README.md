@@ -50,6 +50,7 @@ busca_vagas/
 │   └── e2e/          # Testes E2E
 ├── client/           # Cliente de exemplo (opcional)
 ├── scripts/          # Scripts auxiliares shell
+├── shell_scripts/    # Utilitários shell (validação, monitoramento)
 ├── prompts/          # Workflows e prompts de automação
 └── docs/             # Documentação da API
 ```

@@ -38,6 +38,9 @@ busca_vagas/
 │
 ├── client/              # Cliente de exemplo (opcional)
 ├── scripts/             # Scripts shell de build/deploy/test
+├── shell_scripts/       # Utilitários shell (validação, monitoramento)
+│   ├── validate-environment.sh  # Validação do ambiente
+│   └── check_server_status.sh   # Status dos servidores
 ├── prompts/             # Workflows e prompts de automação
 ├── docs/                # Documentação da API
 │   ├── API.md          # Documentação dos endpoints

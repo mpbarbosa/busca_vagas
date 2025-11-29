@@ -4,6 +4,59 @@ This directory contains utility shell scripts for the Busca Vagas API project.
 
 ## Available Scripts
 
+### 🖥️ check_server_status.sh
+
+**Purpose**: Checks the status of nginx and Node.js web servers running on the system.
+
+**Usage**:
+```bash
+./shell_scripts/check_server_status.sh
+```
+
+**What it checks**:
+
+1. **Nginx Server**
+   - Checks if nginx is installed
+   - Verifies if nginx is running (via systemctl or process check)
+   - Shows service status including PID, tasks, memory, and CPU usage
+
+2. **Node.js Server Processes**
+   - Detects running Node.js server processes
+   - Shows process details (PID, CPU, memory, command)
+   - Lists all Node.js processes on the system
+
+3. **Active Web Server Ports**
+   - Scans common web server ports (80, 443, 3000, 5000, 8000, 8080)
+   - Shows which ports are listening
+   - Displays associated processes
+
+**Exit Codes**:
+- `0` - Script completed successfully (servers may or may not be running)
+
+**Output Example**:
+```
+======================================
+  Web Servers Status Check
+======================================
+
+📋 Nginx Server Status:
+--------------------------------------
+✅ Nginx is running
+   Active: active (running)
+   Main PID: 1234
+
+======================================
+
+📋 Node.js Server Status:
+--------------------------------------
+✅ Found 1 Node.js server process(es) running
+  PID: 5678 | CPU: 0.5% | MEM: 2.1% | CMD: node src/server.js
+
+======================================
+Status check completed at Fri Nov 29 16:46:00 UTC 2025
+======================================
+```
+
 ### 📋 validate-environment.sh
 
 **Purpose**: Validates that the development environment has all required dependencies and tools properly installed.
@@ -162,6 +215,7 @@ cd /path/to/busca_vagas
 
 ## Future Scripts (Planned)
 
+- [x] `check_server_status.sh` - ✅ Server status monitoring (completed)
 - [ ] `deploy-aws.sh` - AWS deployment automation
 - [ ] `run-tests.sh` - Comprehensive test runner
 - [ ] `check-updates.sh` - Dependency update checker
