@@ -1,6 +1,12 @@
 # Busca Vagas API
 
+[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.1.0)
+[![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen.svg)](https://nodejs.org/)
+[![License](https://img.shields.io/badge/license-ISC-green.svg)](LICENSE)
+
 API RESTful para gerenciamento de vagas em hotéis de sindicatos.
+
+**Current Version:** v1.1.0 ([Release Notes](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.1.0))
 
 ## 📋 Descrição
 
@@ -142,6 +148,24 @@ npm run test:e2e
 - [Busca por Dia](docs/SEARCH_BY_DAY.md) - Funcionalidade de busca automatizada com Selenium
 - [Guia Rápido](docs/QUICK_REFERENCE.md) - Referência rápida de comandos
 - [Correção ES Modules](docs/FIX_ES_MODULE.md) - Solução para problemas com ES Modules
+- [Versionamento](docs/VERSIONING.md) - Guia de versionamento semântico
+
+## 🔖 Versionamento
+
+Este projeto segue [Semantic Versioning 2.0.0](https://semver.org/).
+
+**Formato:** `MAJOR.MINOR.PATCH`
+
+- **MAJOR:** Mudanças incompatíveis na API
+- **MINOR:** Nova funcionalidade backward-compatible
+- **PATCH:** Correções de bugs backward-compatible
+
+**Versão Atual:** v1.1.0
+
+Para detalhes completos sobre versionamento e histórico de releases, consulte:
+- [VERSIONING.md](docs/VERSIONING.md) - Guia completo de versionamento
+- [Releases no GitHub](https://github.com/mpbarbosa/busca_vagas/releases)
+- [Changelog](docs/CHANGELOG_SIMPLESEARCH.md) - Histórico de mudanças
 
 ## 🔌 Integração
 
