@@ -1,0 +1,187 @@
+# Busca Vagas API - Documentation Index
+
+Welcome to the complete documentation for the Busca Vagas API project!
+
+## 📚 Quick Navigation
+
+### 🏗️ Architecture Documentation
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| **[ARCHITECTURE.md](./ARCHITECTURE.md)** | Complete software architecture | Developers, Architects |
+| **[ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md)** | Visual diagrams and flow charts | All |
+| **[ARCHITECTURE_QUICK_REFERENCE.md](./ARCHITECTURE_QUICK_REFERENCE.md)** | Quick reference guide | Developers |
+
+### 🚀 Puppeteer Implementation
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| **[PUPPETEER_README.md](./PUPPETEER_README.md)** | Quick start guide | Developers |
+| **[PUPPETEER_SUMMARY.md](./PUPPETEER_SUMMARY.md)** | Implementation details | Developers, DevOps |
+| **[PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md)** | Migration from Selenium | DevOps, Developers |
+| **[PUPPETEER_VS_SELENIUM.md](./PUPPETEER_VS_SELENIUM.md)** | Detailed comparison | Decision Makers |
+
+### 📖 API & Usage
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| **[API.md](./API.md)** | API reference documentation | API Consumers |
+| **[USAGE.md](../USAGE.md)** | Usage examples | All |
+| **[README.md](../README.md)** | Project overview | All |
+
+### 🔧 Project Information
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** | Detailed project layout | Developers |
+| **[PUPPETEER_IMPLEMENTATION.md](../PUPPETEER_IMPLEMENTATION.md)** | Implementation summary | All |
+
+## 🎯 Getting Started Guides
+
+### For New Developers
+
+1. Start with [README.md](../README.md) - Project overview
+2. Review [ARCHITECTURE_QUICK_REFERENCE.md](./ARCHITECTURE_QUICK_REFERENCE.md) - Quick architecture overview
+3. Read [PUPPETEER_README.md](./PUPPETEER_README.md) - How to use the optimized implementation
+4. Check [API.md](./API.md) - Available endpoints
+
+### For Architects
+
+1. Read [ARCHITECTURE.md](./ARCHITECTURE.md) - Complete architecture
+2. Study [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md) - Visual representations
+3. Review [PUPPETEER_VS_SELENIUM.md](./PUPPETEER_VS_SELENIUM.md) - Technology decisions
+
+### For DevOps/Operations
+
+1. Check [PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md) - Deployment guide
+2. Review [ARCHITECTURE.md](./ARCHITECTURE.md) - Section: "Deployment Architecture"
+3. Study [PUPPETEER_SUMMARY.md](./PUPPETEER_SUMMARY.md) - Performance metrics
+
+### For API Consumers
+
+1. Start with [API.md](./API.md) - API documentation
+2. Check [USAGE.md](../USAGE.md) - Usage examples
+3. Review [PUPPETEER_README.md](./PUPPETEER_README.md) - API endpoints
+
+## 📊 Key Information
+
+### Architecture at a Glance
+
+- **Type:** RESTful API
+- **Framework:** Express.js 4.18.2
+- **Runtime:** Node.js 18+
+- **Pattern:** Layered architecture (MVC-inspired)
+- **Version:** 1.1.0
+
+### Performance Metrics
+
+| Metric | Selenium (Legacy) | Puppeteer (New) | Improvement |
+|--------|-------------------|-----------------|-------------|
+| Memory | 420 MB | 180 MB | **57% less** |
+| CPU | 45% | 22% | **51% less** |
+| Speed | 6.8s | 3.2s | **53% faster** |
+| Cost | $30.37/mo | $15.18/mo | **50% savings** |
+
+### API Endpoints
+
+- `GET /api/health` - Health check
+- `GET /api/vagas/search` - Search vacancies (Puppeteer)
+- `GET /api/vagas/search/weekends` - Weekend search (Puppeteer)
+- `GET /api/vagas/search/selenium` - Search vacancies (Legacy)
+
+## 🔍 Find What You Need
+
+### I want to...
+
+#### Understand the architecture
+→ Read [ARCHITECTURE.md](./ARCHITECTURE.md)
+
+#### See visual diagrams
+→ Check [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md)
+
+#### Get started quickly
+→ Follow [PUPPETEER_README.md](./PUPPETEER_README.md)
+
+#### Use the API
+→ Review [API.md](./API.md)
+
+#### Deploy to production
+→ Study [PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md)
+
+#### Compare Selenium vs Puppeteer
+→ Read [PUPPETEER_VS_SELENIUM.md](./PUPPETEER_VS_SELENIUM.md)
+
+#### Understand project structure
+→ Check [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)
+
+#### See code examples
+→ Review [USAGE.md](../USAGE.md)
+
+## 📖 Documentation by Topic
+
+### Architecture
+- [Complete Architecture](./ARCHITECTURE.md)
+- [Visual Diagrams](./ARCHITECTURE_DIAGRAMS.md)
+- [Quick Reference](./ARCHITECTURE_QUICK_REFERENCE.md)
+- [Project Structure](./PROJECT_STRUCTURE.md)
+
+### Implementation
+- [Puppeteer Quick Start](./PUPPETEER_README.md)
+- [Implementation Summary](./PUPPETEER_SUMMARY.md)
+- [Migration Guide](./PUPPETEER_MIGRATION.md)
+- [Comparison](./PUPPETEER_VS_SELENIUM.md)
+
+### Usage
+- [API Reference](./API.md)
+- [Usage Examples](../USAGE.md)
+- [README](../README.md)
+
+### Performance
+- [Puppeteer vs Selenium](./PUPPETEER_VS_SELENIUM.md)
+- [Architecture - Performance Section](./ARCHITECTURE.md#performance-optimization)
+
+### Deployment
+- [Migration Guide](./PUPPETEER_MIGRATION.md)
+- [Architecture - Deployment Section](./ARCHITECTURE.md#deployment-architecture)
+
+## 🎓 Learning Path
+
+### Beginner Level
+1. Read [README.md](../README.md)
+2. Try examples in [USAGE.md](../USAGE.md)
+3. Check [API.md](./API.md)
+
+### Intermediate Level
+1. Review [ARCHITECTURE_QUICK_REFERENCE.md](./ARCHITECTURE_QUICK_REFERENCE.md)
+2. Study [PUPPETEER_README.md](./PUPPETEER_README.md)
+3. Understand [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)
+
+### Advanced Level
+1. Deep dive into [ARCHITECTURE.md](./ARCHITECTURE.md)
+2. Analyze [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md)
+3. Compare [PUPPETEER_VS_SELENIUM.md](./PUPPETEER_VS_SELENIUM.md)
+4. Study [PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md)
+
+## 🔗 External Resources
+
+- [Express.js Documentation](https://expressjs.com/)
+- [Puppeteer Documentation](https://pptr.dev/)
+- [Node.js Documentation](https://nodejs.org/docs/)
+- [REST API Design Best Practices](https://restfulapi.net/)
+
+## 📝 Document Versions
+
+All documents are version 1.0.0 unless otherwise specified.
+Last updated: 2024-11-29
+
+## 💬 Need Help?
+
+1. Check the relevant documentation above
+2. Review code examples in the repository
+3. Open an issue on GitHub
+4. Contact the development team
+
+---
+
+**Navigation:**  
+[← Back to README](../README.md) | [Architecture →](./ARCHITECTURE.md) | [API Reference →](./API.md)

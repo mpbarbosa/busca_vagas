@@ -183,3 +183,47 @@ Esta API pode ser consumida por qualquer cliente HTTP. Um cliente de exemplo est
 ## 📝 Licença
 
 Este projeto está sob a licença especificada no arquivo [LICENSE](LICENSE).
+
+## 📚 Documentation
+
+### Architecture Documentation
+- **[Architecture Overview](./docs/ARCHITECTURE.md)** - Complete software architecture documentation
+- **[Architecture Diagrams](./docs/ARCHITECTURE_DIAGRAMS.md)** - Visual architecture diagrams and flow charts
+- **[Architecture Quick Reference](./docs/ARCHITECTURE_QUICK_REFERENCE.md)** - Quick reference guide
+
+### Puppeteer Implementation (NEW - 40-60% Resource Savings)
+- **[Puppeteer Quick Start](./docs/PUPPETEER_README.md)** - Get started with the optimized implementation
+- **[Puppeteer Summary](./docs/PUPPETEER_SUMMARY.md)** - Complete implementation details
+- **[Puppeteer Migration Guide](./docs/PUPPETEER_MIGRATION.md)** - Migration from Selenium
+- **[Puppeteer vs Selenium](./docs/PUPPETEER_VS_SELENIUM.md)** - Detailed comparison
+
+### API Documentation
+- **[API Reference](./docs/API.md)** - API endpoints and usage
+- **[Usage Guide](./USAGE.md)** - How to use the API
+
+### Project Information
+- **[Project Structure](./docs/PROJECT_STRUCTURE.md)** - Detailed project layout
+- **[Release Notes](https://github.com/mpbarbosa/busca_vagas/releases)** - Version history and changes
+
+## 🏗️ Architecture Highlights
+
+### Layered Architecture
+```
+┌─────────────────────┐
+│  Presentation       │ ← Routes + Controllers
+├─────────────────────┤
+│  Business Logic     │ ← Services + Models  
+├─────────────────────┤
+│  Data Access        │ ← Browser Automation
+├─────────────────────┤
+│  External Systems   │ ← Hotel Websites
+└─────────────────────┘
+```
+
+### Performance Improvements (Puppeteer)
+- **57% less memory** usage (420 MB → 180 MB)
+- **53% faster** search times (6.8s → 3.2s)
+- **50% cost** savings on AWS EC2
+
+See [ARCHITECTURE.md](./docs/ARCHITECTURE.md) for complete details.
+
