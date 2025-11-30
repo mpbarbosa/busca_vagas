@@ -27,7 +27,7 @@ class BrowserPool {
     this.lastUsed = null;
   }
 
-  async getBrowser(headless = true) {
+  async getBrowser() {
     // Reuse existing browser if still valid
     if (this.browser && this.lastUsed && (Date.now() - this.lastUsed < this.maxAge)) {
       this.lastUsed = Date.now();
@@ -47,8 +47,9 @@ class BrowserPool {
     this.isInitializing = true;
 
     try {
+      // Always use headless mode for security, performance, and CI/CD compatibility
       this.browser = await puppeteer.launch({
-        headless: headless ? 'new' : false,
+        headless: 'new',
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -90,10 +91,11 @@ const browserPool = new BrowserPool();
  * Search for vacancies in all hotels for a date range
  * @param {Date|string} startDate - The check-in date (can be Date object or string)
  * @param {Date|string} endDate - The check-out date (can be Date object or string)
- * @param {boolean} headless - Whether to run browser in headless mode (default: true)
  * @returns {Promise<Object>} Search results with availability information
+ * 
+ * Note: Always runs in headless mode for optimal performance and CI/CD compatibility
  */
-export async function searchVacanciesByDay(startDate, endDate, headless = true) {
+export async function searchVacanciesByDay(startDate, endDate) {
   let checkInDate;
   let checkOutDate;
   
@@ -135,11 +137,11 @@ export async function searchVacanciesByDay(startDate, endDate, headless = true) 
   console.log('🔍 SEARCHING VACANCIES FOR DATE RANGE (Puppeteer)');
   console.log(`   Check-in: ${checkInDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkInDate.getDay()]})`);
   console.log(`   Check-out: ${checkOutDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkOutDate.getDay()]})`);
-  console.log(`   Headless mode: ${headless}`);
+  console.log(`   Headless mode: true (enforced)`);
   console.log(`${'='.repeat(80)}`);
   
   try {
-    const result = await openVagasPage(checkInDate, checkOutDate, 1, 1, headless);
+    const result = await openVagasPage(checkInDate, checkOutDate, 1, 1);
     
     if (result && result.hasAvailability) {
       console.log(`\n✅ VACANCIES FOUND for ${checkInDate.toLocaleDateString()}`);
@@ -340,8 +342,9 @@ export async function searchWeekendVacancies() {
   await browserPool.closeBrowser();
 }
 
-async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber = null, totalWeekends = null, headless = true) { // eslint-disable-line no-unused-vars
-  const browser = await browserPool.getBrowser(headless);
+async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber = null, totalWeekends = null) { // eslint-disable-line no-unused-vars
+  // Always use headless mode
+  const browser = await browserPool.getBrowser();
   const page = await browser.newPage();
     
   let nextFriday, nextSunday;

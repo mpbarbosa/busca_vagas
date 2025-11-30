@@ -51,7 +51,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(45);
       const checkout = getFutureDate(46);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result).toBeDefined();
       expect(result).toHaveProperty('success');
@@ -63,7 +63,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(50);
       const checkout = getFutureDate(51);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result.result).toBeDefined();
       expect(typeof result.result).toBe('object');
@@ -73,7 +73,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(30);
       const checkout = getFutureDate(31);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result.success).toBeDefined();
       expect(typeof result.hasAvailability).toBe('boolean');
@@ -82,7 +82,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
     test('should handle search for weekend dates', async () => {
       const weekend = getNextWeekend();
       
-      const result = await searchVacanciesByDay(weekend.friday, weekend.sunday, true);
+      const result = await searchVacanciesByDay(weekend.friday, weekend.sunday);
       
       expect(result.success).toBeDefined();
       expect(typeof result.hasAvailability).toBe('boolean');
@@ -99,7 +99,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(60);
       const checkout = getFutureDate(61);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result).toHaveProperty('hasAvailability');
       expect(typeof result.hasAvailability).toBe('boolean');
@@ -109,7 +109,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(35);
       const checkout = getFutureDate(36);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       if (result.hasAvailability) {
         expect(result.result).toBeDefined();
@@ -122,7 +122,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(365);
       const checkout = getFutureDate(366);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result).toHaveProperty('hasAvailability');
       expect(result.success).toBeDefined();
@@ -139,7 +139,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(40);
       const checkout = getFutureDate(41);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result).toHaveProperty('result');
       expect(result.result).toBeDefined();
@@ -149,7 +149,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(55);
       const checkout = getFutureDate(56);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       if (result.hasAvailability && result.result.hotelGroups) {
         expect(result.result.hotelGroups).toBeDefined();
@@ -161,7 +161,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(48);
       const checkout = getFutureDate(49);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       if (result.hasAvailability && result.result.summary) {
         expect(result.result.summary).toBeDefined();
@@ -173,7 +173,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(42);
       const checkout = getFutureDate(43);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       // Verify consistent structure
       expect(result).toHaveProperty('success');
@@ -217,13 +217,13 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       expect(response.body.resourceSavings).toContain('40-60%');
     }, 180000);
 
-    test('GET /api/vagas/search - should handle headless=false parameter', async () => {
+    test('GET /api/vagas/search - should handle headless parameter', async () => {
       const checkin = getFutureDate(75);
       const checkout = getFutureDate(76);
       
       const response = await request(app)
         .get('/api/vagas/search')
-        .query({ checkin, checkout, headless: 'false' });
+        .query({ checkin, checkout, headless: 'true' });
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBeDefined();
@@ -259,7 +259,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(33);
       const checkout = getFutureDate(34);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result.success).toBeDefined();
     }, 180000);
@@ -267,7 +267,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
     test('should handle weekend (Friday to Sunday)', async () => {
       const weekend = getNextWeekend();
       
-      const result = await searchVacanciesByDay(weekend.friday, weekend.sunday, true);
+      const result = await searchVacanciesByDay(weekend.friday, weekend.sunday);
       
       expect(result.success).toBeDefined();
     }, 180000);
@@ -276,7 +276,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(30);
       const checkout = getFutureDate(31);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result.success).toBeDefined();
     }, 180000);
@@ -285,19 +285,19 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkin = getFutureDate(90);
       const checkout = getFutureDate(91);
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result.success).toBeDefined();
     }, 180000);
 
     test('should handle month boundary crossing', async () => {
-      const result = await searchVacanciesByDay('2025-01-31', '2025-02-01', true);
+      const result = await searchVacanciesByDay('2025-01-31', '2025-02-01');
       
       expect(result.success).toBeDefined();
     }, 180000);
 
     test('should handle year boundary crossing', async () => {
-      const result = await searchVacanciesByDay('2025-12-31', '2026-01-01', true);
+      const result = await searchVacanciesByDay('2025-12-31', '2026-01-01');
       
       expect(result.success).toBeDefined();
     }, 180000);
@@ -324,7 +324,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
     test('should reject same check-in and check-out dates', async () => {
       const date = getFutureDate(30);
       await expect(
-        searchVacanciesByDay(date, date, true)
+        searchVacanciesByDay(date, date)
       ).rejects.toThrow('endDate must be after startDate');
     });
 
@@ -377,7 +377,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkout = getFutureDate(39);
       
       const startTime = Date.now();
-      await searchVacanciesByDay(checkin, checkout, true);
+      await searchVacanciesByDay(checkin, checkout);
       const duration = Date.now() - startTime;
       
       // Should complete within 90 seconds for a single search
@@ -390,7 +390,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       const checkout = getFutureDate(45);
       
       const startMemory = process.memoryUsage().heapUsed;
-      await searchVacanciesByDay(checkin, checkout, true);
+      await searchVacanciesByDay(checkin, checkout);
       const endMemory = process.memoryUsage().heapUsed;
       const memoryDelta = (endMemory - startMemory) / 1024 / 1024;
       
@@ -429,7 +429,7 @@ describe('Busca Vagas API - Business Logic Tests', () => {
       ];
       
       for (const date of dates) {
-        const result = await searchVacanciesByDay(date.checkin, date.checkout, true);
+        const result = await searchVacanciesByDay(date.checkin, date.checkout);
         expect(result.success).toBeDefined();
       }
     }, 360000);

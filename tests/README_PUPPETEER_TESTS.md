@@ -168,7 +168,7 @@ Tests individual controller functions in isolation without browser automation:
 
 ### Core E2E Tests (puppeteer.test.js)
 Tests browser automation and core Puppeteer functionality:
-- Browser launch and configuration
+- Browser launch and configuration (headless mode)
 - Page navigation
 - Search function with various inputs
 - API endpoint responses
@@ -176,19 +176,22 @@ Tests browser automation and core Puppeteer functionality:
 - Performance metrics
 
 **Run time:** ~5-10 minutes  
+**Browser required:** ✅ Yes (headless only)
 **Browser required:** ✅ Yes (headless)
 
 ---
 
 ### Business Logic Tests (puppeteer-business-logic.test.js)
 Tests actual vacancy search business logic:
-- Real hotel searches
+- Real hotel searches (headless mode)
 - Availability detection
 - Data extraction
 - Weekend automation
 - Concurrent searches
 - Real-world scenarios
 
+**Run time:** ~10-20 minutes  
+**Browser required:** ✅ Yes (headless only)
 **Run time:** ~10-20 minutes  
 **Browser required:** ✅ Yes (headless)
 

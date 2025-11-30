@@ -37,10 +37,10 @@ describe('Puppeteer E2E Test Suite', () => {
       await browser.close();
     }, 30000);
     
-    test('should launch Puppeteer browser in non-headless mode', async () => {
+    test('should launch Puppeteer browser with custom args', async () => {
       const browser = await puppeteer.launch({
-        headless: false,
-        args: ['--no-sandbox', '--disable-setuid-sandbox']
+        headless: 'new',
+        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
       });
       
       expect(browser).toBeDefined();
@@ -116,7 +116,7 @@ describe('Puppeteer E2E Test Suite', () => {
       
       // This should not throw an error
       await expect(async () => {
-        await searchVacanciesByDay(checkin, checkout, true);
+        await searchVacanciesByDay(checkin, checkout);
       }).not.toThrow();
     }, 120000);
     
@@ -128,7 +128,7 @@ describe('Puppeteer E2E Test Suite', () => {
       
       // This should not throw an error
       await expect(async () => {
-        await searchVacanciesByDay(futureDate, checkoutDate, true);
+        await searchVacanciesByDay(futureDate, checkoutDate);
       }).not.toThrow();
     }, 120000);
     
@@ -141,7 +141,7 @@ describe('Puppeteer E2E Test Suite', () => {
       const checkin = futureDate.toISOString().split('T')[0];
       const checkout = checkoutDate.toISOString().split('T')[0];
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result).toBeDefined();
       expect(typeof result).toBe('object');
@@ -163,7 +163,7 @@ describe('Puppeteer E2E Test Suite', () => {
       const checkin = nextFriday.toISOString().split('T')[0];
       const checkout = nextSunday.toISOString().split('T')[0];
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result).toBeDefined();
       expect(result.success).toBeDefined();
@@ -286,37 +286,37 @@ describe('Puppeteer E2E Test Suite', () => {
     
     test('should reject invalid date format', async () => {
       await expect(async () => {
-        await searchVacanciesByDay('invalid-date', '2025-12-26', true);
+        await searchVacanciesByDay('invalid-date', '2025-12-26');
       }).rejects.toThrow();
     });
     
     test('should reject checkout date before checkin date', async () => {
       await expect(async () => {
-        await searchVacanciesByDay('2025-12-26', '2025-12-25', true);
+        await searchVacanciesByDay('2025-12-26', '2025-12-25');
       }).rejects.toThrow('endDate must be after startDate');
     });
     
     test('should reject same checkin and checkout dates', async () => {
       await expect(async () => {
-        await searchVacanciesByDay('2025-12-25', '2025-12-25', true);
+        await searchVacanciesByDay('2025-12-25', '2025-12-25');
       }).rejects.toThrow('endDate must be after startDate');
     });
     
     test('should reject null/undefined checkin date', async () => {
       await expect(async () => {
-        await searchVacanciesByDay(null, '2025-12-26', true);
+        await searchVacanciesByDay(null, '2025-12-26');
       }).rejects.toThrow();
     });
     
     test('should reject null/undefined checkout date', async () => {
       await expect(async () => {
-        await searchVacanciesByDay('2025-12-25', null, true);
+        await searchVacanciesByDay('2025-12-25', null);
       }).rejects.toThrow();
     });
     
     test('should handle malformed date strings gracefully', async () => {
       await expect(async () => {
-        await searchVacanciesByDay('2025-13-45', '2025-12-26', true);
+        await searchVacanciesByDay('2025-13-45', '2025-12-26');
       }).rejects.toThrow();
     });
     
@@ -359,7 +359,7 @@ describe('Puppeteer E2E Test Suite', () => {
       const checkout = checkoutDate.toISOString().split('T')[0];
       
       const startTime = Date.now();
-      await searchVacanciesByDay(checkin, checkout, true);
+      await searchVacanciesByDay(checkin, checkout);
       const duration = Date.now() - startTime;
       
       // Should complete within 60 seconds
@@ -376,7 +376,7 @@ describe('Puppeteer E2E Test Suite', () => {
       const checkout = checkoutDate.toISOString().split('T')[0];
       
       const startMemory = process.memoryUsage().heapUsed;
-      await searchVacanciesByDay(checkin, checkout, true);
+      await searchVacanciesByDay(checkin, checkout);
       const endMemory = process.memoryUsage().heapUsed;
       const memoryDelta = (endMemory - startMemory) / 1024 / 1024; // MB
       
@@ -395,7 +395,7 @@ describe('Puppeteer E2E Test Suite', () => {
       
       // Measure headless
       const headlessStart = Date.now();
-      await searchVacanciesByDay(checkin, checkout, true);
+      await searchVacanciesByDay(checkin, checkout);
       const headlessDuration = Date.now() - headlessStart;
       
       // Headless should complete in reasonable time
@@ -419,9 +419,9 @@ describe('Puppeteer E2E Test Suite', () => {
       const checkout = checkoutDate.toISOString().split('T')[0];
       
       // Run three searches sequentially
-      const result1 = await searchVacanciesByDay(checkin, checkout, true);
-      const result2 = await searchVacanciesByDay(checkin, checkout, true);
-      const result3 = await searchVacanciesByDay(checkin, checkout, true);
+      const result1 = await searchVacanciesByDay(checkin, checkout);
+      const result2 = await searchVacanciesByDay(checkin, checkout);
+      const result3 = await searchVacanciesByDay(checkin, checkout);
       
       expect(result1).toBeDefined();
       expect(result2).toBeDefined();
@@ -459,29 +459,29 @@ describe('Puppeteer E2E Test Suite', () => {
   describe('Date Handling - Format and Conversion', () => {
     
     test('should parse YYYY-MM-DD format correctly', async () => {
-      const result = await searchVacanciesByDay('2025-12-25', '2025-12-26', true);
+      const result = await searchVacanciesByDay('2025-12-25', '2025-12-26');
       expect(result).toBeDefined();
     }, 120000);
     
     test('should handle different month lengths', async () => {
       // February (short month)
-      const feb1 = await searchVacanciesByDay('2025-02-15', '2025-02-16', true);
+      const feb1 = await searchVacanciesByDay('2025-02-15', '2025-02-16');
       expect(feb1).toBeDefined();
       
       // January (31 days)
-      const jan1 = await searchVacanciesByDay('2025-01-30', '2025-01-31', true);
+      const jan1 = await searchVacanciesByDay('2025-01-30', '2025-01-31');
       expect(jan1).toBeDefined();
     }, 240000);
     
     test('should handle month boundaries', async () => {
       // Month boundary crossing
-      const result = await searchVacanciesByDay('2025-01-31', '2025-02-01', true);
+      const result = await searchVacanciesByDay('2025-01-31', '2025-02-01');
       expect(result).toBeDefined();
     }, 120000);
     
     test('should handle year boundaries', async () => {
       // Year boundary crossing
-      const result = await searchVacanciesByDay('2025-12-31', '2026-01-01', true);
+      const result = await searchVacanciesByDay('2025-12-31', '2026-01-01');
       expect(result).toBeDefined();
     }, 120000);
   });
@@ -501,7 +501,7 @@ describe('Puppeteer E2E Test Suite', () => {
       const checkin = futureDate.toISOString().split('T')[0];
       const checkout = checkoutDate.toISOString().split('T')[0];
       
-      const result = await searchVacanciesByDay(checkin, checkout, true);
+      const result = await searchVacanciesByDay(checkin, checkout);
       
       expect(result).toHaveProperty('success');
       expect(result).toHaveProperty('hasAvailability');

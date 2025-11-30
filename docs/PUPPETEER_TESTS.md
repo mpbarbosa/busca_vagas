@@ -46,7 +46,7 @@ Tests the fundamental Puppeteer browser operations.
 
 **Tests:**
 - ✅ Launch browser in headless mode
-- ✅ Launch browser in non-headless mode
+- ✅ Launch browser with custom arguments
 - ✅ Create new page and navigate
 - ✅ Set viewport dimensions
 - ✅ Handle page timeout settings
@@ -78,7 +78,7 @@ Tests all Puppeteer-related API endpoints.
 - ✅ GET /api/vagas/search - Require checkout parameter
 - ✅ GET /api/vagas/search - Require both parameters
 - ✅ GET /api/vagas/search - Accept valid dates
-- ✅ GET /api/vagas/search - Accept headless parameter
+- ✅ GET /api/vagas/search - Use headless mode by default
 - ✅ GET /api/vagas/search - Include resource savings info
 
 **Purpose:** Validates REST API endpoints return correct status codes, error messages, and data.

@@ -164,14 +164,14 @@ describe('E2E - Simple Search Endpoint', () => {
       expect(typeof response).toBe('object');
     }, 120000);
 
-    test('should support headless=false for debugging', async () => {
+    test('should use headless mode for testing', async () => {
       if (!serverRunning) {
         console.log('   Skipping test - server not running');
         return;
       }
       
-      // Test with explicit headless=false (will open visible browser on server)
-      const url = `${BASE_URL}/api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26&headless=false`;
+      // Test with explicit headless=true (recommended for CI/CD)
+      const url = `${BASE_URL}/api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26&headless=true`;
       
       await driver.get(url);
       await driver.wait(until.elementLocated(By.css('body')), 60000);
@@ -179,7 +179,7 @@ describe('E2E - Simple Search Endpoint', () => {
       const bodyText = await driver.findElement(By.css('body')).getText();
       const response = JSON.parse(bodyText);
       
-      // Should return valid response structure even with visible browser
+      // Should return valid response structure with headless browser
       expect(response).toBeDefined();
       expect(typeof response).toBe('object');
     }, 120000);

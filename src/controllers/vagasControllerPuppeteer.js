@@ -82,13 +82,14 @@ export const removerVaga = async (req, res) => {
  * Query parameters:
  * - checkin (required): Check-in date in YYYY-MM-DD format
  * - checkout (required): Check-out date in YYYY-MM-DD format
- * - headless (optional): Run in headless mode (default: true)
  * 
- * Example: GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&headless=true
+ * Note: Always runs in headless mode for optimal performance and CI/CD compatibility
+ * 
+ * Example: GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26
  */
 export const searchByDates = async (req, res) => {
   try {
-    const { checkin, checkout, headless } = req.query;
+    const { checkin, checkout } = req.query;
     
     if (!checkin || !checkout) {
       return res.status(400).json({ 
@@ -97,18 +98,17 @@ export const searchByDates = async (req, res) => {
       });
     }
 
-    // Parse headless parameter (default to true)
-    const isHeadless = headless === 'false' ? false : true;
-
+    // Always use headless mode for security, performance, and CI/CD compatibility
     console.log(`\n🔍 API Request: Searching vacancies from ${checkin} to ${checkout}`);
-    console.log(`   Headless mode: ${isHeadless}`);
+    console.log(`   Headless mode: true (enforced)`);
     console.log('   Using: Puppeteer (optimized)');
 
-    const results = await searchVacanciesByDay(checkin, checkout, isHeadless);
+    const results = await searchVacanciesByDay(checkin, checkout);
     
     res.json({
       success: true,
       method: 'puppeteer',
+      headlessMode: true,
       resourceSavings: '40-60% compared to Selenium',
       data: results
     });

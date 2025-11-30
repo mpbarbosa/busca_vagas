@@ -232,7 +232,7 @@ describe('Puppeteer Controller - Unit Tests', () => {
       expect(response.body.success).toBeDefined();
     }, 180000);
 
-    test('should accept headless=false parameter', async () => {
+    test('should accept headless=true parameter', async () => {
       const futureDate = new Date();
       futureDate.setDate(futureDate.getDate() + 110);
       const checkoutDate = new Date(futureDate);
@@ -243,7 +243,7 @@ describe('Puppeteer Controller - Unit Tests', () => {
       
       const response = await request(app)
         .get('/api/vagas/search')
-        .query({ checkin, checkout, headless: 'false' });
+        .query({ checkin, checkout, headless: 'true' });
       
       expect(response.status).toBe(200);
       expect(response.body.success).toBeDefined();

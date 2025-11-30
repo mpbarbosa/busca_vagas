@@ -43,7 +43,8 @@ async function testPuppeteer() {
   const startMemory = process.memoryUsage();
   
   try {
-    const results = await searchVacanciesByDay(checkinDate, checkoutDate, true);
+    // Always runs in headless mode (enforced)
+    const results = await searchVacanciesByDay(checkinDate, checkoutDate);
     
     const endTime = Date.now();
     const endMemory = process.memoryUsage();
