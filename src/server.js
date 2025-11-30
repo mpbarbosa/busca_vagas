@@ -35,7 +35,10 @@ app.get('/', (req, res) => {
     endpoints: {
       health: '/api/health',
       vagas: '/api/vagas',
-      search: '/api/vagas/search/bydates'
+      search: '/api/vagas/search',                    // Default search (Puppeteer - v1.2.0)
+      searchWeekends: '/api/vagas/search/weekends',   // Weekend automation (Puppeteer - v1.2.0)
+      searchSelenium: '/api/vagas/search/selenium',   // Legacy search (Selenium)
+      searchByDates: '/api/vagas/search/bydates'      // Alias (deprecated, use /search)
     }
   });
 });
