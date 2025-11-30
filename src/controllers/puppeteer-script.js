@@ -366,7 +366,7 @@ async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber
     await page.select('#ddlHoteis', '-1');
     console.log('✅ Successfully selected "Todas" option');
         
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
         
     console.log('\n--- Setting Check-in Date ---');
     const currentDate = new Date();
@@ -428,7 +428,7 @@ async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber
         
     console.log('Waiting for hotel vacancy query to complete...');
     await page.waitForSelector('#lyConsulta', { timeout: 15000 });
-    await page.waitForTimeout(2000);
+    await new Promise(resolve => setTimeout(resolve, 2000));
         
     console.log('✅ Query completed and lyConsulta element loaded');
         
