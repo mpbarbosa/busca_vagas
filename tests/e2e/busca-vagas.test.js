@@ -2,7 +2,7 @@
  * Testes E2E com Selenium
  * Exemplo de teste end-to-end usando Selenium WebDriver
  */
-const { Builder, By, until } = require('selenium-webdriver');
+import { Builder, By, until } from 'selenium-webdriver';
 
 describe('Testes E2E - Busca Vagas', () => {
   let driver;
