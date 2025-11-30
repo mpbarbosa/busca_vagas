@@ -406,6 +406,111 @@ if [ -d "node_modules/puppeteer" ]; then
             echo -e "${RED}✗ FAIL${NC} (page manipulation failed)"
             ((FAILED++))
         fi
+        
+        # Test Puppeteer browser open and close cycle
+        printf "  %-50s " "Puppeteer browser lifecycle test"
+        
+        LIFECYCLE_TEST=$(node -e "
+            const puppeteer = require('puppeteer');
+            
+            (async function test() {
+                let browser;
+                const startTime = Date.now();
+                
+                try {
+                    // Test 1: Launch browser
+                    browser = await puppeteer.launch({
+                        headless: true,
+                        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+                    });
+                    
+                    // Verify browser is connected
+                    if (!browser.isConnected()) {
+                        console.error('FAILED: Browser not connected after launch');
+                        process.exit(1);
+                    }
+                    
+                    // Test 2: Create page
+                    const page = await browser.newPage();
+                    
+                    // Test 3: Close page
+                    await page.close();
+                    
+                    // Test 4: Close browser
+                    await browser.close();
+                    
+                    // Verify browser is disconnected
+                    if (browser.isConnected()) {
+                        console.error('FAILED: Browser still connected after close');
+                        process.exit(1);
+                    }
+                    
+                    const duration = Date.now() - startTime;
+                    console.log('SUCCESS');
+                    console.log('DURATION:' + duration + 'ms');
+                    process.exit(0);
+                } catch (error) {
+                    console.error('FAILED:', error.message);
+                    if (browser && browser.isConnected()) {
+                        await browser.close();
+                    }
+                    process.exit(1);
+                }
+            })();
+        " 2>&1)
+        
+        if echo "$LIFECYCLE_TEST" | grep -q "SUCCESS"; then
+            DURATION=$(echo "$LIFECYCLE_TEST" | grep "DURATION:" | cut -d: -f2)
+            echo -e "${GREEN}✓ PASS${NC} (open/close cycle in $DURATION)"
+            ((PASSED++))
+        else
+            echo -e "${RED}✗ FAIL${NC} (lifecycle test failed)"
+            echo -e "    ${YELLOW}Error: ${LIFECYCLE_TEST}${NC}"
+            ((FAILED++))
+        fi
+        
+        # Test Puppeteer default browser detection
+        printf "  %-50s " "Puppeteer default browser executable"
+        
+        BROWSER_PATH_TEST=$(node -e "
+            const puppeteer = require('puppeteer');
+            
+            (async function test() {
+                try {
+                    const browser = await puppeteer.launch({
+                        headless: true,
+                        args: ['--no-sandbox', '--disable-setuid-sandbox']
+                    });
+                    
+                    // Get browser process info
+                    const process = browser.process();
+                    if (process && process.spawnfile) {
+                        console.log('EXECUTABLE:' + process.spawnfile);
+                    }
+                    
+                    await browser.close();
+                    console.log('SUCCESS');
+                    process.exit(0);
+                } catch (error) {
+                    console.error('FAILED:', error.message);
+                    process.exit(1);
+                }
+            })();
+        " 2>&1)
+        
+        if echo "$BROWSER_PATH_TEST" | grep -q "SUCCESS"; then
+            BROWSER_EXEC=$(echo "$BROWSER_PATH_TEST" | grep "EXECUTABLE:" | cut -d: -f2-)
+            if [ -n "$BROWSER_EXEC" ]; then
+                BROWSER_NAME=$(basename "$BROWSER_EXEC")
+                echo -e "${GREEN}✓ PASS${NC} (using $BROWSER_NAME)"
+            else
+                echo -e "${GREEN}✓ PASS${NC} (browser executable found)"
+            fi
+            ((PASSED++))
+        else
+            echo -e "${YELLOW}⚠ WARN${NC} (could not detect executable)"
+            ((WARNINGS++))
+        fi
     fi
 else
     printf "  %-50s " "puppeteer installed"
