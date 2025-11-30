@@ -149,17 +149,45 @@ fi
 # 4. Browser Requirements
 print_section "4. BROWSER REQUIREMENTS"
 
-# Check for Google Chrome
+# Check for Google Chrome / Chromium with detailed detection
+BROWSER_FOUND=false
+BROWSER_NAME=""
+BROWSER_VERSION=""
+
+# Check all possible Chrome/Chromium installations
 if command -v google-chrome &>/dev/null; then
+    BROWSER_NAME="Google Chrome"
+    BROWSER_VERSION=$(google-chrome --version 2>/dev/null)
+    BROWSER_FOUND=true
     check_with_version "Google Chrome" "google-chrome --version" true
 elif command -v google-chrome-stable &>/dev/null; then
-    check_with_version "Google Chrome" "google-chrome-stable --version" true
+    BROWSER_NAME="Google Chrome (stable)"
+    BROWSER_VERSION=$(google-chrome-stable --version 2>/dev/null)
+    BROWSER_FOUND=true
+    check_with_version "Google Chrome (stable)" "google-chrome-stable --version" true
+elif command -v chromium-browser &>/dev/null; then
+    BROWSER_NAME="Chromium Browser"
+    BROWSER_VERSION=$(chromium-browser --version 2>/dev/null)
+    BROWSER_FOUND=true
+    check_with_version "Chromium Browser" "chromium-browser --version" true
 elif command -v chromium &>/dev/null; then
-    check_with_version "Chromium Browser" "chromium --version" true
-else
+    BROWSER_NAME="Chromium"
+    BROWSER_VERSION=$(chromium --version 2>/dev/null)
+    BROWSER_FOUND=true
+    check_with_version "Chromium" "chromium --version" true
+fi
+
+if [ "$BROWSER_FOUND" = false ]; then
     printf "  %-50s " "Google Chrome / Chromium"
-    echo -e "${RED}✗ FAIL${NC} (not found)"
+    echo -e "${RED}✗ FAIL${NC} (not found - required for Puppeteer/Selenium)"
     ((FAILED++))
+else
+    # Additional check: Verify browser is executable
+    printf "  %-50s " "Browser executable verification"
+    if [ "$BROWSER_FOUND" = true ]; then
+        echo -e "${GREEN}✓ PASS${NC} ($BROWSER_NAME found and executable)"
+        ((PASSED++))
+    fi
 fi
 
 # Check ChromeDriver
@@ -233,8 +261,10 @@ if [ -d "node_modules/puppeteer" ]; then
                     
                     const page = await browser.newPage();
                     await page.goto('about:blank');
+                    const version = await browser.version();
                     
                     console.log('SUCCESS');
+                    console.log('VERSION:' + version);
                     await browser.close();
                     process.exit(0);
                 } catch (error) {
@@ -246,7 +276,8 @@ if [ -d "node_modules/puppeteer" ]; then
         " 2>&1)
         
         if echo "$TEST_RESULT" | grep -q "SUCCESS"; then
-            echo -e "${GREEN}✓ PASS${NC} (Puppeteer functional)"
+            BROWSER_VERSION=$(echo "$TEST_RESULT" | grep "VERSION:" | cut -d: -f2)
+            echo -e "${GREEN}✓ PASS${NC} (Puppeteer functional - $BROWSER_VERSION)"
             ((PASSED++))
         else
             echo -e "${RED}✗ FAIL${NC} (Puppeteer test failed)"
