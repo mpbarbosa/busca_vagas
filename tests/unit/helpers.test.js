@@ -1,7 +1,7 @@
 /**
  * Testes unitários para helpers
  */
-const { gerarId, validarEmail, respostaSucesso, respostaErro } = require('../../src/utils/helpers');
+import { gerarId, validarEmail, respostaSucesso, respostaErro } from '../../src/utils/helpers.js';
 
 describe('Helpers Utils', () => {
   describe('gerarId', () => {
