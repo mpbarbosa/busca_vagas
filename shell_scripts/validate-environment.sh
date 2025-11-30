@@ -132,6 +132,7 @@ if [ -f "package.json" ]; then
         check_requirement "dotenv installed" "[ -d node_modules/dotenv ]" true
         check_requirement "cors installed" "[ -d node_modules/cors ]" true
         check_requirement "selenium-webdriver installed" "[ -d node_modules/selenium-webdriver ]" true
+        check_requirement "puppeteer installed (v1.2.0+)" "[ -d node_modules/puppeteer ]" true
         check_requirement "Jest testing framework" "[ -d node_modules/jest ]" false
         check_requirement "ESLint installed" "[ -d node_modules/eslint ]" false
     else
@@ -197,8 +198,87 @@ if [ -f ".env" ]; then
     check_requirement "PORT configured in .env" "grep -q 'PORT' .env" false
 fi
 
-# 6. Selenium WebDriver Validation
-print_section "6. SELENIUM WEBDRIVER VALIDATION"
+# 6. Puppeteer Validation (v1.2.0+)
+print_section "6. PUPPETEER VALIDATION (RECOMMENDED)"
+
+if [ -d "node_modules/puppeteer" ]; then
+    PUPPETEER_VERSION=$(node -e "console.log(require('./package.json').devDependencies['puppeteer'] || 'not found')" 2>/dev/null)
+    printf "  %-50s " "puppeteer version"
+    if [ -n "$PUPPETEER_VERSION" ] && [ "$PUPPETEER_VERSION" != "not found" ]; then
+        echo -e "${GREEN}✓ PASS${NC} $PUPPETEER_VERSION"
+        ((PASSED++))
+    else
+        echo -e "${YELLOW}⚠ WARN${NC} (version not found in package.json)"
+        ((WARNINGS++))
+    fi
+    
+    # Check Puppeteer controllers exist
+    check_requirement "puppeteer-script.js exists" "[ -f src/controllers/puppeteer-script.js ]" true
+    check_requirement "vagasControllerPuppeteer.js exists" "[ -f src/controllers/vagasControllerPuppeteer.js ]" true
+    
+    # Test Puppeteer functionality
+    if command -v node &>/dev/null; then
+        printf "  %-50s " "Puppeteer basic functionality test"
+        
+        TEST_RESULT=$(node -e "
+            const puppeteer = require('puppeteer');
+            
+            (async function test() {
+                let browser;
+                try {
+                    browser = await puppeteer.launch({
+                        headless: true,
+                        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+                    });
+                    
+                    const page = await browser.newPage();
+                    await page.goto('about:blank');
+                    
+                    console.log('SUCCESS');
+                    await browser.close();
+                    process.exit(0);
+                } catch (error) {
+                    console.error('FAILED:', error.message);
+                    if (browser) await browser.close();
+                    process.exit(1);
+                }
+            })();
+        " 2>&1)
+        
+        if echo "$TEST_RESULT" | grep -q "SUCCESS"; then
+            echo -e "${GREEN}✓ PASS${NC} (Puppeteer functional)"
+            ((PASSED++))
+        else
+            echo -e "${RED}✗ FAIL${NC} (Puppeteer test failed)"
+            echo -e "    ${YELLOW}Error: ${TEST_RESULT}${NC}"
+            ((FAILED++))
+        fi
+    fi
+    
+    # Check for Chromium binary
+    printf "  %-50s " "Chromium binary (for Puppeteer)"
+    if [ -d "node_modules/puppeteer/.local-chromium" ] || [ -d "$HOME/.cache/puppeteer" ]; then
+        echo -e "${GREEN}✓ PASS${NC} (bundled with Puppeteer)"
+        ((PASSED++))
+    else
+        # Check system Chromium
+        if command -v chromium &>/dev/null || command -v google-chrome &>/dev/null; then
+            echo -e "${GREEN}✓ PASS${NC} (system Chromium available)"
+            ((PASSED++))
+        else
+            echo -e "${YELLOW}⚠ WARN${NC} (will download on first use)"
+            ((WARNINGS++))
+        fi
+    fi
+else
+    printf "  %-50s " "puppeteer installed"
+    echo -e "${RED}✗ FAIL${NC} (required for v1.2.0+)"
+    ((FAILED++))
+    echo -e "    ${YELLOW}Install with: npm install puppeteer${NC}"
+fi
+
+# 7. Selenium WebDriver Validation (Legacy)
+print_section "7. SELENIUM WEBDRIVER VALIDATION (LEGACY)"
 
 if [ -d "node_modules/selenium-webdriver" ]; then
     SELENIUM_VERSION=$(node -e "console.log(require('./package.json').devDependencies['selenium-webdriver'])" 2>/dev/null)
@@ -263,8 +343,8 @@ if command -v node &>/dev/null && [ -d "node_modules/selenium-webdriver" ]; then
     fi
 fi
 
-# 7. Optional Tools
-print_section "7. OPTIONAL DEVELOPMENT TOOLS"
+# 8. Optional Tools
+print_section "8. OPTIONAL DEVELOPMENT TOOLS"
 
 check_with_version "Git version control" "git --version" false
 check_with_version "curl HTTP client" "curl --version | head -1" false
