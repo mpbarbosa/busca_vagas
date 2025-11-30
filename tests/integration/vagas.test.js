@@ -1,8 +1,8 @@
 /**
  * Testes de integração para as rotas de vagas
  */
-const request = require('supertest');
-const app = require('../../src/server');
+import request from 'supertest';
+import app from '../../src/server.js';
 
 describe('Rotas de Vagas - Integração', () => {
   describe('GET /', () => {
