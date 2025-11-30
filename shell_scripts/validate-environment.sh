@@ -230,6 +230,7 @@ fi
 print_section "6. PUPPETEER VALIDATION (RECOMMENDED)"
 
 if [ -d "node_modules/puppeteer" ]; then
+    # Check Puppeteer version
     PUPPETEER_VERSION=$(node -e "console.log(require('./package.json').devDependencies['puppeteer'] || 'not found')" 2>/dev/null)
     printf "  %-50s " "puppeteer version"
     if [ -n "$PUPPETEER_VERSION" ] && [ "$PUPPETEER_VERSION" != "not found" ]; then
@@ -240,13 +241,92 @@ if [ -d "node_modules/puppeteer" ]; then
         ((WARNINGS++))
     fi
     
+    # Check Puppeteer installation integrity
+    printf "  %-50s " "Puppeteer installation integrity"
+    if [ -f "node_modules/puppeteer/package.json" ]; then
+        INSTALLED_VERSION=$(node -e "console.log(require('./node_modules/puppeteer/package.json').version)" 2>/dev/null)
+        echo -e "${GREEN}✓ PASS${NC} (v$INSTALLED_VERSION installed)"
+        ((PASSED++))
+    else
+        echo -e "${RED}✗ FAIL${NC} (installation corrupted)"
+        ((FAILED++))
+    fi
+    
+    # Check Puppeteer core dependencies
+    printf "  %-50s " "Puppeteer core dependencies"
+    PUPPETEER_DEPS_OK=true
+    MISSING_DEPS=""
+    
+    # Check for required Puppeteer internal modules
+    for dep in "lib/esm/puppeteer/puppeteer.js" "lib/cjs/puppeteer/puppeteer.js"; do
+        if [ ! -f "node_modules/puppeteer/$dep" ]; then
+            PUPPETEER_DEPS_OK=false
+            MISSING_DEPS="$MISSING_DEPS $dep"
+        fi
+    done
+    
+    if [ "$PUPPETEER_DEPS_OK" = true ]; then
+        echo -e "${GREEN}✓ PASS${NC} (all core files present)"
+        ((PASSED++))
+    else
+        echo -e "${RED}✗ FAIL${NC} (missing: $MISSING_DEPS)"
+        ((FAILED++))
+    fi
+    
     # Check Puppeteer controllers exist
     check_requirement "puppeteer-script.js exists" "[ -f src/controllers/puppeteer-script.js ]" true
     check_requirement "vagasControllerPuppeteer.js exists" "[ -f src/controllers/vagasControllerPuppeteer.js ]" true
     
+    # Check for Chromium binary
+    printf "  %-50s " "Chromium binary (for Puppeteer)"
+    CHROMIUM_FOUND=false
+    CHROMIUM_LOCATION=""
+    
+    # Check bundled Chromium
+    if [ -d "node_modules/puppeteer/.local-chromium" ]; then
+        CHROMIUM_FOUND=true
+        CHROMIUM_LOCATION="bundled (.local-chromium)"
+    elif [ -d "$HOME/.cache/puppeteer" ]; then
+        CHROMIUM_FOUND=true
+        CHROMIUM_LOCATION="cached (~/.cache/puppeteer)"
+    # Check system Chromium
+    elif command -v chromium &>/dev/null; then
+        CHROMIUM_FOUND=true
+        CHROMIUM_LOCATION="system (chromium)"
+    elif command -v chromium-browser &>/dev/null; then
+        CHROMIUM_FOUND=true
+        CHROMIUM_LOCATION="system (chromium-browser)"
+    elif command -v google-chrome &>/dev/null; then
+        CHROMIUM_FOUND=true
+        CHROMIUM_LOCATION="system (google-chrome)"
+    elif command -v google-chrome-stable &>/dev/null; then
+        CHROMIUM_FOUND=true
+        CHROMIUM_LOCATION="system (google-chrome-stable)"
+    fi
+    
+    if [ "$CHROMIUM_FOUND" = true ]; then
+        echo -e "${GREEN}✓ PASS${NC} ($CHROMIUM_LOCATION)"
+        ((PASSED++))
+    else
+        echo -e "${YELLOW}⚠ WARN${NC} (will download on first use)"
+        ((WARNINGS++))
+    fi
+    
+    # Check Puppeteer environment variables
+    printf "  %-50s " "Puppeteer environment configuration"
+    ENV_CONFIG="default"
+    if [ -n "$PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" ]; then
+        ENV_CONFIG="skip download (PUPPETEER_SKIP_CHROMIUM_DOWNLOAD set)"
+    fi
+    if [ -n "$PUPPETEER_EXECUTABLE_PATH" ]; then
+        ENV_CONFIG="custom path ($PUPPETEER_EXECUTABLE_PATH)"
+    fi
+    echo -e "${GREEN}✓ PASS${NC} ($ENV_CONFIG)"
+    ((PASSED++))
+    
     # Test Puppeteer functionality
     if command -v node &>/dev/null; then
-        printf "  %-50s " "Puppeteer basic functionality test"
+        printf "  %-50s " "Puppeteer browser launch test"
         
         TEST_RESULT=$(node -e "
             const puppeteer = require('puppeteer');
@@ -277,28 +357,54 @@ if [ -d "node_modules/puppeteer" ]; then
         
         if echo "$TEST_RESULT" | grep -q "SUCCESS"; then
             BROWSER_VERSION=$(echo "$TEST_RESULT" | grep "VERSION:" | cut -d: -f2)
-            echo -e "${GREEN}✓ PASS${NC} (Puppeteer functional - $BROWSER_VERSION)"
+            echo -e "${GREEN}✓ PASS${NC} (using $BROWSER_VERSION)"
             ((PASSED++))
         else
-            echo -e "${RED}✗ FAIL${NC} (Puppeteer test failed)"
+            echo -e "${RED}✗ FAIL${NC} (browser launch failed)"
             echo -e "    ${YELLOW}Error: ${TEST_RESULT}${NC}"
             ((FAILED++))
         fi
-    fi
-    
-    # Check for Chromium binary
-    printf "  %-50s " "Chromium binary (for Puppeteer)"
-    if [ -d "node_modules/puppeteer/.local-chromium" ] || [ -d "$HOME/.cache/puppeteer" ]; then
-        echo -e "${GREEN}✓ PASS${NC} (bundled with Puppeteer)"
-        ((PASSED++))
-    else
-        # Check system Chromium
-        if command -v chromium &>/dev/null || command -v google-chrome &>/dev/null; then
-            echo -e "${GREEN}✓ PASS${NC} (system Chromium available)"
+        
+        # Test Puppeteer page manipulation
+        printf "  %-50s " "Puppeteer page manipulation test"
+        
+        PAGE_TEST=$(node -e "
+            const puppeteer = require('puppeteer');
+            
+            (async function test() {
+                let browser;
+                try {
+                    browser = await puppeteer.launch({
+                        headless: true,
+                        args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+                    });
+                    
+                    const page = await browser.newPage();
+                    await page.setContent('<html><body><h1>Test</h1></body></html>');
+                    const title = await page.evaluate(() => document.querySelector('h1').textContent);
+                    
+                    if (title === 'Test') {
+                        console.log('SUCCESS');
+                    } else {
+                        console.log('FAILED: Content mismatch');
+                    }
+                    
+                    await browser.close();
+                    process.exit(0);
+                } catch (error) {
+                    console.error('FAILED:', error.message);
+                    if (browser) await browser.close();
+                    process.exit(1);
+                }
+            })();
+        " 2>&1)
+        
+        if echo "$PAGE_TEST" | grep -q "SUCCESS"; then
+            echo -e "${GREEN}✓ PASS${NC} (DOM manipulation works)"
             ((PASSED++))
         else
-            echo -e "${YELLOW}⚠ WARN${NC} (will download on first use)"
-            ((WARNINGS++))
+            echo -e "${RED}✗ FAIL${NC} (page manipulation failed)"
+            ((FAILED++))
         fi
     fi
 else
