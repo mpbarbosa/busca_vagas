@@ -14,6 +14,10 @@
     "test:integration": "NODE_OPTIONS=--experimental-vm-modules jest tests/integration",
     "test:e2e": "NODE_OPTIONS=--experimental-vm-modules jest tests/e2e",
     "test:puppeteer": "node scripts/test-puppeteer.js",
+    "test:puppeteer:unit": "NODE_OPTIONS=--experimental-vm-modules jest tests/unit/puppeteer-controller.test.js --verbose",
+    "test:puppeteer:e2e": "NODE_OPTIONS=--experimental-vm-modules jest tests/e2e/puppeteer.test.js --verbose --testTimeout=180000",
+    "test:puppeteer:business": "NODE_OPTIONS=--experimental-vm-modules jest tests/e2e/puppeteer-business-logic.test.js --verbose --testTimeout=180000",
+    "test:puppeteer:all": "node scripts/run-puppeteer-tests.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

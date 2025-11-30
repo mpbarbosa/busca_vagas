@@ -6,8 +6,8 @@
  * Start the server with: npm run dev (in a separate terminal)
  * Then run: npm run test:e2e
  */
-const { Builder, By, until } = require('selenium-webdriver');
-const http = require('http');
+import { Builder, By, until } from 'selenium-webdriver';
+import http from 'http';
 
 // Helper function to check if server is running
 async function isServerRunning(url) {
