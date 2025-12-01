@@ -18,6 +18,8 @@
     "test:puppeteer:e2e": "NODE_OPTIONS=--experimental-vm-modules jest tests/e2e/puppeteer.test.js --verbose --testTimeout=180000",
     "test:puppeteer:business": "NODE_OPTIONS=--experimental-vm-modules jest tests/e2e/puppeteer-business-logic.test.js --verbose --testTimeout=180000",
     "test:puppeteer:all": "node scripts/run-puppeteer-tests.js",
+    "test:prod": "NODE_OPTIONS=--experimental-vm-modules jest tests/production-environment-validator.test.js --verbose --testTimeout=180000",
+    "validate:env": "NODE_OPTIONS=--experimental-vm-modules jest tests/production-environment-validator.test.js --verbose --testTimeout=180000",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

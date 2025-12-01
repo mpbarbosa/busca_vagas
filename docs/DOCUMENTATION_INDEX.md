@@ -20,6 +20,15 @@ Welcome to the complete documentation for the Busca Vagas API project!
 | **[PUPPETEER_SUMMARY.md](./PUPPETEER_SUMMARY.md)** | Implementation details | Developers, DevOps |
 | **[PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md)** | Migration from Selenium | DevOps, Developers |
 | **[PUPPETEER_VS_SELENIUM.md](./PUPPETEER_VS_SELENIUM.md)** | Detailed comparison | Decision Makers |
+| **[PUPPETEER_TESTS.md](./PUPPETEER_TESTS.md)** | Test suite documentation | QA, Developers |
+
+### 🧪 Testing & Validation
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| **[PRODUCTION_ENVIRONMENT_VALIDATION.md](./PRODUCTION_ENVIRONMENT_VALIDATION.md)** | Complete validation guide | DevOps, QA |
+| **[VALIDATION_QUICK_REFERENCE.md](./VALIDATION_QUICK_REFERENCE.md)** | Quick validation reference | All |
+| **[TEST_SUITE_IMPLEMENTATION_SUMMARY.md](./TEST_SUITE_IMPLEMENTATION_SUMMARY.md)** | Implementation overview | Developers |
 
 ### 📖 API & Usage
 
@@ -44,6 +53,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 2. Review [ARCHITECTURE_QUICK_REFERENCE.md](./ARCHITECTURE_QUICK_REFERENCE.md) - Quick architecture overview
 3. Read [PUPPETEER_README.md](./PUPPETEER_README.md) - How to use the optimized implementation
 4. Check [API.md](./API.md) - Available endpoints
+5. Validate environment: [VALIDATION_QUICK_REFERENCE.md](./VALIDATION_QUICK_REFERENCE.md) - Quick setup validation
 
 ### For Architects
 
@@ -56,6 +66,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 1. Check [PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md) - Deployment guide
 2. Review [ARCHITECTURE.md](./ARCHITECTURE.md) - Section: "Deployment Architecture"
 3. Study [PUPPETEER_SUMMARY.md](./PUPPETEER_SUMMARY.md) - Performance metrics
+4. Validate production: [PRODUCTION_ENVIRONMENT_VALIDATION.md](./PRODUCTION_ENVIRONMENT_VALIDATION.md) - Complete validation suite
 
 ### For API Consumers
 
@@ -71,7 +82,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 - **Framework:** Express.js 4.18.2
 - **Runtime:** Node.js 18+
 - **Pattern:** Layered architecture (MVC-inspired)
-- **Version:** 1.1.0
+- **Version:** 1.2.0
 
 ### Performance Metrics
 
@@ -114,8 +125,11 @@ Welcome to the complete documentation for the Busca Vagas API project!
 #### Understand project structure
 → Check [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)
 
-#### See code examples
-→ Review [USAGE.md](../USAGE.md)
+#### Validate production environment
+→ Run [PRODUCTION_ENVIRONMENT_VALIDATION.md](./PRODUCTION_ENVIRONMENT_VALIDATION.md)
+
+#### Quick validation reference
+→ Check [VALIDATION_QUICK_REFERENCE.md](./VALIDATION_QUICK_REFERENCE.md)
 
 ## 📖 Documentation by Topic
 
@@ -130,6 +144,12 @@ Welcome to the complete documentation for the Busca Vagas API project!
 - [Implementation Summary](./PUPPETEER_SUMMARY.md)
 - [Migration Guide](./PUPPETEER_MIGRATION.md)
 - [Comparison](./PUPPETEER_VS_SELENIUM.md)
+
+### Testing & Validation
+- [Production Environment Validation](./PRODUCTION_ENVIRONMENT_VALIDATION.md)
+- [Validation Quick Reference](./VALIDATION_QUICK_REFERENCE.md)
+- [Test Suite Implementation](./TEST_SUITE_IMPLEMENTATION_SUMMARY.md)
+- [Puppeteer Tests](./PUPPETEER_TESTS.md)
 
 ### Usage
 - [API Reference](./API.md)
@@ -171,8 +191,8 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 ## 📝 Document Versions
 
-All documents are version 1.0.0 unless otherwise specified.
-Last updated: 2024-11-29
+All documents are version 1.2.0 unless otherwise specified.
+Last updated: 2025-12-01
 
 ## 💬 Need Help?
 

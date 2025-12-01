@@ -50,6 +50,7 @@ class BrowserPool {
       // Always use headless mode for security, performance, and CI/CD compatibility
       this.browser = await puppeteer.launch({
         headless: 'new',
+        executablePath: '/usr/bin/google-chrome-stable',
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
@@ -137,7 +138,7 @@ export async function searchVacanciesByDay(startDate, endDate) {
   console.log('🔍 SEARCHING VACANCIES FOR DATE RANGE (Puppeteer)');
   console.log(`   Check-in: ${checkInDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkInDate.getDay()]})`);
   console.log(`   Check-out: ${checkOutDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkOutDate.getDay()]})`);
-  console.log(`   Headless mode: true (enforced)`);
+  console.log('   Headless mode: true (enforced)');
   console.log(`${'='.repeat(80)}`);
   
   try {

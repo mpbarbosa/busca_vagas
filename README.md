@@ -1,12 +1,13 @@
 # Busca Vagas API
 
-[![Version](https://img.shields.io/badge/version-1.1.0-blue.svg)](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.1.0)
-[![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen.svg)](https://nodejs.org/)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.2.0)
+[![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-ISC-green.svg)](LICENSE)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
 
 API RESTful para gerenciamento de vagas em hotéis de sindicatos.
 
-**Current Version:** v1.1.0 ([Release Notes](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.1.0))
+**Current Version:** v1.2.0 ([Release Notes](RELEASE_NOTES_v1.2.0.md))
 
 ## 📋 Descrição
 
@@ -25,7 +26,8 @@ API desenvolvida para facilitar a busca e o gerenciamento de vagas de emprego em
 
 - Jest (testes unitários e de integração)
 - Supertest (testes de API)
-- Selenium WebDriver (testes E2E)
+- Puppeteer (automação de browser - recomendado)
+- Selenium WebDriver (testes E2E - legado)
 
 ### Qualidade de Código
 
@@ -61,10 +63,12 @@ Para mais detalhes sobre a estrutura, consulte [docs/STRUCTURE.md](docs/STRUCTUR
 
 ### Pré-requisitos
 
-- Node.js (versão 14 ou superior)
+- Node.js (versão 18 ou superior)
 - npm ou yarn
-- Google Chrome (para testes E2E e busca automatizada)
-- ChromeDriver (instalado automaticamente via selenium-webdriver)
+- Google Chrome ou Chromium (para automação de browser)
+  - Ubuntu/Debian: `sudo apt-get install google-chrome-stable`
+  - Fedora/RHEL: `sudo dnf install google-chrome-stable`
+  - macOS: `brew install --cask google-chrome`
 
 ### Instalação Rápida
 
@@ -130,24 +134,59 @@ npm run test:unit
 # Testes de integração
 npm run test:integration
 
-# Testes E2E (requer servidor rodando em outra sessão)
+# Testes E2E
 npm run test:e2e
 
-# Ou use o script
-./scripts/test.sh
+# Testes Puppeteer (recomendado)
+npm run test:puppeteer          # Teste rápido
+npm run test:puppeteer:all      # Suite completa
+npm run test:puppeteer:e2e      # E2E detalhado
+npm run test:puppeteer:business # Lógica de negócio
+
+# Validação de Ambiente de Produção
+npm run test:prod               # Validação completa
+npm run validate:env            # Alias para validação
 ```
 
-**Importante para testes E2E:** 
-- Inicie o servidor antes: `npm run dev` (em um terminal separado)
-- Os testes E2E usam Selenium WebDriver e podem levar mais tempo para executar
-- O servidor deve estar rodando na porta 3005
+### 🏭 Validação de Ambiente de Produção
+
+Novo! Suite de testes abrangente para validar ambiente de produção:
+
+```bash
+npm run test:prod
+```
+
+Este comando executa 20 testes de validação que verificam:
+- ✅ Dependências do sistema (Node.js, npm, packages)
+- ✅ Automação de browser (Puppeteer, Chrome/Chromium)
+- ✅ Servidor API (endpoints, CORS, performance)
+- ✅ Integração Puppeteer (busca, operações E2E)
+- ✅ Segurança (headless mode, flags)
+- ✅ Performance (memória, cleanup)
+
+Veja a [documentação completa](docs/PRODUCTION_ENVIRONMENT_VALIDATION.md) para detalhes.
+
+**Importante:** 
+- Testes Puppeteer usam headless mode por padrão (40-60% mais eficiente)
+- Para E2E, o servidor é iniciado automaticamente
+- Validação de produção leva ~70-90 segundos
 
 ## 📚 Documentação
 
+### Documentação Principal
 - [Documentação da API](docs/API.md) - Endpoints, requisições e respostas
 - [Estrutura do Projeto](docs/STRUCTURE.md) - Organização de diretórios e arquivos
-- [Busca por Dia](docs/SEARCH_BY_DAY.md) - Funcionalidade de busca automatizada com Selenium
 - [Guia Rápido](docs/QUICK_REFERENCE.md) - Referência rápida de comandos
+
+### Automação e Testes
+- [Implementação Puppeteer](PUPPETEER_IMPLEMENTATION.md) - Detalhes da implementação
+- [Testes Puppeteer](PUPPETEER_TEST_SUITE_SUMMARY.md) - Suite de testes
+- [Busca por Dia](README_SEARCH_BY_DAY.md) - Funcionalidade de busca automatizada
+
+### Validação de Ambiente
+- **[Validação de Produção](docs/PRODUCTION_ENVIRONMENT_VALIDATION.md)** - Suite completa de validação
+- [Referência Rápida de Validação](docs/VALIDATION_QUICK_REFERENCE.md) - Comandos e fixes
+- [Resumo de Implementação](docs/TEST_SUITE_IMPLEMENTATION_SUMMARY.md) - Visão geral técnica
 - [Correção ES Modules](docs/FIX_ES_MODULE.md) - Solução para problemas com ES Modules
 - [Versionamento](docs/VERSIONING.md) - Guia de versionamento semântico
 

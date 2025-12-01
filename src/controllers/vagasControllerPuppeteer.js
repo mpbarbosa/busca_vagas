@@ -100,7 +100,7 @@ export const searchByDates = async (req, res) => {
 
     // Always use headless mode for security, performance, and CI/CD compatibility
     console.log(`\n🔍 API Request: Searching vacancies from ${checkin} to ${checkout}`);
-    console.log(`   Headless mode: true (enforced)`);
+    console.log('   Headless mode: true (enforced)');
     console.log('   Using: Puppeteer (optimized)');
 
     const results = await searchVacanciesByDay(checkin, checkout);
