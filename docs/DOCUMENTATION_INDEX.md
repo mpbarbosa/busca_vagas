@@ -45,6 +45,13 @@ Welcome to the complete documentation for the Busca Vagas API project!
 | **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** | Detailed project layout | Developers |
 | **[PUPPETEER_IMPLEMENTATION.md](../PUPPETEER_IMPLEMENTATION.md)** | Implementation summary | All |
 
+### 🛠️ Technical Fixes & Troubleshooting
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| **[NODE_V25_JSON_IMPORT_FIX.md](./NODE_V25_JSON_IMPORT_FIX.md)** | Node.js v25+ JSON import fix | Developers, DevOps |
+| **[FIX_ES_MODULE.md](./FIX_ES_MODULE.md)** | ES Module compatibility fix | Developers |
+
 ## 🎯 Getting Started Guides
 
 ### For New Developers
@@ -130,6 +137,9 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 #### Quick validation reference
 → Check [VALIDATION_QUICK_REFERENCE.md](./VALIDATION_QUICK_REFERENCE.md)
+
+#### Fix Node.js v25+ JSON import errors
+→ Read [NODE_V25_JSON_IMPORT_FIX.md](./NODE_V25_JSON_IMPORT_FIX.md)
 
 ## 📖 Documentation by Topic
 

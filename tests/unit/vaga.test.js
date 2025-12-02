@@ -1,7 +1,7 @@
 /**
  * Testes unitários para o modelo Vaga
  */
-const Vaga = require('../../src/models/Vaga');
+import Vaga from '../../src/models/Vaga.js';
 
 describe('Modelo Vaga', () => {
   test('deve criar uma vaga com dados válidos', () => {
