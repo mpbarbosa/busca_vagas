@@ -338,6 +338,7 @@ GET /api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26
 ```
 
 **Notes:**
+
 - This endpoint performs automated web scraping using Selenium
 - Response time may be longer (20-30 seconds) due to browser automation
 - The search checks availability for the specified date (check-in) and the following day (check-out)
