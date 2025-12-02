@@ -1,23 +1,32 @@
 # Fix Applied: Node.js v25+ JSON Import Compatibility
 
+**Update (2025-12-02):** Reverted to `readFileSync()` approach for Node.js v18 compatibility.
+
 ## Problem
 
-Starting with Node.js v25.2.1, importing JSON files in ES module scope requires an explicit import attribute `with { type: 'json' }`. The previous approach using `readFileSync()` to load `package.json` was working but the newer syntax is preferred and required by newer Node.js versions.
+Node.js v18.x does not support the `with { type: 'json' }` import attribute syntax, which was introduced in Node.js v20.10.0+.
 
-### Error Message
+### Error Messages
+
+**Node.js v25.2.1:**
 ```
 TypeError [ERR_IMPORT_ATTRIBUTE_MISSING]: Module "file:///path/to/package.json" needs an import attribute of "type: json"
 ```
 
+**Node.js v18.19.1:**
+```
+SyntaxError: Unexpected token 'with'
+```
+
 ## Solution
 
-Replaced the `readFileSync()` approach with direct JSON import using the `with { type: 'json' }` import attribute syntax.
+Using `readFileSync()` approach which is compatible with all Node.js versions (14+) and works reliably in production environments.
 
 ## Changes Made
 
 ### 1. src/server.js
 
-**Before:**
+**Current (Node.js v18+ compatible):**
 ```javascript
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -28,14 +37,14 @@ const __dirname = dirname(__filename);
 const packageJson = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf-8'));
 ```
 
-**After:**
+~~**Previous (Node.js v25+ only):**~~
 ```javascript
 import packageJson from '../package.json' with { type: 'json' };
 ```
 
 ### 2. src/routes/index.js
 
-**Before:**
+**Current (Node.js v18+ compatible):**
 ```javascript
 import { readFileSync } from 'fs';
 import { fileURLToPath } from 'url';
@@ -46,31 +55,42 @@ const __dirname = dirname(__filename);
 const packageJson = JSON.parse(readFileSync(join(__dirname, '../../package.json'), 'utf-8'));
 ```
 
-**After:**
+~~**Previous (Node.js v25+ only):**~~
 ```javascript
 import packageJson from '../../package.json' with { type: 'json' };
 ```
 
 ## Benefits
 
-1. **Cleaner Code**: Removed unnecessary imports and helper variables
-2. **Modern Syntax**: Uses the standardized JSON module import syntax
-3. **Node.js v25+ Compatible**: Meets the stricter requirements of newer Node.js versions
-4. **Less Boilerplate**: No need for `__filename`, `__dirname`, and path resolution
+1. **Wide Compatibility**: Works with Node.js 14, 16, 18, 20, 22, and 25+
+2. **Production Ready**: `readFileSync()` is a stable, well-tested approach
+3. **No Syntax Errors**: No parsing errors in any Node.js version
+4. **ESLint Compatible**: No linting errors with this approach
 
 ## Why This Syntax?
 
-The `with { type: 'json' }` import attribute:
-- Explicitly declares the module type to the Node.js loader
-- Is part of the ES Module specification for importing non-JavaScript modules
-- Provides better security and clarity about what's being imported
-- Is required by Node.js v25.2.1 and later versions
+The `readFileSync()` approach:
+- Is the traditional and most compatible way to read JSON files in Node.js
+- Works with all Node.js versions that support ES modules (14+)
+- Doesn't require special import attributes or syntax
+- Is widely used and well-documented
 
-## Alternatives Considered
+## JSON Import Attributes Timeline
 
-- ❌ Keep using `readFileSync()` - Works but not recommended for newer Node.js versions
-- ❌ Use `assert { type: 'json' }` - Deprecated syntax, replaced by `with`
-- ✅ Use `with { type: 'json' }` - Modern, standardized, required by Node.js v25+
+| Syntax | Node.js Version | Status |
+|--------|----------------|---------|
+| `readFileSync()` | All versions | ✅ Recommended (most compatible) |
+| No attribute | < v17.5.0 | ❌ Deprecated |
+| `assert { type: 'json' }` | v17.1.0 - v20.9.0 | ⚠️ Deprecated (replaced by `with`) |
+| `with { type: 'json' }` | v20.10.0+ | ⚠️ Not compatible with v18 LTS |
+
+## Production Deployment Considerations
+
+Most production environments run on **Node.js LTS versions**:
+- **Node.js 18.x LTS** (Active until April 2025)
+- **Node.js 20.x LTS** (Active until April 2026)
+
+Since Node.js 18 is still in LTS and widely deployed, using `readFileSync()` ensures maximum compatibility.
 
 ## Testing
 
@@ -83,21 +103,24 @@ npm start
 
 ## Compatibility
 
-- **Node.js v25.2.1+**: Required (uses `with { type: 'json' }` syntax)
-- **Node.js v22+**: Supported with `with` syntax  
-- **Node.js v17-21**: Supported with `assert` syntax (deprecated)
-- **Node.js <v17**: Not supported, use `readFileSync()` approach
+- ✅ **Node.js 14+**: Fully supported
+- ✅ **Node.js 16.x**: Fully supported
+- ✅ **Node.js 18.x LTS**: Fully supported (current production standard)
+- ✅ **Node.js 20.x LTS**: Fully supported
+- ✅ **Node.js 22+**: Fully supported
+- ✅ **Node.js 25+**: Fully supported
 
-**Note:** ESLint 8.x does not yet fully support the `with` import attribute syntax. The code will show linting errors but runs correctly in Node.js v25+. This is a known ESLint limitation that will be resolved in future ESLint versions.
+**No ESLint issues**: This approach has no linting errors and is ESLint-compatible.
 
 ## Files Modified
 
-1. `src/server.js` - Updated JSON import
-2. `src/routes/index.js` - Updated JSON import
+1. `src/server.js` - Reverted to readFileSync approach
+2. `src/routes/index.js` - Reverted to readFileSync approach
 
 ## Result
 
-✅ No more `ERR_IMPORT_ATTRIBUTE_MISSING` errors
-✅ Cleaner, more maintainable code
-✅ Node.js v25+ compatible
+✅ No syntax errors across all Node.js versions
+✅ Production-ready for Node.js 18 LTS deployments
+✅ ESLint compatible
 ✅ Server starts successfully
+✅ Maintains all existing functionality
