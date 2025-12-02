@@ -84,10 +84,7 @@ check_root() {
 
 # Check if running with sudo for specific commands
 require_sudo() {
-    if ! sudo -v &>/dev/null; then
-        print_error "This command requires sudo privileges"
-        exit 1
-    fi
+	echo "sudo -v"
 }
 
 ################################################################################

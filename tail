@@ -1,0 +1,55 @@
+
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34m  Service Logs[0m
+[0;34m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m
+[0;34mℹ Showing last 50 lines...[0m
+Dec 02 04:11:28 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Main process exited, code=exited, status=1/FAILURE
+Dec 02 04:11:28 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Failed with result 'exit-code'.
+Dec 02 04:11:38 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Scheduled restart job, restart counter is at 3.
+Dec 02 04:11:38 ip-172-31-7-80 systemd[1]: Started busca_vagas_node_app.service - Busca Vagas API.
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]: file:///home/ubuntu/Documents/GitHub/busca_vagas/src/server.js:6
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]: import packageJson from '../package.json' with { type: 'json' };
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]:                                           ^^^^
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]: SyntaxError: Unexpected token 'with'
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]:     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:152:18)
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]:     at ModuleLoader.moduleProvider (node:internal/modules/esm/loader:298:14)
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]:     at async link (node:internal/modules/esm/module_job:67:21)
+Dec 02 04:11:39 ip-172-31-7-80 busca_vagas_api[15122]: Node.js v18.19.1
+Dec 02 04:11:39 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Main process exited, code=exited, status=1/FAILURE
+Dec 02 04:11:39 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Failed with result 'exit-code'.
+Dec 02 04:11:49 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Scheduled restart job, restart counter is at 4.
+Dec 02 04:11:49 ip-172-31-7-80 systemd[1]: Started busca_vagas_node_app.service - Busca Vagas API.
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]: file:///home/ubuntu/Documents/GitHub/busca_vagas/src/server.js:6
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]: import packageJson from '../package.json' with { type: 'json' };
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]:                                           ^^^^
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]: SyntaxError: Unexpected token 'with'
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]:     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:152:18)
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]:     at ModuleLoader.moduleProvider (node:internal/modules/esm/loader:298:14)
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]:     at async link (node:internal/modules/esm/module_job:67:21)
+Dec 02 04:11:49 ip-172-31-7-80 busca_vagas_api[15136]: Node.js v18.19.1
+Dec 02 04:11:49 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Main process exited, code=exited, status=1/FAILURE
+Dec 02 04:11:49 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Failed with result 'exit-code'.
+Dec 02 04:11:59 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Scheduled restart job, restart counter is at 5.
+Dec 02 04:11:59 ip-172-31-7-80 systemd[1]: Started busca_vagas_node_app.service - Busca Vagas API.
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]: file:///home/ubuntu/Documents/GitHub/busca_vagas/src/server.js:6
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]: import packageJson from '../package.json' with { type: 'json' };
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]:                                           ^^^^
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]: SyntaxError: Unexpected token 'with'
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]:     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:152:18)
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]:     at ModuleLoader.moduleProvider (node:internal/modules/esm/loader:298:14)
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]:     at async link (node:internal/modules/esm/module_job:67:21)
+Dec 02 04:11:59 ip-172-31-7-80 busca_vagas_api[15165]: Node.js v18.19.1
+Dec 02 04:11:59 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Main process exited, code=exited, status=1/FAILURE
+Dec 02 04:11:59 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Failed with result 'exit-code'.
+Dec 02 04:12:09 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Scheduled restart job, restart counter is at 6.
+Dec 02 04:12:09 ip-172-31-7-80 systemd[1]: Started busca_vagas_node_app.service - Busca Vagas API.
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]: file:///home/ubuntu/Documents/GitHub/busca_vagas/src/server.js:6
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]: import packageJson from '../package.json' with { type: 'json' };
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]:                                           ^^^^
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]: SyntaxError: Unexpected token 'with'
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]:     at ModuleLoader.moduleStrategy (node:internal/modules/esm/translators:152:18)
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]:     at ModuleLoader.moduleProvider (node:internal/modules/esm/loader:298:14)
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]:     at async link (node:internal/modules/esm/module_job:67:21)
+Dec 02 04:12:09 ip-172-31-7-80 busca_vagas_api[15179]: Node.js v18.19.1
+Dec 02 04:12:09 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Main process exited, code=exited, status=1/FAILURE
+Dec 02 04:12:09 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Failed with result 'exit-code'.
