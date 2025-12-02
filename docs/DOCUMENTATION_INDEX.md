@@ -52,6 +52,12 @@ Welcome to the complete documentation for the Busca Vagas API project!
 | **[NODE_V25_JSON_IMPORT_FIX.md](./NODE_V25_JSON_IMPORT_FIX.md)** | Node.js v25+ JSON import fix | Developers, DevOps |
 | **[FIX_ES_MODULE.md](./FIX_ES_MODULE.md)** | ES Module compatibility fix | Developers |
 
+### 🚀 Deployment & Operations
+
+| Document | Description | Audience |
+|----------|-------------|----------|
+| **[SYSTEMD_SERVICE.md](./SYSTEMD_SERVICE.md)** | Systemd service setup and management | DevOps, SysAdmins |
+
 ## 🎯 Getting Started Guides
 
 ### For New Developers
@@ -140,6 +146,9 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 #### Fix Node.js v25+ JSON import errors
 → Read [NODE_V25_JSON_IMPORT_FIX.md](./NODE_V25_JSON_IMPORT_FIX.md)
+
+#### Set up systemd service
+→ Follow [SYSTEMD_SERVICE.md](./SYSTEMD_SERVICE.md)
 
 ## 📖 Documentation by Topic
 

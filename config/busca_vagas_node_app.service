@@ -1,0 +1,29 @@
+[Unit]
+Description=Busca Vagas API
+Documentation=https://github.com/mpbarbosa/busca_vagas
+After=network.target
+
+[Service]
+Type=simple
+#User=ubuntu
+WorkingDirectory=/home/ubuntu/Documents/GitHub/busca_vagas
+ExecStart=/usr/bin/node /home/ubuntu/Documents/GitHub/busca_vagas/src/server.js
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=busca_vagas_api
+
+# Environment variables
+Environment=NODE_ENV=production
+Environment=PORT=3000
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+
+# Resource limits
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
