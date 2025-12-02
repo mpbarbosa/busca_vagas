@@ -325,7 +325,7 @@ curl http://localhost:3000/api/vagas/hoteis/1
 
 **Endpoint:** `GET /api/vagas/hoteis/scrape`
 
-**Description:** Scrape the current list of hotels from the AFPESP website in real-time.
+**Description:** Scrape the current list of hotels from the AFPESP website in real-time. Returns **all** dropdown options including "Todos" (all hotels).
 
 **Technology:** Puppeteer (headless browser)
 
@@ -338,22 +338,28 @@ curl http://localhost:3000/api/vagas/hoteis/1
 ```json
 {
   "success": true,
-  "count": 24,
+  "count": 25,
   "data": [
     {
       "id": 1,
+      "hotelId": "",
+      "name": "Todos",
+      "type": "All"
+    },
+    {
+      "id": 2,
       "hotelId": "4007",
       "name": "Amparo",
       "type": "Hotel"
     },
     {
-      "id": 2,
+      "id": 3,
       "hotelId": "4003",
       "name": "Appenzell",
       "type": "Hotel"
     },
     {
-      "id": 3,
+      "id": 4,
       "hotelId": "4001",
       "name": "Areado",
       "type": "Hotel"

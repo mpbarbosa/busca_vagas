@@ -80,27 +80,35 @@ Realiza web scraping da página AFPESP para obter a lista atualizada de hotéis 
 
 **Tecnologia:** Puppeteer (headless browser)
 
+**Nota:** Este endpoint retorna **todas** as opções do dropdown, incluindo a opção "Todos" (valor vazio ou -1).
+
 **Response:**
 
 ```json
 {
   "success": true,
-  "count": 24,
+  "count": 25,
   "data": [
     {
       "id": 1,
+      "hotelId": "",
+      "name": "Todos",
+      "type": "All"
+    },
+    {
+      "id": 2,
       "hotelId": "4007",
       "name": "Amparo",
       "type": "Hotel"
     },
     {
-      "id": 2,
+      "id": 3,
       "hotelId": "4003",
       "name": "Appenzell",
       "type": "Hotel"
     },
     {
-      "id": 3,
+      "id": 4,
       "hotelId": "4001",
       "name": "Areado",
       "type": "Hotel"
@@ -110,7 +118,8 @@ Realiza web scraping da página AFPESP para obter a lista atualizada de hotéis 
 }
 ```
 
-**Hotéis disponíveis (24 total):**
+**Hotéis disponíveis (25 total, inclui opção "Todos"):**
+- **Todos** (opção para todos os hotéis)
 - Amparo (4007)
 - Appenzell (4003)
 - Areado (4001)

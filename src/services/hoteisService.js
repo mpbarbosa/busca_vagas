@@ -107,14 +107,12 @@ export const scrapeHotelList = async () => {
       }
 
       const options = Array.from(dropdown.options);
-      return options
-        .filter(option => option.value && option.value !== '' && option.value !== '-1')
-        .map((option, index) => ({
-          id: index + 1,
-          hotelId: option.value,
-          name: option.text.trim(),
-          type: 'Hotel'
-        }));
+      return options.map((option, index) => ({
+        id: index + 1,
+        hotelId: option.value,
+        name: option.text.trim(),
+        type: option.value === '' || option.value === '-1' ? 'All' : 'Hotel'
+      }));
     });
 
     await browser.close();
