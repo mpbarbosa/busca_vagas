@@ -4,6 +4,78 @@ This directory contains utility shell scripts for the Busca Vagas API project.
 
 ## Available Scripts
 
+### 🚀 deploy.sh
+
+**Purpose**: Automates deployment and management of the Busca Vagas API as a systemd service.
+
+**Usage**:
+```bash
+./shell_scripts/deploy.sh [command] [options]
+```
+
+**Commands**:
+- `install` - Install the systemd service
+- `start` - Start the service
+- `stop` - Stop the service
+- `restart` - Restart the service
+- `status` - Check service status
+- `logs` - View service logs
+- `enable` - Enable service to start on boot
+- `disable` - Disable service auto-start
+- `uninstall` - Remove the service completely
+- `validate` - Validate configuration before deployment
+- `test` - Test the application manually (without systemd)
+- `help` - Show help message
+
+**Full Deployment Workflow**:
+```bash
+./shell_scripts/deploy.sh validate   # 1. Validate environment
+./shell_scripts/deploy.sh install    # 2. Install service
+./shell_scripts/deploy.sh start      # 3. Start service
+./shell_scripts/deploy.sh status     # 4. Check status
+./shell_scripts/deploy.sh enable     # 5. Enable auto-start
+```
+
+**Features**:
+- ✅ Automated validation (Node.js, npm, dependencies)
+- ✅ Complete service lifecycle management
+- ✅ Real-time and historical log viewing
+- ✅ Color-coded output for clarity
+- ✅ Safety checks (prevents running as root)
+- ✅ Comprehensive error handling
+
+**Documentation**: See [docs/DEPLOYMENT_SCRIPT.md](../docs/DEPLOYMENT_SCRIPT.md) for complete reference.
+
+**Exit Codes**:
+- `0` - Success
+- `1` - Error (validation failed, command failed, etc.)
+
+**Examples**:
+```bash
+# Full deployment
+./shell_scripts/deploy.sh validate && \
+./shell_scripts/deploy.sh install && \
+./shell_scripts/deploy.sh start && \
+./shell_scripts/deploy.sh enable
+
+# View logs (last 50 lines)
+./shell_scripts/deploy.sh logs
+
+# Follow logs in real-time
+./shell_scripts/deploy.sh logs -f
+
+# View last 100 log lines
+./shell_scripts/deploy.sh logs -n 100
+
+# Test manually before deploying
+./shell_scripts/deploy.sh test
+
+# Update and restart
+git pull origin main
+npm install
+./shell_scripts/deploy.sh restart
+```
+
 ### 🖥️ check_server_status.sh
 
 **Purpose**: Checks the status of nginx and Node.js web servers running on the system.

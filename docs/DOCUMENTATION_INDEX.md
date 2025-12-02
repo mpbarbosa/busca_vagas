@@ -57,6 +57,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 | Document | Description | Audience |
 |----------|-------------|----------|
 | **[SYSTEMD_SERVICE.md](./SYSTEMD_SERVICE.md)** | Systemd service setup and management | DevOps, SysAdmins |
+| **[DEPLOYMENT_SCRIPT.md](./DEPLOYMENT_SCRIPT.md)** | Deployment script usage and reference | DevOps, SysAdmins |
 
 ## 🎯 Getting Started Guides
 
