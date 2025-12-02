@@ -7,7 +7,7 @@
 #              as a systemd service
 #
 # Author: Busca Vagas Team
-# Version: 1.0.0
+# Version: 1.1.0
 # Date: 2025-12-02
 #
 # Usage: ./deploy.sh [command] [options]
@@ -17,6 +17,7 @@
 #   start       - Start the service
 #   stop        - Stop the service
 #   restart     - Restart the service
+#   reload      - Reload systemd daemon and restart service (for new code deployment)
 #   status      - Check service status
 #   logs        - View service logs
 #   enable      - Enable service to start on boot
@@ -295,6 +296,40 @@ restart_service() {
     fi
 }
 
+# Reload systemd daemon and restart service (for new code deployment)
+reload_and_restart() {
+    print_section "Reloading Daemon and Restarting Service"
+    
+    require_sudo
+    
+    if [[ ! -f "${SYSTEMD_DIR}/${SERVICE_NAME}" ]]; then
+        print_error "Service is not installed. Install first with: ./deploy.sh install"
+        exit 1
+    fi
+    
+    print_info "Step 1/2: Reloading systemd daemon..."
+    sudo systemctl daemon-reload
+    print_success "Daemon reloaded"
+    
+    sleep 1
+    
+    print_info "Step 2/2: Restarting ${SERVICE_NAME}..."
+    sudo systemctl restart "${SERVICE_NAME}"
+    
+    sleep 2
+    
+    if sudo systemctl is-active --quiet "${SERVICE_NAME}"; then
+        print_success "Service restarted successfully with new code!"
+        echo ""
+        print_info "Deployment complete. Showing current status:"
+        show_status
+    else
+        print_error "Service failed to restart"
+        print_info "Check logs with: ./deploy.sh logs"
+        exit 1
+    fi
+}
+
 # Show service status
 show_status() {
     print_section "Service Status"
@@ -432,6 +467,7 @@ Commands:
   start       Start the service
   stop        Stop the service  
   restart     Restart the service
+  reload      Reload systemd daemon and restart service (for new code deployment)
   status      Check service status
   logs        View service logs (optional: -f to follow, -n <lines>)
   enable      Enable service to start on boot
@@ -444,6 +480,8 @@ Commands:
 Examples:
   ./deploy.sh install          # Install the service
   ./deploy.sh start            # Start the service
+  ./deploy.sh restart          # Restart running service
+  ./deploy.sh reload           # Deploy new code (daemon-reload + restart)
   ./deploy.sh status           # Check if service is running
   ./deploy.sh logs             # View last 50 log lines
   ./deploy.sh logs -f          # Follow logs in real-time
@@ -458,6 +496,12 @@ Full Deployment Workflow:
   3. ./deploy.sh start         # Start service
   4. ./deploy.sh status        # Check status
   5. ./deploy.sh enable        # Enable auto-start
+
+Code Update Workflow:
+  1. git pull origin main      # Pull latest code
+  2. npm install               # Update dependencies (if needed)
+  3. ./deploy.sh reload        # Reload daemon and restart with new code
+  4. ./deploy.sh logs -n 50    # Check logs for any errors
 
 For more information, see: docs/SYSTEMD_SERVICE.md
 
@@ -488,6 +532,9 @@ main() {
             ;;
         restart)
             restart_service
+            ;;
+        reload)
+            reload_and_restart
             ;;
         status)
             show_status

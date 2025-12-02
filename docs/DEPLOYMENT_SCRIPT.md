@@ -73,6 +73,9 @@ shell_scripts/deploy.sh
 # Restart the service
 ./deploy.sh restart
 
+# Reload daemon and restart (for code updates)
+./deploy.sh reload
+
 # Enable auto-start on boot
 ./deploy.sh enable
 
@@ -120,15 +123,17 @@ git pull origin main
 # Step 2: Install dependencies (if updated)
 npm install
 
-# Step 3: Restart the service
-./shell_scripts/deploy.sh restart
+# Step 3: Reload daemon and restart with new code
+./shell_scripts/deploy.sh reload
 
 # Step 4: Verify it's running
 ./shell_scripts/deploy.sh status
 
 # Step 5: Check logs for errors
-./shell_scripts/deploy.sh logs -n 20
+./shell_scripts/deploy.sh logs -n 50
 ```
+
+**Note**: The `reload` command performs `systemctl daemon-reload` before restarting, ensuring systemd recognizes any configuration changes.
 
 ### Troubleshooting
 
@@ -221,10 +226,40 @@ Restarts the systemd service.
 - sudo privileges
 - Service must be installed
 
+**Use when:**
+- Service just needs a restart (no code changes)
+
 **Example:**
 ```bash
 ./deploy.sh restart
 ```
+
+### reload
+
+Reloads systemd daemon and restarts the service (for code updates).
+
+**What it does:**
+1. Runs `systemctl daemon-reload`
+2. Restarts the service
+3. Waits 2 seconds
+4. Verifies service is running
+5. Shows status
+
+**Requirements:**
+- sudo privileges
+- Service must be installed
+
+**Use when:**
+- Deploying new code
+- Configuration files changed
+- Dependencies updated
+
+**Example:**
+```bash
+./deploy.sh reload
+```
+
+**Note**: This is the recommended command for deploying code updates.
 
 ### status
 

@@ -30,7 +30,7 @@
 # Follow logs in real-time
 ./shell_scripts/deploy.sh logs -f
 
-# Restart after code changes
+# Restart the service
 ./shell_scripts/deploy.sh restart
 
 # Stop the service
@@ -46,12 +46,17 @@ git pull origin main
 # Install new dependencies (if any)
 npm install
 
-# Restart the service
-./shell_scripts/deploy.sh restart
+# Reload daemon and restart with new code
+./shell_scripts/deploy.sh reload
 
 # Verify it's running
 ./shell_scripts/deploy.sh status
+
+# Check logs for any errors
+./shell_scripts/deploy.sh logs -n 50
 ```
+
+**Note**: Use `reload` instead of `restart` when deploying new code. It performs `daemon-reload` before restarting the service.
 
 ## 📚 Full Documentation
 
