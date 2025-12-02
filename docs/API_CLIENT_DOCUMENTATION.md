@@ -2,29 +2,29 @@
 
 ## 📚 Table of Contents
 
-- [Overview](#overview)
-- [Getting Started](#getting-started)
-- [Authentication](#authentication)
-- [Base URL](#base-url)
-- [Response Format](#response-format)
-- [Error Handling](#error-handling)
-- [Rate Limiting](#rate-limiting)
-- [Endpoints](#endpoints)
-  - [Health Check](#health-check)
-  - [Hotels](#hotels)
-  - [Vacancy Search](#vacancy-search)
-  - [Vacancy Management (CRUD)](#vacancy-management-crud)
-- [Code Examples](#code-examples)
-- [Best Practices](#best-practices)
-- [Changelog](#changelog)
+- [1. Overview](#1-overview)
+- [2. Getting Started](#2-getting-started)
+- [3. Authentication](#3-authentication)
+- [4. Base URL](#4-base-url)
+- [5. Response Format](#5-response-format)
+- [6. Error Handling](#6-error-handling)
+- [7. Rate Limiting](#7-rate-limiting)
+- [8. Endpoints](#8-endpoints)
+  - [8.1. Health Check](#81-health-check)
+  - [8.2. Hotels](#82-hotels)
+  - [8.3. Vacancy Search](#83-vacancy-search)
+  - [8.4. Vacancy Management (CRUD)](#84-vacancy-management-crud)
+- [9. Code Examples](#9-code-examples)
+- [10. Best Practices](#10-best-practices)
+- [11. Changelog](#11-changelog)
 
 ---
 
-## Overview
+## 1. Overview
 
 The **Busca Vagas API** is a RESTful API designed for searching and managing hotel vacancies in union hotels (AFPESP). The API provides automated vacancy search capabilities using web scraping technology and standard CRUD operations for vacancy management.
 
-### Key Features
+### 1.1. Key Features
 
 - 🔍 **Automated Vacancy Search** - Search hotel availability by date range using Puppeteer (optimized)
 - 🏨 **Hotel Information** - Get lists of available hotels with details
@@ -33,7 +33,7 @@ The **Busca Vagas API** is a RESTful API designed for searching and managing hot
 - 📊 **JSON Responses** - All responses in JSON format
 - ⚡ **High Performance** - Optimized with Puppeteer (40-60% resource savings vs Selenium)
 
-### Version Information
+### 1.2. Version Information
 
 - **Current Version:** 1.2.0
 - **API Type:** REST
@@ -42,9 +42,9 @@ The **Busca Vagas API** is a RESTful API designed for searching and managing hot
 
 ---
 
-## Getting Started
+## 2. Getting Started
 
-### Prerequisites
+### 2.1. Prerequisites
 
 To use this API, you need:
 
@@ -52,7 +52,7 @@ To use this API, you need:
 - An HTTP client (curl, Postman, axios, fetch, etc.)
 - Network access to the API server
 
-### Quick Start
+### 2.2. Quick Start
 
 ```bash
 # Check if API is running
@@ -67,7 +67,7 @@ curl http://localhost:3000/api/vagas/hoteis
 
 ---
 
-## Authentication
+## 3. Authentication
 
 **Current Status:** No authentication required
 
@@ -78,14 +78,14 @@ The API is currently open and does not require authentication. Future versions m
 
 ---
 
-## Base URL
+## 4. Base URL
 
-### Development
+### 4.1. Development
 ```
 http://localhost:3000
 ```
 
-### Production
+### 4.2. Production
 ```
 https://www.mpbarbosa.com
 ```
@@ -97,9 +97,9 @@ http://localhost:3000/api
 
 ---
 
-## Response Format
+## 5. Response Format
 
-### Success Response
+### 5.1. Success Response
 
 All successful responses follow this structure:
 
@@ -111,7 +111,7 @@ All successful responses follow this structure:
 }
 ```
 
-### Error Response
+### 5.2. Error Response
 
 Error responses include:
 
@@ -122,7 +122,7 @@ Error responses include:
 }
 ```
 
-### Common HTTP Status Codes
+### 5.3. Common HTTP Status Codes
 
 | Code | Meaning | Description |
 |------|---------|-------------|
@@ -134,9 +134,9 @@ Error responses include:
 
 ---
 
-## Error Handling
+## 6. Error Handling
 
-### Error Response Structure
+### 6.1. Error Response Structure
 
 ```json
 {
@@ -146,9 +146,9 @@ Error responses include:
 }
 ```
 
-### Common Errors
+### 6.2. Common Errors
 
-#### 400 - Bad Request
+#### 6.2.1. 400 - Bad Request
 ```json
 {
   "error": "Both checkin and checkout parameters are required",
@@ -156,7 +156,7 @@ Error responses include:
 }
 ```
 
-#### 404 - Not Found
+#### 6.2.2. 404 - Not Found
 ```json
 {
   "success": false,
@@ -164,7 +164,7 @@ Error responses include:
 }
 ```
 
-#### 500 - Internal Server Error
+#### 6.2.3. 500 - Internal Server Error
 ```json
 {
   "success": false,
@@ -175,7 +175,7 @@ Error responses include:
 
 ---
 
-## Rate Limiting
+## 7. Rate Limiting
 
 **Current Status:** No rate limiting implemented
 
@@ -187,11 +187,11 @@ Error responses include:
 
 ---
 
-## Endpoints
+## 8. Endpoints
 
-### Health Check
+### 8.1. Health Check
 
-#### Check API Status
+#### 8.1.1. Check API Status
 
 **Endpoint:** `GET /api/health`
 
@@ -220,9 +220,9 @@ curl http://localhost:3000/api/health
 
 ---
 
-### Hotels
+### 8.2. Hotels
 
-#### List All Hotels (Static)
+#### 8.2.1. List All Hotels (Static)
 
 **Endpoint:** `GET /api/vagas/hoteis`
 
@@ -277,7 +277,7 @@ curl http://localhost:3000/api/vagas/hoteis
 
 ---
 
-#### Get Hotel by ID
+#### 8.2.2. Get Hotel by ID
 
 **Endpoint:** `GET /api/vagas/hoteis/:id`
 
@@ -321,7 +321,7 @@ curl http://localhost:3000/api/vagas/hoteis/1
 
 ---
 
-#### Scrape Hotel List from AFPESP
+#### 8.2.3. Scrape Hotel List from AFPESP
 
 **Endpoint:** `GET /api/vagas/hoteis/scrape`
 
@@ -408,9 +408,9 @@ curl http://localhost:3000/api/vagas/hoteis/scrape
 
 ---
 
-### Vacancy Search
+### 8.3. Vacancy Search
 
-#### Search Vacancies by Date Range (Recommended)
+#### 8.3.1. Search Vacancies by Date Range (Recommended)
 
 **Endpoint:** `GET /api/vagas/search`
 
@@ -525,7 +525,7 @@ curl "http://localhost:3000/api/vagas/search?checkin=2024-12-31&checkout=2025-01
 
 ---
 
-#### Search Weekend Vacancies
+#### 8.3.2. Search Weekend Vacancies
 
 **Endpoint:** `GET /api/vagas/search/weekends`
 
@@ -576,7 +576,7 @@ curl http://localhost:3000/api/vagas/search/weekends
 
 ---
 
-#### Search Vacancies (Legacy Selenium)
+#### 8.3.3. Search Vacancies (Legacy Selenium)
 
 **Endpoint:** `GET /api/vagas/search/selenium`
 
@@ -609,9 +609,9 @@ curl "http://localhost:3000/api/vagas/search/selenium?checkin=2024-12-25&checkou
 
 ---
 
-### Vacancy Management (CRUD)
+### 8.4. Vacancy Management (CRUD)
 
-#### List All Vacancies
+#### 8.4.1. List All Vacancies
 
 **Endpoint:** `GET /api/vagas`
 
@@ -637,7 +637,7 @@ curl http://localhost:3000/api/vagas
 
 ---
 
-#### Get Vacancy by ID
+#### 8.4.2. Get Vacancy by ID
 
 **Endpoint:** `GET /api/vagas/:id`
 
@@ -668,7 +668,7 @@ curl http://localhost:3000/api/vagas/123
 
 ---
 
-#### Create New Vacancy
+#### 8.4.3. Create New Vacancy
 
 **Endpoint:** `POST /api/vagas`
 
@@ -719,7 +719,7 @@ curl -X POST http://localhost:3000/api/vagas \
 
 ---
 
-#### Update Vacancy
+#### 8.4.4. Update Vacancy
 
 **Endpoint:** `PUT /api/vagas/:id`
 
@@ -769,7 +769,7 @@ curl -X PUT http://localhost:3000/api/vagas/123 \
 
 ---
 
-#### Delete Vacancy
+#### 8.4.5. Delete Vacancy
 
 **Endpoint:** `DELETE /api/vagas/:id`
 
@@ -799,9 +799,9 @@ curl -X DELETE http://localhost:3000/api/vagas/123
 
 ---
 
-## Code Examples
+## 9. Code Examples
 
-### JavaScript (Fetch API)
+### 9.1. JavaScript (Fetch API)
 
 ```javascript
 // Health check
@@ -845,7 +845,7 @@ getHotels();
 
 ---
 
-### JavaScript (Axios)
+### 9.2. JavaScript (Axios)
 
 ```javascript
 const axios = require('axios');
@@ -903,7 +903,7 @@ getHotel(1);
 
 ---
 
-### Python (Requests)
+### 9.3. Python (Requests)
 
 ```python
 import requests
@@ -986,7 +986,7 @@ if __name__ == '__main__':
 
 ---
 
-### cURL Examples
+### 9.4. cURL Examples
 
 ```bash
 #!/bin/bash
@@ -1036,7 +1036,7 @@ curl -s -X DELETE http://localhost:3000/api/vagas/123 | jq
 
 ---
 
-### TypeScript
+### 9.5. TypeScript
 
 ```typescript
 interface Hotel {
@@ -1148,9 +1148,9 @@ main();
 
 ---
 
-## Best Practices
+## 10. Best Practices
 
-### 1. Error Handling
+### 10.1. Error Handling
 
 Always implement proper error handling:
 
@@ -1176,7 +1176,7 @@ async function searchWithErrorHandling(checkin, checkout) {
 }
 ```
 
-### 2. Timeout Handling
+### 10.2. Timeout Handling
 
 Set appropriate timeouts for long-running operations:
 
@@ -1202,7 +1202,7 @@ async function searchWithTimeout(checkin, checkout, timeoutMs = 120000) {
 }
 ```
 
-### 3. Rate Limiting
+### 10.3. Rate Limiting
 
 Implement client-side rate limiting:
 
@@ -1233,7 +1233,7 @@ class RateLimitedClient {
 }
 ```
 
-### 4. Retry Logic
+### 10.4. Retry Logic
 
 Implement exponential backoff for failed requests:
 
@@ -1262,7 +1262,7 @@ async function fetchWithRetry(url, maxRetries = 3) {
 }
 ```
 
-### 5. Data Validation
+### 10.5. Data Validation
 
 Validate data before sending requests:
 
@@ -1289,7 +1289,7 @@ async function searchVacancies(checkin, checkout) {
 }
 ```
 
-### 6. Caching
+### 10.6. Caching
 
 Implement caching for frequently accessed data:
 
@@ -1321,7 +1321,7 @@ class CachedAPIClient {
 }
 ```
 
-### 7. Progress Tracking
+### 10.7. Progress Tracking
 
 For long-running operations, implement progress tracking:
 
@@ -1350,9 +1350,9 @@ searchWithProgress('2024-12-25', '2024-12-26', (progress) => {
 
 ---
 
-## Changelog
+## 11. Changelog
 
-### Version 1.2.0 (Current)
+### 11.1. Version 1.2.0 (Current)
 
 **Released:** December 2024
 
@@ -1370,14 +1370,14 @@ searchWithProgress('2024-12-25', '2024-12-26', (progress) => {
 **Deprecated:**
 - ⚠️ Selenium-based search endpoints (use Puppeteer endpoints instead)
 
-### Version 1.1.0
+### 11.2. Version 1.1.0
 
 **Features:**
 - Added Selenium-based vacancy search
 - Added basic CRUD endpoints
 - Added health check endpoint
 
-### Version 1.0.0
+### 11.3. Version 1.0.0
 
 **Initial Release:**
 - Basic API structure

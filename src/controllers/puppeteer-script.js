@@ -6,16 +6,16 @@ import puppeteer from 'puppeteer';
  * This script provides lightweight automated searching for hotel vacancies using Puppeteer.
  * Significantly reduces resource consumption compared to Selenium (40-60% savings).
  * 
- * Main Features:
- * - Browser instance pooling for reuse
- * - Optimized headless mode with minimal flags
- * - Reduced memory footprint
- * - Faster execution times
+ * 1. Main Features:
+ *    1.1. Browser instance pooling for reuse
+ *    1.2. Optimized headless mode with minimal flags
+ *    1.3. Reduced memory footprint
+ *    1.4. Faster execution times
  * 
- * Main Functions:
- * 1. searchVacanciesByDay(startDate, endDate, headless) - Search all hotels for a date range
- * 2. searchWeekendVacancies() - Search all upcoming weekends
- * 3. openVagasPage(checkinDate, checkoutDate, weekendNumber, totalWeekends, headless) - Core search function
+ * 2. Main Functions:
+ *    2.1. searchVacanciesByDay(startDate, endDate, headless) - Search all hotels for a date range
+ *    2.2. searchWeekendVacancies() - Search all upcoming weekends
+ *    2.3. openVagasPage(checkinDate, checkoutDate, weekendNumber, totalWeekends, headless) - Core search function
  */
 
 // Browser instance pool
