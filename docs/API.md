@@ -1,5 +1,8 @@
 # API Documentation
 
+**Version:** 1.3.0  
+**Last Updated:** December 2, 2025
+
 ## Base URL
 
 ```plaintext
@@ -119,6 +122,7 @@ Realiza web scraping da página AFPESP para obter a lista atualizada de hotéis 
 ```
 
 **Hotéis disponíveis (25 total, inclui opção "Todos"):**
+
 - **Todos** (opção para todos os hotéis)
 - Amparo (4007)
 - Appenzell (4003)
@@ -154,6 +158,7 @@ Realiza web scraping da página AFPESP para obter a lista atualizada de hotéis 
 Retorna informações de um hotel específico pelo ID.
 
 **Parameters:**
+
 - `id` (path): ID do hotel
 
 **Response:**
@@ -286,19 +291,20 @@ Retorna informações de um hotel específico pelo ID.
 
 **GET** `/vagas/search/bydates`
 
-Realiza uma busca automatizada de vagas disponíveis em hotéis para uma data específica usando Selenium WebDriver.
+Realiza uma busca automatizada de vagas disponíveis em hotéis para uma data específica usando Puppeteer (recomendado) ou Selenium WebDriver (legado).
 
 **Query Parameters:**
 
 - `checkin` (required): Data inicial para busca no formato YYYY-MM-DD (ex: 2025-12-25)
 - `checkout` (required): Data final para busca no formato YYYY-MM-DD (ex: 2025-12-26)
-- `headless` (optional): Define se o navegador será executado em modo headless. Valores: `true` (padrão) ou `false`
+- `hotel` (optional): Nome do hotel ou "Todas" para todos os hotéis (padrão: "Todas")
 
 **Example Request:**
 
 ```plaintext
+GET /api/vagas/search?checkin=2025-12-25&checkout=2025-12-26
+GET /api/vagas/search?checkin=2025-12-25&checkout=2025-12-26&hotel=Appenzell
 GET /api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26
-GET /api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26&headless=false
 ```
 
 **Response:**

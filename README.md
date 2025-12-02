@@ -1,13 +1,13 @@
 # Busca Vagas API
 
-[![Version](https://img.shields.io/badge/version-1.2.0-blue.svg)](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.2.0)
+[![Version](https://img.shields.io/badge/version-1.3.0-blue.svg)](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.3.0)
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-ISC-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
 
 API RESTful para gerenciamento de vagas em hotéis de sindicatos.
 
-**Current Version:** v1.2.0 ([Release Notes](RELEASE_NOTES_v1.2.0.md))
+**Current Version:** v1.3.0 ([Release Notes](RELEASE_NOTES_v1.3.0.md))
 
 ## 📋 Descrição
 
@@ -121,7 +121,7 @@ A API estará disponível em `http://localhost:3005`
 - `POST /api/vagas` - Criar vaga
 - `PUT /api/vagas/:id` - Atualizar vaga
 - `DELETE /api/vagas/:id` - Remover vaga
-- `GET /api/vagas/search?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD` - Busca automatizada de vagas (Puppeteer)
+- `GET /api/vagas/search?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD&hotel=STRING` - Busca automatizada de vagas (Puppeteer)
 - `GET /api/vagas/search/weekends` - Busca vagas para finais de semana (Puppeteer)
 
 Para documentação completa dos endpoints, veja [docs/API.md](docs/API.md)

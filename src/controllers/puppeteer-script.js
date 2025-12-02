@@ -92,11 +92,12 @@ const browserPool = new BrowserPool();
  * Search for vacancies in all hotels for a date range
  * @param {Date|string} startDate - The check-in date (can be Date object or string)
  * @param {Date|string} endDate - The check-out date (can be Date object or string)
+ * @param {string} hotel - Hotel name or "Todas" for all hotels (default: "Todas")
  * @returns {Promise<Object>} Search results with availability information
  * 
  * Note: Always runs in headless mode for optimal performance and CI/CD compatibility
  */
-export async function searchVacanciesByDay(startDate, endDate) {
+export async function searchVacanciesByDay(startDate, endDate, hotel = 'Todas') {
   let checkInDate;
   let checkOutDate;
   
@@ -138,11 +139,12 @@ export async function searchVacanciesByDay(startDate, endDate) {
   console.log('🔍 SEARCHING VACANCIES FOR DATE RANGE (Puppeteer)');
   console.log(`   Check-in: ${checkInDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkInDate.getDay()]})`);
   console.log(`   Check-out: ${checkOutDate.toLocaleDateString()} (${['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][checkOutDate.getDay()]})`);
+  console.log(`   Hotel: ${hotel}`);
   console.log('   Headless mode: true (enforced)');
   console.log(`${'='.repeat(80)}`);
   
   try {
-    const result = await openVagasPage(checkInDate, checkOutDate, 1, 1);
+    const result = await openVagasPage(checkInDate, checkOutDate, 1, 1, hotel);
     
     if (result && result.hasAvailability) {
       console.log(`\n✅ VACANCIES FOUND for ${checkInDate.toLocaleDateString()}`);
@@ -343,7 +345,7 @@ export async function searchWeekendVacancies() {
   await browserPool.closeBrowser();
 }
 
-async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber = null, totalWeekends = null) { // eslint-disable-line no-unused-vars
+async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber = null, totalWeekends = null, hotel = 'Todas') { // eslint-disable-line no-unused-vars
   // Always use headless mode
   const browser = await browserPool.getBrowser();
   const page = await browser.newPage();
@@ -363,11 +365,43 @@ async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber
     const title = await page.title();
     console.log('Page title:', title);
         
-    console.log('\n--- Setting Focus on ddlHoteis ---');
+    console.log('\n--- Setting Hotel Selection ---');
     
     await page.waitForSelector('#ddlHoteis', { timeout: 10000 });
-    await page.select('#ddlHoteis', '-1');
-    console.log('✅ Successfully selected "Todas" option');
+    
+    // Get all available options
+    const hotelOptions = await page.evaluate(() => {
+      const select = document.getElementById('ddlHoteis'); // eslint-disable-line no-undef
+      const options = [];
+      for (let i = 0; i < select.options.length; i++) {
+        options.push({
+          value: select.options[i].value,
+          text: select.options[i].text.trim()
+        });
+      }
+      return options;
+    });
+    
+    // Find the hotel option
+    let selectedValue = '-1'; // Default to "Todas"
+    if (hotel && hotel !== 'Todas') {
+      const matchingOption = hotelOptions.find(opt => 
+        opt.text.toLowerCase().includes(hotel.toLowerCase()) || 
+        hotel.toLowerCase().includes(opt.text.toLowerCase())
+      );
+      if (matchingOption) {
+        selectedValue = matchingOption.value;
+        console.log(`✅ Found hotel: ${matchingOption.text} (value: ${selectedValue})`);
+      } else {
+        console.log(`⚠️ Hotel "${hotel}" not found. Using "Todas" instead.`);
+        console.log('Available hotels:', hotelOptions.map(opt => opt.text).join(', '));
+      }
+    } else {
+      console.log('✅ Using "Todas" (all hotels)');
+    }
+    
+    await page.select('#ddlHoteis', selectedValue);
+    console.log(`✅ Successfully selected hotel option (value: ${selectedValue})`);
         
     await new Promise(resolve => setTimeout(resolve, 2000));
         

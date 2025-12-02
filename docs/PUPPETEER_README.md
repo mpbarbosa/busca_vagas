@@ -77,12 +77,21 @@ curl "http://localhost:3000/api/vagas/search/selenium?checkin=2024-12-25&checkou
 
 #### Search by Date Range
 ```
-GET /api/vagas/search?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD&headless=true
+GET /api/vagas/search?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD&hotel=STRING
 ```
+
+**Parameters:**
+- `checkin` (required): Check-in date in YYYY-MM-DD format
+- `checkout` (required): Check-out date in YYYY-MM-DD format
+- `hotel` (optional): Hotel name or "Todas" for all hotels (default: "Todas")
 
 **Example:**
 ```bash
+# Search all hotels
 curl "http://localhost:3000/api/vagas/search?checkin=2024-12-25&checkout=2024-12-26"
+
+# Search specific hotel
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Appenzell"
 ```
 
 **Response:**

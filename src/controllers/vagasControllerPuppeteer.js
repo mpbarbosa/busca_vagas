@@ -82,34 +82,37 @@ export const removerVaga = async (req, res) => {
  * Query parameters:
  * - checkin (required): Check-in date in YYYY-MM-DD format
  * - checkout (required): Check-out date in YYYY-MM-DD format
+ * - hotel (optional): Hotel name or "Todas" for all hotels (default: "Todas")
  * 
  * Note: Always runs in headless mode for optimal performance and CI/CD compatibility
  * 
- * Example: GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26
+ * Example: GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Todas
  */
 export const searchByDates = async (req, res) => {
   try {
-    const { checkin, checkout } = req.query;
+    const { checkin, checkout, hotel = 'Todas' } = req.query;
     
     if (!checkin || !checkout) {
       return res.status(400).json({ 
         error: 'Both checkin and checkout parameters are required',
-        example: '/api/vagas/search?checkin=2024-12-25&checkout=2024-12-26'
+        example: '/api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Todas'
       });
     }
 
     // Always use headless mode for security, performance, and CI/CD compatibility
     console.log(`\n🔍 API Request: Searching vacancies from ${checkin} to ${checkout}`);
+    console.log(`   Hotel filter: ${hotel}`);
     console.log('   Headless mode: true (enforced)');
     console.log('   Using: Puppeteer (optimized)');
 
-    const results = await searchVacanciesByDay(checkin, checkout);
+    const results = await searchVacanciesByDay(checkin, checkout, hotel);
     
     res.json({
       success: true,
       method: 'puppeteer',
       headlessMode: true,
       resourceSavings: '40-60% compared to Selenium',
+      hotelFilter: hotel,
       data: results
     });
   } catch (error) {

@@ -1,5 +1,9 @@
 # Busca Vagas API - Client Documentation
 
+**Version:** 1.3.0  
+**Last Updated:** 2025-12-02  
+**Status:** Current
+
 ## 📚 Table of Contents
 
 - [1. Overview](#1-overview)
@@ -35,10 +39,19 @@ The **Busca Vagas API** is a RESTful API designed for searching and managing hot
 
 ### 1.2. Version Information
 
-- **Current Version:** 1.2.0
+- **Current Version:** 1.3.0
 - **API Type:** REST
 - **Data Format:** JSON
 - **Protocol:** HTTP/HTTPS
+- **Semantic Versioning:** Yes (MAJOR.MINOR.PATCH)
+
+#### Version History
+
+- **1.3.0** (2025-12-02) - Added `hotel` parameter to `/api/vagas/search` endpoint
+- **1.2.1** (2024) - Puppeteer implementation refinements
+- **1.2.0** (2024) - Puppeteer integration for improved performance
+- **1.1.0** (2024) - Initial Selenium-based implementation
+- **1.0.0** (2024) - Initial release
 
 ---
 
@@ -180,6 +193,7 @@ Error responses include:
 **Current Status:** No rate limiting implemented
 
 **Recommendations:**
+
 - Be respectful with request frequency
 - The vacancy search endpoints perform web scraping and may take 20-60 seconds
 - Weekend search may take up to 10 minutes
@@ -422,10 +436,11 @@ curl http://localhost:3000/api/vagas/hoteis/scrape
 
 **Parameters:**
 
-| Name | Type | Location | Required | Format | Description |
-|------|------|----------|----------|--------|-------------|
-| checkin | string | query | Yes | YYYY-MM-DD | Check-in date |
-| checkout | string | query | Yes | YYYY-MM-DD | Check-out date (must be after checkin) |
+| Name     | Type   | Location | Required | Format     | Description                            |
+|----------|--------|----------|----------|------------|----------------------------------------|
+| checkin  | string | query    | Yes      | YYYY-MM-DD | Check-in date                          |
+| checkout | string | query    | Yes      | YYYY-MM-DD | Check-out date (must be after checkin) |
+| hotel    | string | query    | No       | string     | Hotel name or "Todas" for all hotels (default: "Todas") |
 
 **Response Time:** 20-60 seconds (depending on hotel availability)
 
@@ -509,17 +524,22 @@ curl http://localhost:3000/api/vagas/hoteis/scrape
 **Examples:**
 
 ```bash
-# Basic search
+# Basic search (all hotels)
 curl "http://localhost:3000/api/vagas/search?checkin=2024-12-25&checkout=2024-12-26"
 
-# Search for New Year's weekend
-curl "http://localhost:3000/api/vagas/search?checkin=2024-12-31&checkout=2025-01-02"
+# Search for specific hotel
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Appenzell"
+
+# Search for New Year's weekend (all hotels)
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-31&checkout=2025-01-02&hotel=Todas"
 ```
 
 **Important Notes:**
+
 - Always runs in headless mode for optimal performance
 - The checkout date must be after the checkin date
-- Searches all available hotels in the AFPESP system
+- By default searches all available hotels in the AFPESP system
+- Use the `hotel` parameter to filter by specific hotel name
 - Response may take 20-60 seconds due to web scraping automation
 - Date format must be YYYY-MM-DD (ISO 8601)
 
@@ -1352,7 +1372,48 @@ searchWithProgress('2024-12-25', '2024-12-26', (progress) => {
 
 ## 11. Changelog
 
-### 11.1. Version 1.2.0 (Current)
+### 11.1. Version 1.3.0
+
+**Released:** December 2, 2025
+
+**New Features:**
+- ✨ Added `hotel` parameter to `/api/vagas/search` endpoint
+  - Allows filtering by specific hotel name
+  - Defaults to "Todas" (all hotels) for backward compatibility
+  - Smart matching with case-insensitive partial name matching
+  - Graceful fallback if hotel not found
+
+**Improvements:**
+- 📝 Enhanced API response with `hotelFilter` field
+- 🔍 Improved hotel selection logging and debugging
+- 📖 Updated documentation with hotel parameter examples
+
+**Breaking Changes:**
+- None (fully backward compatible)
+
+**Migration Guide:**
+```bash
+# Old (still works)
+GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26
+
+# New (with hotel filter)
+GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Appenzell
+```
+
+---
+
+### 11.2. Version 1.2.1
+
+**Released:** 2024
+
+**Improvements:**
+- Puppeteer implementation refinements
+- Performance optimizations
+- Bug fixes and stability improvements
+
+---
+
+### 11.3. Version 1.2.0
 
 **Released:** December 2024
 
@@ -1370,14 +1431,18 @@ searchWithProgress('2024-12-25', '2024-12-26', (progress) => {
 **Deprecated:**
 - ⚠️ Selenium-based search endpoints (use Puppeteer endpoints instead)
 
-### 11.2. Version 1.1.0
+---
+
+### 11.4. Version 1.1.0
 
 **Features:**
 - Added Selenium-based vacancy search
 - Added basic CRUD endpoints
 - Added health check endpoint
 
-### 11.3. Version 1.0.0
+---
+
+### 11.5. Version 1.0.0
 
 **Initial Release:**
 - Basic API structure
