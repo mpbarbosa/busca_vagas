@@ -34,6 +34,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 | Document | Description | Audience |
 |----------|-------------|----------|
+| **[API_CLIENT_DOCUMENTATION.md](./API_CLIENT_DOCUMENTATION.md)** | **Comprehensive API client guide** | **API Consumers, Developers** |
 | **[API.md](./API.md)** | API reference documentation | API Consumers |
 | **[USAGE.md](../USAGE.md)** | Usage examples | All |
 | **[README.md](../README.md)** | Project overview | All |
@@ -84,9 +85,10 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 ### For API Consumers
 
-1. Start with [API.md](./API.md) - API documentation
-2. Check [USAGE.md](../USAGE.md) - Usage examples
-3. Review [PUPPETEER_README.md](./PUPPETEER_README.md) - API endpoints
+1. **Start with [API_CLIENT_DOCUMENTATION.md](./API_CLIENT_DOCUMENTATION.md) - Complete client guide**
+2. Check [API.md](./API.md) - API reference
+3. Review [USAGE.md](../USAGE.md) - Usage examples
+4. Study [PUPPETEER_README.md](./PUPPETEER_README.md) - Technical details
 
 ## 📊 Key Information
 
@@ -128,7 +130,8 @@ Welcome to the complete documentation for the Busca Vagas API project!
 → Follow [PUPPETEER_README.md](./PUPPETEER_README.md)
 
 #### Use the API
-→ Review [API.md](./API.md)
+→ Review **[API_CLIENT_DOCUMENTATION.md](./API_CLIENT_DOCUMENTATION.md)** (comprehensive guide)  
+→ Or check [API.md](./API.md) (quick reference)
 
 #### Deploy to production
 → Study [PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md)
@@ -172,7 +175,8 @@ Welcome to the complete documentation for the Busca Vagas API project!
 - [Puppeteer Tests](./PUPPETEER_TESTS.md)
 
 ### Usage
-- [API Reference](./API.md)
+- **[API Client Documentation](./API_CLIENT_DOCUMENTATION.md)** (comprehensive guide)
+- [API Reference](./API.md) (quick reference)
 - [Usage Examples](../USAGE.md)
 - [README](../README.md)
 
@@ -188,8 +192,8 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 ### Beginner Level
 1. Read [README.md](../README.md)
-2. Try examples in [USAGE.md](../USAGE.md)
-3. Check [API.md](./API.md)
+2. Study **[API_CLIENT_DOCUMENTATION.md](./API_CLIENT_DOCUMENTATION.md)** - Complete API guide
+3. Try examples in [USAGE.md](../USAGE.md)
 
 ### Intermediate Level
 1. Review [ARCHITECTURE_QUICK_REFERENCE.md](./ARCHITECTURE_QUICK_REFERENCE.md)
