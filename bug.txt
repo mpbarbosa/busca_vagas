@@ -1,19 +1,12 @@
-node:internal/modules/esm/assert:88
-        throw new ERR_IMPORT_ATTRIBUTE_MISSING(url, 'type', validType);
-              ^
+× busca_vagas_node_app.service - Busca Vagas API
+     Loaded: loaded (/etc/systemd/system/busca_vagas_node_app.service; enabled; preset: enabled)
+     Active: failed (Result: exit-code) since Tue 2025-12-02 03:44:52 UTC; 3min 16s ago
+   Duration: 2ms
+    Process: 14038 ExecStart=/usr/bin/node /home/ubuntu/Documents/GitHub/busca_vagas/package.json (code=exited, status=200/CHDIR)
+   Main PID: 14038 (code=exited, status=200/CHDIR)
+        CPU: 1ms
 
-TypeError [ERR_IMPORT_ATTRIBUTE_MISSING]: Module "file:///home/ubuntu/Documents/GitHub/busca_vagas/package.json" needs an import attribute of "type: json"
-    at validateAttributes (node:internal/modules/esm/assert:88:15)
-    at defaultLoadSync (node:internal/modules/esm/load:164:3)
-    at #loadAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:789:12)
-    at #loadSync (node:internal/modules/esm/loader:809:49)
-    at ModuleLoader.load (node:internal/modules/esm/loader:774:26)
-    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:520:31)
-    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:565:36)
-    at afterResolve (node:internal/modules/esm/loader:618:52)
-    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:624:12)
-    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:643:32) {
-  code: 'ERR_IMPORT_ATTRIBUTE_MISSING'
-}
-
-Node.js v25.2.1
+Dec 02 03:44:52 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Scheduled restart job, restart counter is at 5.
+Dec 02 03:44:52 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Start request repeated too quickly.
+Dec 02 03:44:52 ip-172-31-7-80 systemd[1]: busca_vagas_node_app.service: Failed with result 'exit-code'.
+Dec 02 03:44:52 ip-172-31-7-80 systemd[1]: Failed to start busca_vagas_node_app.service - Busca Vagas API.
