@@ -1,0 +1,19 @@
+node:internal/modules/esm/assert:88
+        throw new ERR_IMPORT_ATTRIBUTE_MISSING(url, 'type', validType);
+              ^
+
+TypeError [ERR_IMPORT_ATTRIBUTE_MISSING]: Module "file:///home/ubuntu/Documents/GitHub/busca_vagas/package.json" needs an import attribute of "type: json"
+    at validateAttributes (node:internal/modules/esm/assert:88:15)
+    at defaultLoadSync (node:internal/modules/esm/load:164:3)
+    at #loadAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:789:12)
+    at #loadSync (node:internal/modules/esm/loader:809:49)
+    at ModuleLoader.load (node:internal/modules/esm/loader:774:26)
+    at ModuleLoader.loadAndTranslate (node:internal/modules/esm/loader:520:31)
+    at #getOrCreateModuleJobAfterResolve (node:internal/modules/esm/loader:565:36)
+    at afterResolve (node:internal/modules/esm/loader:618:52)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:624:12)
+    at onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:643:32) {
+  code: 'ERR_IMPORT_ATTRIBUTE_MISSING'
+}
+
+Node.js v25.2.1
