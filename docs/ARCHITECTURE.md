@@ -361,7 +361,7 @@ export default router;
 
 **Purpose:** Handle HTTP requests, validate input, call services
 
-**Two Implementations:**
+**Implementations:**
 
 1. **Selenium Controller (Legacy):**
    - File: `vagasController.js`
@@ -375,6 +375,12 @@ export default router;
    - Status: Recommended (default)
    - Resource usage: Low (180 MB memory)
 
+3. **Hotels Controller:**
+   - File: `hoteisController.js`
+   - Uses: `hoteisService.js`
+   - Status: Active
+   - Features: Static hotel list, web scraping, hotel search
+
 #### 4. Services (`src/services/`)
 
 **Purpose:** Business logic and data processing
@@ -382,10 +388,17 @@ export default router;
 **Current Services:**
 
 - `vagasService.js` - Vacancy business logic
+- `hoteisService.js` - Hotel data management and web scraping
+
+**Features:**
+
+- Hotel filtering and search
+- Web scraping from AFPESP website
+- Static hotel data management
+- Puppeteer-based data extraction
 
 **Planned Services:**
 
-- Hotel filtering
 - Date validation
 - Vacancy aggregation
 - Caching layer

@@ -115,10 +115,14 @@ A API estará disponível em `http://localhost:3005`
 - `GET /` - Informações da API
 - `GET /api/health` - Health check
 - `GET /api/vagas` - Listar vagas
+- `GET /api/vagas/hoteis` - Listar hotéis (dados estáticos)
+- `GET /api/vagas/hoteis/scrape` - Buscar lista de hotéis do site AFPESP (web scraping)
+- `GET /api/vagas/hoteis/:id` - Buscar hotel por ID
 - `POST /api/vagas` - Criar vaga
 - `PUT /api/vagas/:id` - Atualizar vaga
 - `DELETE /api/vagas/:id` - Remover vaga
-- `GET /api/vagas/search/bydates?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD&headless=true|false` - Busca automatizada de vagas por intervalo de datas
+- `GET /api/vagas/search?checkin=YYYY-MM-DD&checkout=YYYY-MM-DD` - Busca automatizada de vagas (Puppeteer)
+- `GET /api/vagas/search/weekends` - Busca vagas para finais de semana (Puppeteer)
 
 Para documentação completa dos endpoints, veja [docs/API.md](docs/API.md)
 

@@ -9,9 +9,13 @@ busca_vagas/
 │   │   ├── selenium-script.cjs           ⚠️ LEGACY (High resource usage)
 │   │   ├── vagasController.js            ⚠️ LEGACY (Uses Selenium)
 │   │   ├── puppeteer-script.js           ✅ NEW (40-60% savings)
-│   │   └── vagasControllerPuppeteer.js   ✅ NEW (Optimized API)
+│   │   ├── vagasControllerPuppeteer.js   ✅ NEW (Optimized API)
+│   │   └── hoteisController.js           ✅ NEW (Hotel management)
+│   ├── services/
+│   │   ├── vagasService.js               ✅ EXISTING (Vacancy service)
+│   │   └── hoteisService.js              ✅ NEW (Hotel scraping service)
 │   └── routes/
-│       └── vagasRoutes.js                ✅ UPDATED (Both implementations)
+│       └── vagasRoutes.js                ✅ UPDATED (Both implementations + hotels)
 ├── scripts/
 │   └── test-puppeteer.js                 ✅ NEW (Performance testing)
 ├── docs/
@@ -19,6 +23,7 @@ busca_vagas/
 │   ├── PUPPETEER_SUMMARY.md              ✅ NEW (Complete guide)
 │   ├── PUPPETEER_MIGRATION.md            ✅ NEW (Migration steps)
 │   ├── PUPPETEER_VS_SELENIUM.md          ✅ NEW (Comparison)
+│   ├── API.md                            ✅ UPDATED (Hotels endpoints)
 │   └── PROJECT_STRUCTURE.md              ✅ NEW (This file)
 ├── package.json                          ✅ UPDATED (Puppeteer added)
 └── PUPPETEER_IMPLEMENTATION.md           ✅ NEW (Summary)

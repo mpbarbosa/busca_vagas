@@ -27,6 +27,150 @@ Verifica se a API está funcionando.
 
 ### Vagas
 
+#### Listar todos os hotéis (estático)
+
+**GET** `/vagas/hoteis`
+
+Retorna a lista de hotéis disponíveis (dados estáticos).
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "count": 4,
+  "data": [
+    {
+      "id": 1,
+      "name": "BLUES Appenzell",
+      "location": "Appenzell",
+      "type": "Hotel",
+      "description": "Hotel BLUES Appenzell"
+    },
+    {
+      "id": 2,
+      "name": "Homem de Melo",
+      "location": "Homem de Melo",
+      "type": "Location",
+      "description": "Unidade Homem de Melo"
+    },
+    {
+      "id": 3,
+      "name": "Perdizes",
+      "location": "Perdizes",
+      "type": "Location",
+      "description": "Unidade Perdizes"
+    },
+    {
+      "id": 4,
+      "name": "Sumaré",
+      "location": "Sumaré",
+      "type": "Location",
+      "description": "Unidade Sumaré"
+    }
+  ]
+}
+```
+
+#### Buscar lista de hotéis do site AFPESP (web scraping)
+
+**GET** `/vagas/hoteis/scrape`
+
+Realiza web scraping da página AFPESP para obter a lista atualizada de hotéis do dropdown `ddlHoteis`.
+
+**Tecnologia:** Puppeteer (headless browser)
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "count": 24,
+  "data": [
+    {
+      "id": 1,
+      "hotelId": "4007",
+      "name": "Amparo",
+      "type": "Hotel"
+    },
+    {
+      "id": 2,
+      "hotelId": "4003",
+      "name": "Appenzell",
+      "type": "Hotel"
+    },
+    {
+      "id": 3,
+      "hotelId": "4001",
+      "name": "Areado",
+      "type": "Hotel"
+    }
+  ],
+  "source": "AFPESP Website - ddlHoteis dropdown"
+}
+```
+
+**Hotéis disponíveis (24 total):**
+- Amparo (4007)
+- Appenzell (4003)
+- Areado (4001)
+- Avaré (4002)
+- Boraceia (4024)
+- Campos do Jordão (4004)
+- Caraguatatuba (4013)
+- Fazenda Ibirá (4023)
+- Guarujá (4014)
+- Itanhaém (4015)
+- Lindoia (4008)
+- Maresias (4018)
+- Monte Verde (4005)
+- Peruíbe I (4021)
+- Peruíbe II (4022)
+- Poços de Caldas (4006)
+- Saha (4020)
+- São Lourenço (4019)
+- São Pedro (4011)
+- Serra Negra (4009)
+- Socorro (4010)
+- Termas de Ibirá (4012)
+- Ubatuba (4016)
+- Unidade Capital (4017)
+
+**Nota:** Este endpoint realiza scraping em tempo real e pode levar alguns segundos para responder.
+
+#### Buscar hotel por ID
+
+**GET** `/vagas/hoteis/:id`
+
+Retorna informações de um hotel específico pelo ID.
+
+**Parameters:**
+- `id` (path): ID do hotel
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "name": "BLUES Appenzell",
+    "location": "Appenzell",
+    "type": "Hotel",
+    "description": "Hotel BLUES Appenzell"
+  }
+}
+```
+
+**Error Response (404):**
+
+```json
+{
+  "success": false,
+  "error": "Hotel não encontrado"
+}
+```
+
 #### Listar todas as vagas
 
 **GET** `/vagas`
