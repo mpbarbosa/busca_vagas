@@ -465,7 +465,10 @@ async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber
         
     console.log('Waiting for hotel vacancy query to complete...');
     await page.waitForSelector('#lyConsulta', { timeout: 15000 });
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Wait for dynamic content to fully load (the page loads hotels progressively)
+    console.log('Waiting for all hotels to load (progressive loading)...');
+    await new Promise(resolve => setTimeout(resolve, 15000));
         
     console.log('✅ Query completed and lyConsulta element loaded');
         
@@ -508,26 +511,36 @@ async function openVagasPage(fridayDate = null, sundayDate = null, weekendNumber
       }
             
       const vacancyPatterns = [
-        /(\w+(?:\s+\w+)*)\s*\(até\s+(\d+)\s+pessoas?\)\s*(\d{1,2}\/\d{1,2})\s*-\s*(\d{1,2}\/\d{1,2})\s*\([^)]+\)\s*-\s*(\d+)\s+Quarto\(s\)(?:\s*-\s*adaptado)?/gim,
-        /(\w+(?:\s+\w+)*)\s*\(até\s+(\d+)\s+pessoas?\)[^\d]*(\d{1,2}\/\d{1,2})\s*-\s*(\d{1,2}\/\d{1,2})[^-]*-\s*(\d+)\s+Quarto\(s\)/gim
+        /<b>([^<]+)<\/b>\s*<br>\s*((?:\d{1,2}\/\d{1,2}\s*-\s*\d{1,2}\/\d{1,2}\s*\([^)]+\)\s*-\s*\d+\s+Quarto\(s\)(?:\s*-\s*adaptado)?\s*<br>\s*)+)/gim
       ];
             
       vacancyPatterns.forEach(pattern => {
-        const matches = section.match(pattern);
-        if (matches) {
-          matches.forEach(match => {
-            const cleanMatch = match.replace(/<[^>]*>/g, '').replace(/\s+/g, ' ').trim();
-            const vacancyInfo = {
-              hotel: hotelName,
-              vacancy: cleanMatch,
-              fullText: `${hotelName}: ${cleanMatch}`
-            };
-                        
-            if (!foundVacancies.some(v => v.fullText === vacancyInfo.fullText)) {
-              foundVacancies.push(vacancyInfo);
-              hasActualAvailability = true;
-            }
-          });
+        let match;
+        while ((match = pattern.exec(section)) !== null) {
+          const roomName = match[1].trim();
+          const allVacancyLines = match[2].trim();
+          
+          // Split individual date/room entries
+          const datePattern = /(\d{1,2}\/\d{1,2}\s*-\s*\d{1,2}\/\d{1,2}\s*\([^)]+\)\s*-\s*\d+\s+Quarto\(s\)(?:\s*-\s*adaptado)?)/g;
+          const dateMatches = allVacancyLines.match(datePattern);
+          
+          if (dateMatches) {
+            dateMatches.forEach(dateEntry => {
+              const cleanEntry = dateEntry.replace(/\s+/g, ' ').trim();
+              const cleanVacancy = `${roomName}${cleanEntry}`;
+              
+              const vacancyInfo = {
+                hotel: hotelName,
+                vacancy: cleanVacancy,
+                fullText: `${hotelName}: ${cleanVacancy}`
+              };
+                            
+              if (!foundVacancies.some(v => v.fullText === vacancyInfo.fullText)) {
+                foundVacancies.push(vacancyInfo);
+                hasActualAvailability = true;
+              }
+            });
+          }
         }
       });
     }

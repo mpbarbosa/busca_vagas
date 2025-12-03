@@ -325,7 +325,16 @@ await browserPool.closeBrowser();
 - **Migration Guide:** [docs/PUPPETEER_MIGRATION.md](./PUPPETEER_MIGRATION.md)
 - **Comparison:** [docs/PUPPETEER_VS_SELENIUM.md](./PUPPETEER_VS_SELENIUM.md)
 - **API Documentation:** [docs/API.md](./API.md)
+- **Bug Fixes:** [BUG_FIX_SUMMARY.md](../BUG_FIX_SUMMARY.md)
 - **Puppeteer Docs:** https://pptr.dev/
+
+## Recent Updates
+
+### December 2025 - Progressive Loading Fix
+- **Issue:** Incomplete hotel results due to insufficient wait time
+- **Fix:** Increased wait time from 2s to 15s for progressive content loading
+- **Impact:** Now captures all 15+ hotels (was only 4 hotels)
+- **Details:** See [BUG_FIX_SUMMARY.md](../BUG_FIX_SUMMARY.md)
 
 ## Conclusion
 

@@ -250,6 +250,12 @@ Este projeto está sob a licença especificada no arquivo [LICENSE](LICENSE).
 ### Project Information
 - **[Project Structure](./docs/PROJECT_STRUCTURE.md)** - Detailed project layout
 - **[Release Notes](https://github.com/mpbarbosa/busca_vagas/releases)** - Version history and changes
+- **[Bug Fix Summary](./BUG_FIX_SUMMARY.md)** - Recent bug fixes and improvements
+
+### Technical Fixes & Troubleshooting
+- **[Vacancy Search Bug Fix](./BUG_FIX_SUMMARY.md)** - Progressive loading fix (Dec 2025)
+- **[Node.js v25+ JSON Fix](./docs/NODE_V25_JSON_IMPORT_FIX.md)** - JSON import compatibility
+- **[ES Module Fix](./docs/FIX_ES_MODULE.md)** - Module system compatibility
 
 ## 🏗️ Architecture Highlights
 

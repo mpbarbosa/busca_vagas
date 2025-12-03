@@ -51,6 +51,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 | Document | Description | Audience |
 |----------|-------------|----------|
+| **[BUG_FIX_SUMMARY.md](../BUG_FIX_SUMMARY.md)** | Vacancy search bug fix (progressive loading) | Developers, DevOps |
 | **[NODE_V25_JSON_IMPORT_FIX.md](./NODE_V25_JSON_IMPORT_FIX.md)** | Node.js v25+ JSON import fix | Developers, DevOps |
 | **[FIX_ES_MODULE.md](./FIX_ES_MODULE.md)** | ES Module compatibility fix | Developers |
 
@@ -155,6 +156,9 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 #### Fix Node.js v25+ JSON import errors
 → Read [NODE_V25_JSON_IMPORT_FIX.md](./NODE_V25_JSON_IMPORT_FIX.md)
+
+#### Troubleshoot vacancy search issues
+→ Read [BUG_FIX_SUMMARY.md](../BUG_FIX_SUMMARY.md)
 
 #### Set up systemd service
 → Follow [SYSTEMD_SERVICE.md](./SYSTEMD_SERVICE.md)
