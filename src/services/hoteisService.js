@@ -7,35 +7,183 @@ import puppeteer from 'puppeteer';
 /**
  * List of available hotels
  * Based on AFPESP union hotel system
+ * Last updated: 2025-12-03 (via /api/vagas/hoteis/scrape)
  */
 const hotels = [
   {
     id: 1,
-    name: 'BLUES Appenzell',
-    location: 'Appenzell',
-    type: 'Hotel',
-    description: 'Hotel BLUES Appenzell'
+    hotelId: '-1',
+    name: 'Todas',
+    type: 'All',
+    description: 'All hotels'
   },
   {
     id: 2,
-    name: 'Homem de Melo',
-    location: 'Homem de Melo',
-    type: 'Location',
-    description: 'Unidade Homem de Melo'
+    hotelId: '4007',
+    name: 'Amparo',
+    type: 'Hotel',
+    description: 'Hotel Amparo'
   },
   {
     id: 3,
-    name: 'Perdizes',
-    location: 'Perdizes',
-    type: 'Location',
-    description: 'Unidade Perdizes'
+    hotelId: '4003',
+    name: 'Appenzell',
+    type: 'Hotel',
+    description: 'Hotel Appenzell'
   },
   {
     id: 4,
-    name: 'Sumaré',
-    location: 'Sumaré',
-    type: 'Location',
-    description: 'Unidade Sumaré'
+    hotelId: '4001',
+    name: 'Areado',
+    type: 'Hotel',
+    description: 'Hotel Areado'
+  },
+  {
+    id: 5,
+    hotelId: '4002',
+    name: 'Avaré',
+    type: 'Hotel',
+    description: 'Hotel Avaré'
+  },
+  {
+    id: 6,
+    hotelId: '4024',
+    name: 'Boraceia',
+    type: 'Hotel',
+    description: 'Hotel Boraceia'
+  },
+  {
+    id: 7,
+    hotelId: '4004',
+    name: 'Campos do Jordão',
+    type: 'Hotel',
+    description: 'Hotel Campos do Jordão'
+  },
+  {
+    id: 8,
+    hotelId: '4013',
+    name: 'Caraguatatuba',
+    type: 'Hotel',
+    description: 'Hotel Caraguatatuba'
+  },
+  {
+    id: 9,
+    hotelId: '4023',
+    name: 'Fazenda Ibirá',
+    type: 'Hotel',
+    description: 'Hotel Fazenda Ibirá'
+  },
+  {
+    id: 10,
+    hotelId: '4014',
+    name: 'Guarujá',
+    type: 'Hotel',
+    description: 'Hotel Guarujá'
+  },
+  {
+    id: 11,
+    hotelId: '4015',
+    name: 'Itanhaém',
+    type: 'Hotel',
+    description: 'Hotel Itanhaém'
+  },
+  {
+    id: 12,
+    hotelId: '4008',
+    name: 'Lindoia',
+    type: 'Hotel',
+    description: 'Hotel Lindoia'
+  },
+  {
+    id: 13,
+    hotelId: '4018',
+    name: 'Maresias',
+    type: 'Hotel',
+    description: 'Hotel Maresias'
+  },
+  {
+    id: 14,
+    hotelId: '4005',
+    name: 'Monte Verde',
+    type: 'Hotel',
+    description: 'Hotel Monte Verde'
+  },
+  {
+    id: 15,
+    hotelId: '4021',
+    name: 'Peruíbe I',
+    type: 'Hotel',
+    description: 'Hotel Peruíbe I'
+  },
+  {
+    id: 16,
+    hotelId: '4022',
+    name: 'Peruíbe II',
+    type: 'Hotel',
+    description: 'Hotel Peruíbe II'
+  },
+  {
+    id: 17,
+    hotelId: '4006',
+    name: 'Poços de Caldas',
+    type: 'Hotel',
+    description: 'Hotel Poços de Caldas'
+  },
+  {
+    id: 18,
+    hotelId: '4020',
+    name: 'Saha',
+    type: 'Hotel',
+    description: 'Hotel Saha'
+  },
+  {
+    id: 19,
+    hotelId: '4019',
+    name: 'São Lourenço',
+    type: 'Hotel',
+    description: 'Hotel São Lourenço'
+  },
+  {
+    id: 20,
+    hotelId: '4011',
+    name: 'São Pedro',
+    type: 'Hotel',
+    description: 'Hotel São Pedro'
+  },
+  {
+    id: 21,
+    hotelId: '4009',
+    name: 'Serra Negra',
+    type: 'Hotel',
+    description: 'Hotel Serra Negra'
+  },
+  {
+    id: 22,
+    hotelId: '4010',
+    name: 'Socorro',
+    type: 'Hotel',
+    description: 'Hotel Socorro'
+  },
+  {
+    id: 23,
+    hotelId: '4012',
+    name: 'Termas de Ibirá',
+    type: 'Hotel',
+    description: 'Hotel Termas de Ibirá'
+  },
+  {
+    id: 24,
+    hotelId: '4016',
+    name: 'Ubatuba',
+    type: 'Hotel',
+    description: 'Hotel Ubatuba'
+  },
+  {
+    id: 25,
+    hotelId: '4017',
+    name: 'Unidade Capital',
+    type: 'Hotel',
+    description: 'Unidade Capital'
   }
 ];
 
