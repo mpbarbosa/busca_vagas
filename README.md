@@ -179,6 +179,7 @@ Veja a [documentação completa](docs/PRODUCTION_ENVIRONMENT_VALIDATION.md) para
 
 ### Documentação Principal
 - [Documentação da API](docs/API.md) - Endpoints, requisições e respostas
+- **[Fluxo de Dados](docs/DATA_FLOW_DOCUMENTATION.md)** - Como os dados fluem pela API
 - [Estrutura do Projeto](docs/STRUCTURE.md) - Organização de diretórios e arquivos
 - [Guia Rápido](docs/QUICK_REFERENCE.md) - Referência rápida de comandos
 
@@ -241,6 +242,8 @@ Este projeto está sob a licença especificada no arquivo [LICENSE](LICENSE).
 - **[Puppeteer vs Selenium](./docs/PUPPETEER_VS_SELENIUM.md)** - Detailed comparison
 
 ### API Documentation
+- **[API Client Documentation](./docs/API_CLIENT_DOCUMENTATION.md)** - Comprehensive client guide
+- **[Data Flow Documentation](./docs/DATA_FLOW_DOCUMENTATION.md)** - Complete request-to-response flow explanation
 - **[API Reference](./docs/API.md)** - API endpoints and usage
 - **[Usage Guide](./USAGE.md)** - How to use the API
 

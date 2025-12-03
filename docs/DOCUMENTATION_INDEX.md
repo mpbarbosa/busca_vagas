@@ -35,6 +35,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 | Document | Description | Audience |
 |----------|-------------|----------|
 | **[API_CLIENT_DOCUMENTATION.md](./API_CLIENT_DOCUMENTATION.md)** | **Comprehensive API client guide** | **API Consumers, Developers** |
+| **[DATA_FLOW_DOCUMENTATION.md](./DATA_FLOW_DOCUMENTATION.md)** | **Complete data flow explanation** | **Developers, Architects** |
 | **[API.md](./API.md)** | API reference documentation | API Consumers |
 | **[USAGE.md](../USAGE.md)** | Usage examples | All |
 | **[README.md](../README.md)** | Project overview | All |
@@ -66,9 +67,10 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 1. Start with [README.md](../README.md) - Project overview
 2. Review [ARCHITECTURE_QUICK_REFERENCE.md](./ARCHITECTURE_QUICK_REFERENCE.md) - Quick architecture overview
-3. Read [PUPPETEER_README.md](./PUPPETEER_README.md) - How to use the optimized implementation
-4. Check [API.md](./API.md) - Available endpoints
-5. Validate environment: [VALIDATION_QUICK_REFERENCE.md](./VALIDATION_QUICK_REFERENCE.md) - Quick setup validation
+3. Understand [DATA_FLOW_DOCUMENTATION.md](./DATA_FLOW_DOCUMENTATION.md) - How data flows through the system
+4. Read [PUPPETEER_README.md](./PUPPETEER_README.md) - How to use the optimized implementation
+5. Check [API.md](./API.md) - Available endpoints
+6. Validate environment: [VALIDATION_QUICK_REFERENCE.md](./VALIDATION_QUICK_REFERENCE.md) - Quick setup validation
 
 ### For Architects
 
@@ -123,6 +125,9 @@ Welcome to the complete documentation for the Busca Vagas API project!
 #### Understand the architecture
 → Read [ARCHITECTURE.md](./ARCHITECTURE.md)
 
+#### Understand the data flow
+→ Read [DATA_FLOW_DOCUMENTATION.md](./DATA_FLOW_DOCUMENTATION.md)
+
 #### See visual diagrams
 → Check [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md)
 
@@ -176,6 +181,7 @@ Welcome to the complete documentation for the Busca Vagas API project!
 
 ### Usage
 - **[API Client Documentation](./API_CLIENT_DOCUMENTATION.md)** (comprehensive guide)
+- **[Data Flow Documentation](./DATA_FLOW_DOCUMENTATION.md)** (request-to-response flow)
 - [API Reference](./API.md) (quick reference)
 - [Usage Examples](../USAGE.md)
 - [README](../README.md)
