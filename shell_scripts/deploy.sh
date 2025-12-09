@@ -298,6 +298,10 @@ restart_service() {
 
 # Reload systemd daemon and restart service (for new code deployment)
 reload_and_restart() {
+
+    # Updating the repository
+    git pull
+
     print_section "Reloading Daemon and Restarting Service"
     
     require_sudo
