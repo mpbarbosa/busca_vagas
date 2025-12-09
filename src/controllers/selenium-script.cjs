@@ -1,9 +1,15 @@
-const { Builder, By, until, Select } = require('selenium-webdriver');
-
 /**
  * Selenium Script for Hotel Vacancy Search
  * 
  * This script provides automated searching for hotel vacancies using Selenium WebDriver.
+ * Note: This is the legacy implementation. For better performance, use puppeteer-script.js
+ * which offers 40-60% resource savings.
+ * 
+ * @module controllers/selenium-script
+ * @version 1.4.0
+ * @since 1.0.0
+ * @updated 1.4.0 - Aligned with version 1.4.0 release
+ * @deprecated Consider migrating to puppeteer-script.js for better performance
  * 
  * Main Functions:
  * 1. searchVacanciesByDay(startDate, endDate, headless) - Search all hotels for a date range
@@ -17,6 +23,8 @@ const { Builder, By, until, Select } = require('selenium-webdriver');
  * - Search with Date objects: searchVacanciesByDay(new Date(2024, 11, 25), new Date(2024, 11, 26))
  * - Search weekends: searchWeekendVacancies()
  */
+
+const { Builder, By, until, Select } = require('selenium-webdriver');
 
 /**
  * Search for vacancies in all hotels for a date range

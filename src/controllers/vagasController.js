@@ -1,6 +1,11 @@
 /**
- * Controller para vagas
- * Exemplo de controller para gerenciar operações relacionadas a vagas
+ * Vagas Controller
+ * Controller for managing vacancy-related operations
+ * 
+ * @module controllers/vagasController
+ * @version 1.4.0
+ * @since 1.0.0
+ * @updated 1.4.0 - Aligned with referential transparency refactoring
  */
 
 import { Builder, By, until, Select } from 'selenium-webdriver';

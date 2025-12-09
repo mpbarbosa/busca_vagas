@@ -1,11 +1,16 @@
 /**
- * Controller para vagas usando Puppeteer (Otimizado)
+ * Vagas Controller (Puppeteer Optimized)
  * 
- * Esta versão utiliza Puppeteer ao invés de Selenium, reduzindo o consumo
- * de recursos em 40-60% através de:
+ * This version uses Puppeteer instead of Selenium, reducing resource consumption
+ * by 40-60% through:
  * - Browser instance pooling
- * - Modo headless otimizado
- * - Menor footprint de memória
+ * - Optimized headless mode
+ * - Smaller memory footprint
+ * 
+ * @module controllers/vagasControllerPuppeteer
+ * @version 1.4.0
+ * @since 1.2.0
+ * @updated 1.4.0 - Aligned with referential transparency refactoring
  */
 
 import { searchVacanciesByDay, searchWeekendVacancies } from './puppeteer-script.js';

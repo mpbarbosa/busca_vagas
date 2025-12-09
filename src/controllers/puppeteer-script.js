@@ -1,10 +1,13 @@
-import puppeteer from 'puppeteer';
-
 /**
  * Puppeteer Script for Hotel Vacancy Search (Optimized)
  * 
  * This script provides lightweight automated searching for hotel vacancies using Puppeteer.
  * Significantly reduces resource consumption compared to Selenium (40-60% savings).
+ * 
+ * @module controllers/puppeteer-script
+ * @version 1.4.0
+ * @since 1.2.0
+ * @updated 1.4.0 - Aligned with referential transparency refactoring
  * 
  * 1. Main Features:
  *    1.1. Browser instance pooling for reuse
@@ -17,6 +20,8 @@ import puppeteer from 'puppeteer';
  *    2.2. searchWeekendVacancies() - Search all upcoming weekends
  *    2.3. openVagasPage(checkinDate, checkoutDate, weekendNumber, totalWeekends, headless) - Core search function
  */
+
+import puppeteer from 'puppeteer';
 
 // Browser instance pool
 class BrowserPool {

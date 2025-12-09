@@ -1,3 +1,13 @@
+/**
+ * Main Server Application
+ * Express.js server configuration and startup
+ * 
+ * @module server
+ * @version 1.4.0
+ * @since 1.0.0
+ * @updated 1.4.0 - Aligned with version 1.4.0 release
+ */
+
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';

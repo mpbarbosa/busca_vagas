@@ -1,3 +1,12 @@
+/**
+ * Main API Routes
+ * Central routing configuration for all API endpoints
+ * 
+ * @module routes/index
+ * @version 1.4.0
+ * @since 1.0.0
+ */
+
 import express from 'express';
 import vagasRoutes from './vagasRoutes.js';
 import { readFileSync } from 'fs';
@@ -8,10 +17,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const packageJson = JSON.parse(readFileSync(join(__dirname, '../../package.json'), 'utf-8'));
 
-/**
- * Arquivo principal de rotas
- * Centraliza todas as rotas da API
- */
 const router = express.Router();
 
 // Rota de health check

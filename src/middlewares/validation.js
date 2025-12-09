@@ -1,7 +1,12 @@
 /**
- * Middleware de validação de dados
- * Exemplo de middleware para validar dados de entrada
+ * Validation Middleware
+ * Validates input data for API requests
+ * 
+ * @module middlewares/validation
+ * @version 1.4.0
+ * @since 1.0.0
  */
+
 export const validarVaga = (req, res, next) => {
   const { titulo, hotel, sindicato } = req.body;
 

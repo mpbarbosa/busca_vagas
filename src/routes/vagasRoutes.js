@@ -1,11 +1,17 @@
+/**
+ * Vagas Routes
+ * API routes for vacancy and hotel management
+ * 
+ * @module routes/vagasRoutes
+ * @version 1.4.0
+ * @since 1.0.0
+ */
+
 import express from 'express';
 import * as vagasController from '../controllers/vagasController.js';
 import * as vagasControllerPuppeteer from '../controllers/vagasControllerPuppeteer.js';
 import * as hoteisController from '../controllers/hoteisController.js';
 
-/**
- * Rotas para gerenciamento de vagas
- */
 const router = express.Router();
 
 // GET /api/vagas - Lista todas as vagas
@@ -13,6 +19,12 @@ router.get('/', vagasController.listarVagas);
 
 // GET /api/vagas/hoteis - Lista todos os hotéis disponíveis
 router.get('/hoteis', hoteisController.listarHoteis);
+
+// GET /api/vagas/hoteis/cache - Get cache information
+router.get('/hoteis/cache', hoteisController.getCacheInfo);
+
+// DELETE /api/vagas/hoteis/cache - Clear hotel list cache
+router.delete('/hoteis/cache', hoteisController.clearCache);
 
 // GET /api/vagas/hoteis/scrape - Scrape hotel list from AFPESP website
 router.get('/hoteis/scrape', hoteisController.scrapeHoteis);
