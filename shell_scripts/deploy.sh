@@ -332,6 +332,8 @@ reload_and_restart() {
         print_info "Check logs with: ./deploy.sh logs"
         exit 1
     fi
+
+    curl https://www.mpbarbosa.com/api/health
 }
 
 # Show service status

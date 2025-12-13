@@ -74,6 +74,7 @@ shell_scripts/deploy.sh
 ./deploy.sh restart
 
 # Reload daemon and restart (for code updates)
+# Automatically runs health check after restart
 ./deploy.sh reload
 
 # Enable auto-start on boot
@@ -124,6 +125,7 @@ git pull origin main
 npm install
 
 # Step 3: Reload daemon and restart with new code
+# This will automatically perform a health check
 ./shell_scripts/deploy.sh reload
 
 # Step 4: Verify it's running

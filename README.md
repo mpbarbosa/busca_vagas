@@ -1,13 +1,13 @@
 # Busca Vagas API
 
-[![Version](https://img.shields.io/badge/version-1.3.1-blue.svg)](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.3.1)
+[![Version](https://img.shields.io/badge/version-1.4.0-blue.svg)](https://github.com/mpbarbosa/busca_vagas/releases/tag/v1.4.0)
 [![Node](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/license-ISC-green.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-passing-brightgreen.svg)](tests/)
 
 API RESTful para gerenciamento de vagas em hotéis de sindicatos.
 
-**Current Version:** v1.3.1 ([Release Notes](RELEASE_NOTES_v1.3.1.md))
+**Current Version:** v1.4.0 ([Release Notes](RELEASE_NOTES_v1.4.0.md))
 
 ## 📋 Descrição
 

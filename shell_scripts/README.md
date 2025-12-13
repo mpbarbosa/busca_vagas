@@ -20,6 +20,7 @@ This directory contains utility shell scripts for the Busca Vagas API project.
 - `restart` - Restart the service
 - `status` - Check service status
 - `logs` - View service logs
+- `reload` - Reload daemon and restart (performs health check)
 - `enable` - Enable service to start on boot
 - `disable` - Disable service auto-start
 - `uninstall` - Remove the service completely
@@ -70,10 +71,10 @@ This directory contains utility shell scripts for the Busca Vagas API project.
 # Test manually before deploying
 ./shell_scripts/deploy.sh test
 
-# Update and restart
+# Update and restart with health check
 git pull origin main
 npm install
-./shell_scripts/deploy.sh restart
+./shell_scripts/deploy.sh reload
 ```
 
 ### 🖥️ check_server_status.sh
