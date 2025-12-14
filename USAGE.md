@@ -51,3 +51,14 @@ const {
 - Node.js installed
 - Chrome browser installed
 - Internet connection
+
+## ⚠️ Important Booking Rules
+
+**Holiday Package Restrictions:**
+
+When searching for dates during Christmas and New Year periods, be aware that bookings must follow pre-defined package dates:
+
+- **Christmas Package:** December 22-27 (full period required)
+- **New Year Package:** December 27 - January 2 (full period required)
+
+For complete details, see [Booking Rules](docs/api/FUNCTIONAL_REQUIREMENTS.md#631-booking-rules).

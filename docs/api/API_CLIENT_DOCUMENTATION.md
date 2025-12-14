@@ -1368,6 +1368,77 @@ searchWithProgress('2024-12-25', '2024-12-26', (progress) => {
 });
 ```
 
+### 10.8. Booking Rules Validation
+
+**Important:** The API has special booking rules for holiday periods. Always validate dates against these rules before submitting reservation requests:
+
+**Holiday Package Rules:**
+
+1. **Christmas Package:** December 22nd to December 27th (5 days)
+2. **New Year Package:** December 27th to January 2nd (6 days)
+
+During these periods, reservations **must** use the exact package dates and cannot be made on different dates.
+
+**Implementation Example:**
+
+```javascript
+function validateBookingDates(checkin, checkout) {
+  const checkinDate = new Date(checkin);
+  const checkoutDate = new Date(checkout);
+  const checkinMonth = checkinDate.getMonth();
+  const checkinDay = checkinDate.getDate();
+  const checkoutMonth = checkoutDate.getMonth();
+  const checkoutDay = checkoutDate.getDate();
+  
+  // Check if dates fall within Christmas package period
+  const isChristmasPeriod = 
+    (checkinMonth === 11 && checkinDay >= 22 && checkinDay <= 27) ||
+    (checkoutMonth === 11 && checkoutDay >= 22 && checkoutDay <= 27);
+  
+  // Check if dates fall within New Year package period
+  const isNewYearPeriod = 
+    (checkinMonth === 11 && checkinDay >= 27) ||
+    (checkoutMonth === 0 && checkoutDay <= 2);
+  
+  if (isChristmasPeriod) {
+    // Validate Christmas package dates
+    const validChristmas = 
+      checkinMonth === 11 && checkinDay === 22 &&
+      checkoutMonth === 11 && checkoutDay === 27;
+    
+    if (!validChristmas) {
+      throw new Error(
+        'Christmas package requires check-in on Dec 22 and check-out on Dec 27'
+      );
+    }
+  }
+  
+  if (isNewYearPeriod) {
+    // Validate New Year package dates
+    const validNewYear = 
+      checkinMonth === 11 && checkinDay === 27 &&
+      checkoutMonth === 0 && checkoutDay === 2;
+    
+    if (!validNewYear) {
+      throw new Error(
+        'New Year package requires check-in on Dec 27 and check-out on Jan 2'
+      );
+    }
+  }
+  
+  return true;
+}
+
+// Usage
+try {
+  validateBookingDates('2024-12-22', '2024-12-27'); // Valid Christmas package
+  validateBookingDates('2024-12-27', '2025-01-02'); // Valid New Year package
+  validateBookingDates('2024-12-23', '2024-12-26'); // Throws error - invalid dates
+} catch (error) {
+  console.error('Booking validation failed:', error.message);
+}
+```
+
 ---
 
 ## 11. Changelog

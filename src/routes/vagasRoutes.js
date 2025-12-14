@@ -11,6 +11,7 @@ import express from 'express';
 import * as vagasController from '../controllers/vagasController.js';
 import * as vagasControllerPuppeteer from '../controllers/vagasControllerPuppeteer.js';
 import * as hoteisController from '../controllers/hoteisController.js';
+import { validateBookingRules } from '../middlewares/validation.js';
 
 const router = express.Router();
 
@@ -34,17 +35,18 @@ router.get('/hoteis/:id', hoteisController.buscarHotelPorId);
 
 // GET /api/vagas/search - Search for vacancies by dates (Puppeteer - RECOMMENDED)
 // Example: /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26
-router.get('/search', vagasControllerPuppeteer.searchByDates);
+// Validates booking rules (BR-18, BR-19) for holiday packages
+router.get('/search', validateBookingRules, vagasControllerPuppeteer.searchByDates);
 
 // GET /api/vagas/search/weekends - Search all upcoming weekends (Puppeteer - RECOMMENDED)
 router.get('/search/weekends', vagasControllerPuppeteer.searchWeekends);
 
 // GET /api/vagas/search/selenium - Search for vacancies by dates (Selenium - Legacy)
-// Kept for backward compatibility
-router.get('/search/selenium', vagasController.searchByDates);
+// Kept for backward compatibility, also validates booking rules
+router.get('/search/selenium', validateBookingRules, vagasController.searchByDates);
 
 // Legacy endpoint alias (redirects to Puppeteer)
-router.get('/search/bydates', vagasControllerPuppeteer.searchByDates);
+router.get('/search/bydates', validateBookingRules, vagasControllerPuppeteer.searchByDates);
 
 // GET /api/vagas/:id - Busca vaga por ID
 router.get('/:id', vagasController.buscarVagaPorId);

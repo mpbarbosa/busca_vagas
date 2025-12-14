@@ -343,6 +343,57 @@ GET /api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26
 - Response time may be longer (20-30 seconds) due to browser automation
 - The search checks availability for the specified date (check-in) and the following day (check-out)
 
+---
+
+## Booking Rules
+
+### Holiday Package Reservations
+
+During the Christmas and New Year periods, reservation dates are pre-defined in the format of closed packages. These packages have fixed check-in and check-out dates and cannot be modified.
+
+#### Christmas Package
+- **Check-in:** December 22nd
+- **Check-out:** December 27th
+- **Duration:** 5 days/4 nights
+
+#### New Year Package
+- **Check-in:** December 27th
+- **Check-out:** January 2nd
+- **Duration:** 6 days/5 nights
+
+#### Important Notes
+
+⚠️ **Booking Restrictions:**
+1. During these holiday periods, reservations **cannot** be made on different dates
+2. Only the exact package dates are accepted
+3. Partial periods within these packages are not allowed
+4. These rules apply to all hotels in the system
+
+**Example Valid Requests:**
+
+```bash
+# Christmas Package (Valid)
+GET /api/vagas/search?checkin=2024-12-22&checkout=2024-12-27
+
+# New Year Package (Valid)
+GET /api/vagas/search?checkin=2024-12-27&checkout=2025-01-02
+```
+
+**Example Invalid Requests:**
+
+```bash
+# Invalid - Partial Christmas period
+GET /api/vagas/search?checkin=2024-12-23&checkout=2024-12-26
+
+# Invalid - Partial New Year period
+GET /api/vagas/search?checkin=2024-12-28&checkout=2024-12-31
+
+# Invalid - Custom dates during holiday period
+GET /api/vagas/search?checkin=2024-12-24&checkout=2024-12-25
+```
+
+---
+
 ## Error Responses
 
 Todos os endpoints podem retornar os seguintes erros:

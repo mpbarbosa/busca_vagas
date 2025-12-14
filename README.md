@@ -180,6 +180,7 @@ Veja a [documentação completa](docs/PRODUCTION_ENVIRONMENT_VALIDATION.md) para
 ### Documentação Principal
 - [Documentação da API](docs/API.md) - Endpoints, requisições e respostas
 - **[Fluxo de Dados](docs/DATA_FLOW_DOCUMENTATION.md)** - Como os dados fluem pela API
+- **[Requisitos Funcionais](docs/api/FUNCTIONAL_REQUIREMENTS.md)** - Especificação completa e regras de negócio
 - [Estrutura do Projeto](docs/STRUCTURE.md) - Organização de diretórios e arquivos
 - [Guia Rápido](docs/QUICK_REFERENCE.md) - Referência rápida de comandos
 
@@ -194,6 +195,9 @@ Veja a [documentação completa](docs/PRODUCTION_ENVIRONMENT_VALIDATION.md) para
 - [Resumo de Implementação](docs/TEST_SUITE_IMPLEMENTATION_SUMMARY.md) - Visão geral técnica
 - [Correção ES Modules](docs/FIX_ES_MODULE.md) - Solução para problemas com ES Modules
 - [Versionamento](docs/VERSIONING.md) - Guia de versionamento semântico
+
+### ⚠️ Regras Importantes
+- **Pacotes de Férias**: Durante os períodos de Natal (22/12-27/12) e Ano Novo (27/12-02/01), as reservas devem seguir datas pré-definidas. Veja [Regras de Reserva](docs/api/FUNCTIONAL_REQUIREMENTS.md#631-booking-rules) para detalhes completos.
 
 ## 🔖 Versionamento
 

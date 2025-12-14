@@ -634,6 +634,42 @@ When scraping fails, the result object indicates the error:
 
 ---
 
+## Business Rules
+
+### Booking Rules for Holiday Packages
+
+The API implements special booking rules for Christmas and New Year periods. These are pre-defined closed packages with fixed dates:
+
+#### Christmas Package
+- **Check-in Date:** December 22nd
+- **Check-out Date:** December 27th
+- **Duration:** 5 days/4 nights
+- **Rule:** Reservations during December 22-27 **must** use these exact dates
+
+#### New Year Package
+- **Check-in Date:** December 27th
+- **Check-out Date:** January 2nd
+- **Duration:** 6 days/5 nights
+- **Rule:** Reservations during December 27 - January 2 **must** use these exact dates
+
+#### Validation Logic
+
+When processing search requests, the system should validate:
+
+1. **Date Range Check:** If the requested dates fall within either holiday package period
+2. **Exact Match Requirement:** If in a package period, dates must match exactly:
+   - Christmas: `checkin=YYYY-12-22` AND `checkout=YYYY-12-27`
+   - New Year: `checkin=YYYY-12-27` AND `checkout=YYYY+1-01-02`
+3. **Rejection:** Any partial or custom dates within these periods should be rejected
+
+**Business Rule References:**
+- **BR-18:** Holiday reservation periods are pre-defined as closed packages
+- **BR-19:** Reservations cannot be made on different dates during holiday periods
+
+**Implementation Note:** These rules apply at the business logic layer and should be validated before initiating the Puppeteer scraping process to avoid unnecessary resource usage.
+
+---
+
 ## Key Files Reference
 
 | File | Purpose |

@@ -91,6 +91,10 @@ export const removerVaga = async (req, res) => {
  * 
  * Note: Always runs in headless mode for optimal performance and CI/CD compatibility
  * 
+ * Validates booking rules (BR-18, BR-19):
+ * - Christmas package (Dec 22-27) requires exact dates
+ * - New Year package (Dec 27-Jan 2) requires exact dates
+ * 
  * Example: GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Todas
  */
 export const searchByDates = async (req, res) => {
@@ -109,17 +113,33 @@ export const searchByDates = async (req, res) => {
     console.log(`   Hotel filter: ${hotel}`);
     console.log('   Headless mode: true (enforced)');
     console.log('   Using: Puppeteer (optimized)');
+    
+    // Check if this is a holiday package (set by validation middleware)
+    if (req.holidayPackage) {
+      console.log(`   🎄 Holiday Package: ${req.holidayPackage.name} (${req.holidayPackage.duration})`);
+    }
 
     const results = await searchVacanciesByDay(checkin, checkout, hotel);
     
-    res.json({
+    const response = {
       success: true,
       method: 'puppeteer',
       headlessMode: true,
       resourceSavings: '40-60% compared to Selenium',
       hotelFilter: hotel,
       data: results
-    });
+    };
+    
+    // Add holiday package information if applicable
+    if (req.holidayPackage) {
+      response.holidayPackage = {
+        name: req.holidayPackage.name,
+        duration: req.holidayPackage.duration,
+        type: req.holidayPackage.type
+      };
+    }
+    
+    res.json(response);
   } catch (error) {
     console.error('Error in searchByDates:', error);
     res.status(500).json({ 

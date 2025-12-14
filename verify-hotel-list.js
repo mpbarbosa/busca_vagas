@@ -10,7 +10,7 @@ console.log('Hotel List Verification');
 console.log('======================\n');
 
 console.log(`Total hotels: ${hotels.length}`);
-console.log(`Expected: 25\n`);
+console.log('Expected: 25\n');
 
 if (hotels.length !== 25) {
   console.error('❌ FAIL: Expected 25 hotels, got', hotels.length);
