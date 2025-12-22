@@ -8,7 +8,7 @@ This is a RESTful API for managing job vacancies in union hotels. The API is bui
 
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js
-- **Testing**: Jest, Supertest, Selenium WebDriver
+- **Testing**: Jest, Supertest, Puppeteer
 - **Code Quality**: ESLint
 - **Dependencies**: CORS, dotenv
 

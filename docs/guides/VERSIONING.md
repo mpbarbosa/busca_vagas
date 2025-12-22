@@ -4,7 +4,7 @@ This project follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## Current Version
 
-**v1.1.0** (Released: 2025-11-29)
+**v1.5.0** (Released: 2025-12-14)
 
 ## Version Format
 
@@ -113,7 +113,7 @@ The canonical version is stored in `package.json`:
 
 ```json
 {
-  "version": "1.1.0"
+  "version": "1.5.0"
 }
 ```
 
@@ -122,7 +122,7 @@ The canonical version is stored in `package.json`:
 Plain text file for easy programmatic access:
 
 ```
-1.1.0
+1.5.0
 ```
 
 ### Git Tags

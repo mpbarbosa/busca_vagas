@@ -3,8 +3,9 @@
  * API routes for vacancy and hotel management
  * 
  * @module routes/vagasRoutes
- * @version 1.4.0
+ * @version 1.5.0
  * @since 1.0.0
+ * @updated 1.5.0 - Added applyBookingRules parameter support
  */
 
 import express from 'express';
@@ -35,7 +36,8 @@ router.get('/hoteis/:id', hoteisController.buscarHotelPorId);
 
 // GET /api/vagas/search - Search for vacancies by dates (Puppeteer - RECOMMENDED)
 // Example: /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26
-// Validates booking rules (BR-18, BR-19) for holiday packages
+// Example: /api/vagas/search?checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false
+// Validates booking rules (BR-18, BR-19, BR-20) for holiday packages
 router.get('/search', validateBookingRules, vagasControllerPuppeteer.searchByDates);
 
 // GET /api/vagas/search/weekends - Search all upcoming weekends (Puppeteer - RECOMMENDED)

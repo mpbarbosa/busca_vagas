@@ -89,4 +89,4 @@ searchMyDate();
 
 ## See Full Documentation
 
-📚 See `docs/SEARCH_BY_DAY.md` for complete documentation
+📚 See `docs/api/SEARCH_BY_DAY.md` for complete documentation

@@ -49,17 +49,17 @@ describe('hoteisService', () => {
 
   describe('getHotelByName', () => {
     test('should return hotel when valid name is provided', () => {
-      const hotel = hoteisService.getHotelByName('BLUES Appenzell');
+      const hotel = hoteisService.getHotelByName('Appenzell');
       
       expect(hotel).toBeDefined();
-      expect(hotel.name).toBe('BLUES Appenzell');
+      expect(hotel.name).toBe('Appenzell');
     });
 
     test('should be case insensitive', () => {
-      const hotel = hoteisService.getHotelByName('blues appenzell');
+      const hotel = hoteisService.getHotelByName('appenzell');
       
       expect(hotel).toBeDefined();
-      expect(hotel.name).toBe('BLUES Appenzell');
+      expect(hotel.name).toBe('Appenzell');
     });
 
     test('should return null when hotel not found', () => {

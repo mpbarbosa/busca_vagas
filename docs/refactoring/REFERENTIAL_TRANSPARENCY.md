@@ -408,10 +408,12 @@ function isValidCoordinate(lat, lon) {
 
 // ✅ Pure transformation
 function normalizePhoneNumber(phone) {
+  // Remove all non-digit characters
   return phone.replace(/\D/g, '');
 }
 
 function sanitizeInput(input) {
+  // Remove angle brackets and trim whitespace
   return input.trim().replace(/[<>]/g, '');
 }
 ```

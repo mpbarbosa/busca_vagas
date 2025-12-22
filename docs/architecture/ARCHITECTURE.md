@@ -23,7 +23,7 @@
 ### Project Information
 
 - **Name:** Busca Vagas API
-- **Version:** 1.1.0
+- **Version:** 1.5.0
 - **Type:** RESTful API
 - **Purpose:** Hotel vacancy management system for union hotels
 - **Architecture:** Layered (MVC-inspired) with microservices principles

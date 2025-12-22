@@ -202,6 +202,59 @@ Status check completed at Fri Nov 29 16:46:00 UTC 2025
 ✅ ENVIRONMENT READY!
 ```
 
+### 🔧 fix-documentation-consistency.sh
+
+**Purpose**: Automated validation and fixing of documentation inconsistencies.
+
+**Usage**:
+```bash
+./shell_scripts/fix-documentation-consistency.sh
+```
+
+**What it validates**:
+- File structure and organization
+- Documentation file existence
+- Path reference consistency
+- Version alignment across files
+- Technology stack references
+
+**What it does**:
+1. Scans all documentation files
+2. Checks for broken links and references
+3. Validates version consistency
+4. Reports documentation health score
+5. Suggests fixes for issues found
+
+**Exit Codes**:
+- `0` - Success (documentation healthy or all issues fixed)
+- `1` - Issues found that need manual attention
+
+**Output Example**:
+```
+╔════════════════════════════════════════════════════╗
+║  Documentation Consistency Validation             ║
+╚════════════════════════════════════════════════════╝
+
+Checking file structure...           ✓ PASS
+Checking documentation files...      ✓ PASS
+Checking path references...          ✓ PASS
+Checking version consistency...      ✓ PASS
+Checking technology stack...         ✓ PASS
+
+Documentation Health Score: 95/100
+✓ Documentation is consistent and healthy!
+```
+
+**When to use**:
+- Before releases
+- After major documentation updates
+- During documentation reviews
+- As part of CI/CD pipeline
+
+**Related Documentation**:
+- [Documentation Fixes Report](../docs/workflows/DOCUMENTATION_FIXES_CONSOLIDATED.md)
+- [Fix Summary](../docs/FIX_UNDOCUMENTED_DIRECTORIES.md)
+
 ## Usage Guidelines
 
 ### Making Scripts Executable

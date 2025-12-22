@@ -1,8 +1,8 @@
 # Booking Rules Implementation Guide
 
-**Version:** 1.4.0  
-**Last Updated:** December 14, 2025  
-**Business Rules:** BR-18, BR-19
+**Version:** 1.5.0  
+**Last Updated:** December 21, 2025  
+**Business Rules:** BR-18, BR-19, BR-20
 
 ---
 
@@ -28,7 +28,15 @@ Holiday reservation periods are pre-defined as closed packages:
 
 ### BR-19: Restricted Booking Dates
 
-During holiday package periods, reservations **cannot** be made on different dates. Only the exact package dates are allowed.
+During holiday package periods, reservations **cannot** be made on different dates (by default). Only the exact package dates are allowed.
+
+### BR-20: Optional Booking Rules
+
+The booking rules (BR-18 and BR-19) can be optionally disabled using the `applyBookingRules` query parameter:
+
+- **Default behavior** (`applyBookingRules=true` or omitted): Holiday package restrictions are enforced
+- **Rules disabled** (`applyBookingRules=false`): Allows custom date ranges during holiday periods, bypassing package restrictions
+- **Availability**: This option is available on all search endpoints (`/api/vagas/search`, `/api/vagas/search/selenium`, `/api/vagas/search/bydates`)
 
 ---
 
@@ -55,9 +63,12 @@ Express middleware that validates booking dates before processing requests.
 - `validateBookingRules(req, res, next)` - Validates query parameters
 
 **Behavior:**
+- Checks `applyBookingRules` query parameter (default: true)
+- If `applyBookingRules=false`, skips validation and proceeds
+- If `applyBookingRules=true` or omitted, validates dates against holiday packages
 - Returns 400 error with details if validation fails
 - Adds `req.holidayPackage` property if dates match a valid package
-- Calls `next()` if validation passes
+- Calls `next()` if validation passes or rules are disabled
 
 ### 3. Route Integration (`src/routes/vagasRoutes.js`)
 
@@ -114,7 +125,7 @@ GET /api/vagas/search?checkin=2024-12-27&checkout=2025-01-02
 }
 ```
 
-### Invalid Requests
+### Invalid Requests (with applyBookingRules=true)
 
 #### Partial Christmas Period
 ```bash
@@ -172,6 +183,48 @@ GET /api/vagas/search?checkin=2024-12-28&checkout=2025-01-01
 }
 ```
 
+### Valid Requests (with applyBookingRules=false)
+
+#### Custom Dates During Christmas Period
+```bash
+GET /api/vagas/search?checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "method": "puppeteer",
+  "query": {
+    "checkin": "2024-12-23",
+    "checkout": "2024-12-26",
+    "applyBookingRules": false
+  },
+  "note": "Booking rules bypassed - custom date range allowed during holiday period",
+  "data": { ... }
+}
+```
+
+#### Custom Dates During New Year Period
+```bash
+GET /api/vagas/search?checkin=2024-12-28&checkout=2025-01-01&applyBookingRules=false
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "method": "puppeteer",
+  "query": {
+    "checkin": "2024-12-28",
+    "checkout": "2025-01-01",
+    "applyBookingRules": false
+  },
+  "note": "Booking rules bypassed - custom date range allowed during holiday period",
+  "data": { ... }
+}
+```
+
 ---
 
 ## Error Codes
@@ -225,11 +278,14 @@ Location: `tests/integration/bookingRules.integration.test.js`
 # Valid Christmas package
 curl "http://localhost:3000/api/vagas/search?checkin=2024-12-22&checkout=2024-12-27"
 
-# Invalid - wrong check-in
+# Invalid - wrong check-in (with rules enabled)
 curl "http://localhost:3000/api/vagas/search?checkin=2024-12-23&checkout=2024-12-27"
 
-# Invalid - wrong check-out
+# Invalid - wrong check-out (with rules enabled)
 curl "http://localhost:3000/api/vagas/search?checkin=2024-12-22&checkout=2024-12-26"
+
+# Valid - custom dates with rules disabled
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false"
 ```
 
 ### Test New Year Package
@@ -237,6 +293,16 @@ curl "http://localhost:3000/api/vagas/search?checkin=2024-12-22&checkout=2024-12
 ```bash
 # Valid New Year package
 curl "http://localhost:3000/api/vagas/search?checkin=2024-12-27&checkout=2025-01-02"
+
+# Invalid - wrong check-in (with rules enabled)
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-28&checkout=2025-01-02"
+
+# Invalid - wrong check-out (with rules enabled)
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-27&checkout=2025-01-01"
+
+# Valid - custom dates with rules disabled
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-28&checkout=2025-01-01&applyBookingRules=false"
+```
 
 # Invalid - wrong check-in
 curl "http://localhost:3000/api/vagas/search?checkin=2024-12-28&checkout=2025-01-02"

@@ -1,10 +1,12 @@
 /**
  * Booking Rules Unit Tests
- * Tests for holiday package validation (BR-18, BR-19)
+ * Tests for holiday package validation (BR-18, BR-19, BR-20)
  * 
  * @module tests/unit/bookingRules
- * @version 1.4.0
+ * @version 1.5.0
  * @since 1.4.0
+ * @updated 1.5.0 - Note: This file tests the validation logic only.
+ *                   The applyBookingRules parameter is handled at the middleware level.
  */
 
 import {
@@ -14,7 +16,7 @@ import {
   HOLIDAY_PACKAGES
 } from '../../src/utils/bookingRules.js';
 
-describe('Booking Rules - Holiday Packages (BR-18, BR-19)', () => {
+describe('Booking Rules - Holiday Packages (BR-18, BR-19, BR-20)', () => {
   
   describe('Christmas Package Validation', () => {
     

@@ -1,7 +1,7 @@
 # Booking Rules Implementation Summary
 
-**Date:** December 14, 2025  
-**Version:** 1.4.0  
+**Date:** December 21, 2025  
+**Version:** 1.5.0  
 **Status:** ✅ Completed and Tested
 
 ---
@@ -19,8 +19,14 @@ Implemented holiday package booking rules (BR-18, BR-19) in the Busca Vagas API 
 - **New Year Package:** December 27-January 2 (6 days/5 nights)
 
 ### BR-19: Restricted Booking Dates
-- Reservations during holiday periods must use exact package dates
-- No partial or custom dates allowed within these periods
+- Reservations during holiday periods must use exact package dates (by default)
+- No partial or custom dates allowed within these periods (when applyBookingRules=true)
+
+### BR-20: Optional Booking Rules (New in v1.5.0)
+- Added `applyBookingRules` query parameter to all search endpoints
+- **Default** (`applyBookingRules=true`): Holiday package restrictions are enforced
+- **Disabled** (`applyBookingRules=false`): Allows custom date ranges during holiday periods
+- Provides flexibility for users who need to search non-standard dates during holidays
 
 ---
 
@@ -70,14 +76,16 @@ Implemented holiday package booking rules (BR-18, BR-19) in the Busca Vagas API 
   - Implementation summary
   - Quick reference
 
-### 7. Updated Documentation
-- `docs/api/FUNCTIONAL_REQUIREMENTS.md` (Section 6.3.1 added)
-- `docs/api/API.md` (Booking Rules section added)
-- `docs/api/API_CLIENT_DOCUMENTATION.md` (Section 10.8 added)
-- `docs/api/DATA_FLOW_DOCUMENTATION.md` (Business Rules section added)
-- `docs/api/SEARCH_BY_DAY.md` (Important Note #6 added)
-- `README.md` (Regras Importantes section added)
-- `USAGE.md` (Important Booking Rules section added)
+### 7. Updated Documentation (v1.5.0)
+- `docs/api/FUNCTIONAL_REQUIREMENTS.md` (Section 6.3.1 updated with BR-20, v1.5.0)
+- `docs/api/API.md` (Booking Rules section updated with applyBookingRules parameter)
+- `docs/api/BOOKING_RULES_IMPLEMENTATION.md` (Updated with applyBookingRules examples)
+- `docs/api/BOOKING_RULES_SUMMARY.md` (Updated with BR-20)
+- `docs/api/API_CLIENT_DOCUMENTATION.md` (Section 10.8 added in v1.4.0)
+- `docs/api/DATA_FLOW_DOCUMENTATION.md` (Business Rules section added in v1.4.0)
+- `docs/api/SEARCH_BY_DAY.md` (Important Note #6 added in v1.4.0)
+- `README.md` (Regras Importantes section added in v1.4.0)
+- `USAGE.md` (Important Booking Rules section added in v1.4.0)
 
 ---
 

@@ -1,8 +1,8 @@
 # API Functional Requirements Documentation
 
 **Project:** Busca Vagas API  
-**Version:** 1.4.0  
-**Last Updated:** December 14, 2025  
+**Version:** 1.5.0  
+**Last Updated:** December 21, 2025  
 **Document Type:** Functional Requirements Specification
 
 ---
@@ -316,16 +316,18 @@ The API follows a layered architecture pattern:
 - REQ-10.1: Accept check-in date (required, format: YYYY-MM-DD)
 - REQ-10.2: Accept check-out date (required, format: YYYY-MM-DD)
 - REQ-10.3: Accept hotel name/ID (optional, default: "Todos")
-- REQ-10.4: Validate date format and logic
-- REQ-10.5: Navigate to AFPESP reservations page
-- REQ-10.6: Fill date fields automatically
-- REQ-10.7: Select specified hotel from dropdown
-- REQ-10.8: Submit search form
-- REQ-10.9: Wait for results to load completely
-- REQ-10.10: Extract availability data from results
-- REQ-10.11: Handle progressive loading of results
-- REQ-10.12: Parse and structure vacancy data
-- REQ-10.13: Use headless mode for efficiency
+- REQ-10.4: Accept applyBookingRules flag (optional, boolean, default: true)
+- REQ-10.5: Validate date format and logic
+- REQ-10.6: Validate dates against booking rules if applyBookingRules is true
+- REQ-10.7: Navigate to AFPESP reservations page
+- REQ-10.8: Fill date fields automatically
+- REQ-10.9: Select specified hotel from dropdown
+- REQ-10.10: Submit search form
+- REQ-10.11: Wait for results to load completely
+- REQ-10.12: Extract availability data from results
+- REQ-10.13: Handle progressive loading of results
+- REQ-10.14: Parse and structure vacancy data
+- REQ-10.15: Use headless mode for efficiency
 
 **Acceptance Criteria**:
 
@@ -482,7 +484,8 @@ Host: localhost:3005
   "query": {
     "checkin": "2025-12-25",
     "checkout": "2025-12-27",
-    "hotel": "Amparo"
+    "hotel": "Amparo",
+    "applyBookingRules": true
   },
   "results": {
     "found": true,
@@ -499,6 +502,46 @@ Host: localhost:3005
   "metadata": {
     "searchTime": "3.2s",
     "method": "Puppeteer"
+  }
+}
+```
+
+#### Example 2b: Search with Booking Rules Disabled
+
+**Request:**
+
+```http
+GET /api/vagas/search?checkin=2025-12-24&checkout=2025-12-26&hotel=Amparo&applyBookingRules=false HTTP/1.1
+Host: localhost:3005
+```
+
+**Response:**
+
+```json
+{
+  "success": true,
+  "query": {
+    "checkin": "2025-12-24",
+    "checkout": "2025-12-26",
+    "hotel": "Amparo",
+    "applyBookingRules": false
+  },
+  "results": {
+    "found": true,
+    "vacancies": [
+      {
+        "hotel": "Amparo",
+        "hotelId": "4007",
+        "date": "2025-12-24",
+        "available": true,
+        "spaces": 3
+      }
+    ]
+  },
+  "metadata": {
+    "searchTime": "3.5s",
+    "method": "Puppeteer",
+    "note": "Booking rules bypassed - custom date range allowed during holiday period"
   }
 }
 ```
@@ -592,9 +635,10 @@ interface Vacancy {
 
 ```typescript
 interface SearchQuery {
-  checkin: string;         // Check-in date (YYYY-MM-DD)
-  checkout: string;        // Check-out date (YYYY-MM-DD)
-  hotel?: string;          // Hotel name or "Todos"
+  checkin: string;             // Check-in date (YYYY-MM-DD)
+  checkout: string;            // Check-out date (YYYY-MM-DD)
+  hotel?: string;              // Hotel name or "Todos"
+  applyBookingRules?: boolean; // Apply holiday booking restrictions (default: true)
 }
 ```
 
@@ -603,6 +647,7 @@ interface SearchQuery {
 - `checkin`: Required, valid date format
 - `checkout`: Required, valid date format, after check-in
 - `hotel`: Optional, defaults to "Todos"
+- `applyBookingRules`: Optional, boolean, defaults to true
 
 ### 5.4 Cache Info Model
 
@@ -656,13 +701,18 @@ interface CacheInfo {
 
 **BR-19**: During these holiday periods (Christmas and New Year packages), reservations cannot be made on different dates than the pre-defined package dates
 
+**BR-20**: Booking search rules (BR-18 and BR-19) can be disabled via API parameter `applyBookingRules` (optional, default: `true`)
+- When `applyBookingRules=true`: Holiday package restrictions are enforced
+- When `applyBookingRules=false`: Holiday package restrictions are bypassed, allowing custom date ranges during holiday periods
+- This option is available on all search endpoints
+
 ### 6.4 Performance Rules
 
-**BR-20**: API responses should complete within 5 seconds (non-search)  
-**BR-21**: Search operations should complete within 15 seconds  
-**BR-22**: Browser automation should use headless mode  
-**BR-23**: Cache should be used to minimize external requests  
-**BR-24**: Connection pooling for concurrent searches
+**BR-21**: API responses should complete within 5 seconds (non-search)  
+**BR-22**: Search operations should complete within 15 seconds  
+**BR-23**: Browser automation should use headless mode  
+**BR-24**: Cache should be used to minimize external requests  
+**BR-25**: Connection pooling for concurrent searches
 
 ---
 
@@ -890,6 +940,7 @@ All error responses follow this structure:
 | Version | Date | Author | Changes |
 |---------|------|--------|---------|
 | 1.0 | 2025-12-14 | System | Initial functional requirements document |
+| 1.1 | 2025-12-21 | System | Added applyBookingRules parameter to disable holiday booking restrictions |
 
 ---
 

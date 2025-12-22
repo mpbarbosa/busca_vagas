@@ -8,9 +8,9 @@
  * - Smaller memory footprint
  * 
  * @module controllers/vagasControllerPuppeteer
- * @version 1.4.0
+ * @version 1.5.0
  * @since 1.2.0
- * @updated 1.4.0 - Aligned with referential transparency refactoring
+ * @updated 1.5.0 - Added applyBookingRules parameter support
  */
 
 import { searchVacanciesByDay, searchWeekendVacancies } from './puppeteer-script.js';
@@ -88,18 +88,21 @@ export const removerVaga = async (req, res) => {
  * - checkin (required): Check-in date in YYYY-MM-DD format
  * - checkout (required): Check-out date in YYYY-MM-DD format
  * - hotel (optional): Hotel name or "Todas" for all hotels (default: "Todas")
+ * - applyBookingRules (optional): Apply holiday booking restrictions (default: true)
  * 
  * Note: Always runs in headless mode for optimal performance and CI/CD compatibility
  * 
- * Validates booking rules (BR-18, BR-19):
- * - Christmas package (Dec 22-27) requires exact dates
- * - New Year package (Dec 27-Jan 2) requires exact dates
+ * Validates booking rules (BR-18, BR-19, BR-20):
+ * - Christmas package (Dec 22-27) requires exact dates (by default)
+ * - New Year package (Dec 27-Jan 2) requires exact dates (by default)
+ * - Rules can be bypassed with applyBookingRules=false
  * 
  * Example: GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Todas
+ * Example: GET /api/vagas/search?checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false
  */
 export const searchByDates = async (req, res) => {
   try {
-    const { checkin, checkout, hotel = 'Todas' } = req.query;
+    const { checkin, checkout, hotel = 'Todas', applyBookingRules } = req.query;
     
     if (!checkin || !checkout) {
       return res.status(400).json({ 
@@ -113,10 +116,14 @@ export const searchByDates = async (req, res) => {
     console.log(`   Hotel filter: ${hotel}`);
     console.log('   Headless mode: true (enforced)');
     console.log('   Using: Puppeteer (optimized)');
+    console.log(`   Booking rules: ${req.bookingRulesBypassed ? 'bypassed' : 'enforced'}`);
     
     // Check if this is a holiday package (set by validation middleware)
     if (req.holidayPackage) {
       console.log(`   🎄 Holiday Package: ${req.holidayPackage.name} (${req.holidayPackage.duration})`);
+      if (req.bookingRulesBypassed) {
+        console.log('   ⚠️  Note: Booking rules were bypassed for this search');
+      }
     }
 
     const results = await searchVacanciesByDay(checkin, checkout, hotel);
@@ -127,6 +134,12 @@ export const searchByDates = async (req, res) => {
       headlessMode: true,
       resourceSavings: '40-60% compared to Selenium',
       hotelFilter: hotel,
+      query: {
+        checkin,
+        checkout,
+        hotel,
+        applyBookingRules: applyBookingRules === undefined ? true : applyBookingRules === 'true'
+      },
       data: results
     };
     
@@ -137,6 +150,11 @@ export const searchByDates = async (req, res) => {
         duration: req.holidayPackage.duration,
         type: req.holidayPackage.type
       };
+    }
+    
+    // Add note if booking rules were bypassed
+    if (req.bookingRulesBypassed) {
+      response.note = 'Booking rules bypassed - custom date range allowed during holiday period';
     }
     
     res.json(response);

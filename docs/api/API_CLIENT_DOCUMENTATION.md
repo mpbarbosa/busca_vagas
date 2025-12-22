@@ -1,7 +1,7 @@
 # Busca Vagas API - Client Documentation
 
-**Version:** 1.3.0  
-**Last Updated:** 2025-12-02  
+**Version:** 1.5.0  
+**Last Updated:** 2025-12-21  
 **Status:** Current
 
 ## 📚 Table of Contents
@@ -39,7 +39,7 @@ The **Busca Vagas API** is a RESTful API designed for searching and managing hot
 
 ### 1.2. Version Information
 
-- **Current Version:** 1.3.0
+- **Current Version:** 1.5.0
 - **API Type:** REST
 - **Data Format:** JSON
 - **Protocol:** HTTP/HTTPS
@@ -47,6 +47,8 @@ The **Busca Vagas API** is a RESTful API designed for searching and managing hot
 
 #### Version History
 
+- **1.5.0** (2025-12-21) - Added `applyBookingRules` parameter to bypass holiday booking restrictions
+- **1.4.0** (2025-12-14) - Implemented holiday booking rules (BR-18, BR-19)
 - **1.3.0** (2025-12-02) - Added `hotel` parameter to `/api/vagas/search` endpoint
 - **1.2.1** (2024) - Puppeteer implementation refinements
 - **1.2.0** (2024) - Puppeteer integration for improved performance
@@ -85,6 +87,7 @@ curl http://localhost:3000/api/vagas/hoteis
 **Current Status:** No authentication required
 
 The API is currently open and does not require authentication. Future versions may implement:
+
 - API Key authentication
 - JWT tokens
 - OAuth 2.0
@@ -94,17 +97,20 @@ The API is currently open and does not require authentication. Future versions m
 ## 4. Base URL
 
 ### 4.1. Development
-```
+
+```url
 http://localhost:3000
 ```
 
 ### 4.2. Production
-```
+
+```url
 https://www.mpbarbosa.com
 ```
 
 All API endpoints are prefixed with `/api`:
-```
+
+```url
 http://localhost:3000/api
 ```
 
@@ -162,6 +168,7 @@ Error responses include:
 ### 6.2. Common Errors
 
 #### 6.2.1. 400 - Bad Request
+
 ```json
 {
   "error": "Both checkin and checkout parameters are required",
@@ -170,6 +177,7 @@ Error responses include:
 ```
 
 #### 6.2.2. 404 - Not Found
+
 ```json
 {
   "success": false,
@@ -178,6 +186,7 @@ Error responses include:
 ```
 
 #### 6.2.3. 500 - Internal Server Error
+
 ```json
 {
   "success": false,
@@ -588,6 +597,7 @@ curl http://localhost:3000/api/vagas/search/weekends
 ```
 
 **Important Notes:**
+
 - This endpoint searches ALL weekends for the next 2 months
 - Expected execution time: 5-10 minutes
 - Results are logged to the server console
@@ -623,6 +633,7 @@ curl "http://localhost:3000/api/vagas/search/selenium?checkin=2024-12-25&checkou
 **Migration Notice:**
 
 ⚠️ **Deprecated:** This endpoint is maintained for backward compatibility only. New integrations should use `/api/vagas/search` which offers:
+
 - 40-60% better resource efficiency
 - Faster execution times
 - Better stability in CI/CD environments
@@ -1304,8 +1315,9 @@ async function searchVacancies(checkin, checkout) {
     throw new Error('Checkout date must be after checkin date');
   }
   
-  // Proceed with request
-  return fetch(/* ... */);
+  // Proceed with request (implementation details omitted)
+  const url = `http://localhost:3000/api/vagas/search?checkin=${checkin}&checkout=${checkout}`;
+  return fetch(url);
 }
 ```
 
@@ -1370,19 +1382,36 @@ searchWithProgress('2024-12-25', '2024-12-26', (progress) => {
 
 ### 10.8. Booking Rules Validation
 
-**Important:** The API has special booking rules for holiday periods. Always validate dates against these rules before submitting reservation requests:
+**Important:** The API has special booking rules for holiday periods. By default, dates are validated against these rules, but you can bypass them using the `applyBookingRules` parameter:
 
 **Holiday Package Rules:**
 
 1. **Christmas Package:** December 22nd to December 27th (5 days)
 2. **New Year Package:** December 27th to January 2nd (6 days)
 
-During these periods, reservations **must** use the exact package dates and cannot be made on different dates.
+During these periods, reservations **must** use the exact package dates by default and cannot be made on different dates.
+
+**Bypassing Rules:**
+
+To search custom dates during holiday periods, add `applyBookingRules=false` to your request:
+
+```javascript
+// Search custom dates during holiday period
+const response = await fetch(
+  'http://localhost:3000/api/vagas/search?' +
+  'checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false'
+);
+```
 
 **Implementation Example:**
 
 ```javascript
-function validateBookingDates(checkin, checkout) {
+function validateBookingDates(checkin, checkout, applyBookingRules = true) {
+  // If rules are disabled, skip validation
+  if (!applyBookingRules) {
+    return true;
+  }
+  
   const checkinDate = new Date(checkin);
   const checkoutDate = new Date(checkout);
   const checkinMonth = checkinDate.getMonth();
@@ -1408,7 +1437,8 @@ function validateBookingDates(checkin, checkout) {
     
     if (!validChristmas) {
       throw new Error(
-        'Christmas package requires check-in on Dec 22 and check-out on Dec 27'
+        'Christmas package requires check-in on Dec 22 and check-out on Dec 27. ' +
+        'Use applyBookingRules=false to bypass this restriction.'
       );
     }
   }
@@ -1421,7 +1451,8 @@ function validateBookingDates(checkin, checkout) {
     
     if (!validNewYear) {
       throw new Error(
-        'New Year package requires check-in on Dec 27 and check-out on Jan 2'
+        'New Year package requires check-in on Dec 27 and check-out on Jan 2. ' +
+        'Use applyBookingRules=false to bypass this restriction.'
       );
     }
   }
@@ -1434,6 +1465,7 @@ try {
   validateBookingDates('2024-12-22', '2024-12-27'); // Valid Christmas package
   validateBookingDates('2024-12-27', '2025-01-02'); // Valid New Year package
   validateBookingDates('2024-12-23', '2024-12-26'); // Throws error - invalid dates
+  validateBookingDates('2024-12-23', '2024-12-26', false); // Valid - rules bypassed
 } catch (error) {
   console.error('Booking validation failed:', error.message);
 }
@@ -1448,6 +1480,7 @@ try {
 **Released:** December 2, 2025
 
 **New Features:**
+
 - ✨ Added `hotel` parameter to `/api/vagas/search` endpoint
   - Allows filtering by specific hotel name
   - Defaults to "Todas" (all hotels) for backward compatibility
@@ -1455,14 +1488,17 @@ try {
   - Graceful fallback if hotel not found
 
 **Improvements:**
+
 - 📝 Enhanced API response with `hotelFilter` field
 - 🔍 Improved hotel selection logging and debugging
 - 📖 Updated documentation with hotel parameter examples
 
 **Breaking Changes:**
+
 - None (fully backward compatible)
 
 **Migration Guide:**
+
 ```bash
 # Old (still works)
 GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26
@@ -1478,6 +1514,7 @@ GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Appenzell
 **Released:** 2024
 
 **Improvements:**
+
 - Puppeteer implementation refinements
 - Performance optimizations
 - Bug fixes and stability improvements
@@ -1489,17 +1526,20 @@ GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Appenzell
 **Released:** December 2024
 
 **New Features:**
+
 - ✨ Added Puppeteer-based vacancy search (40-60% resource savings)
 - ✨ Added weekend vacancy search endpoint
 - ✨ Enforced headless mode for all search operations
 - ✨ Added hotel scraping endpoint
 
 **Improvements:**
+
 - ⚡ Optimized browser automation with instance pooling
 - 📊 Enhanced response format with detailed availability information
 - 🔒 Improved security with enforced headless mode
 
 **Deprecated:**
+
 - ⚠️ Selenium-based search endpoints (use Puppeteer endpoints instead)
 
 ---
@@ -1507,6 +1547,7 @@ GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Appenzell
 ### 11.4. Version 1.1.0
 
 **Features:**
+
 - Added Selenium-based vacancy search
 - Added basic CRUD endpoints
 - Added health check endpoint
@@ -1516,6 +1557,7 @@ GET /api/vagas/search?checkin=2024-12-25&checkout=2024-12-26&hotel=Appenzell
 ### 11.5. Version 1.0.0
 
 **Initial Release:**
+
 - Basic API structure
 - Hotel listing endpoints
 - Health check

@@ -4,10 +4,11 @@
  * 
  * Business Rules:
  * - BR-18: Holiday reservation periods are pre-defined as closed packages
- * - BR-19: Reservations cannot be made on different dates during holiday periods
+ * - BR-19: Reservations cannot be made on different dates during holiday periods (by default)
+ * - BR-20: Booking rules can be optionally disabled via applyBookingRules parameter
  * 
  * @module utils/bookingRules
- * @version 1.4.0
+ * @version 1.5.0
  * @since 1.4.0
  */
 

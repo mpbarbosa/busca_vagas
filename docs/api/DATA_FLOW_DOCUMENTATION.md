@@ -24,12 +24,14 @@ This document explains the complete data flow for the hotel vacancy search endpo
 **Endpoint:** `GET /api/vagas/search`
 
 **Query Parameters:**
+
 - `checkin` (required): Check-in date in `YYYY-MM-DD` format (e.g., `2025-04-03`)
 - `checkout` (required): Check-out date in `YYYY-MM-DD` format (e.g., `2025-12-05`)
 - `hotel` (optional): Hotel name or `-1` for all hotels (default: `Todas`)
 
 **Example Request:**
-```
+
+```http
 GET https://www.mpbarbosa.com/api/vagas/search?hotel=-1&checkin=2025-04-03&checkout=2025-12-05
 ```
 
@@ -62,6 +64,7 @@ The request is routed to the `searchByDates` function in the Puppeteer controlle
 ```
 
 **Fields:**
+
 - `success` (boolean): Indicates if the API call was successful
 - `method` (string): The scraping method used (`"puppeteer"`)
 - `headlessMode` (boolean): Always `true` - browser runs without GUI
@@ -81,6 +84,7 @@ The request is routed to the `searchByDates` function in the Puppeteer controlle
 ```
 
 **Fields:**
+
 - `success` (boolean): Indicates if the search operation completed successfully
 - `date` (string): The search date in `M/D/YYYY` format
 - `hasAvailability` (boolean): `true` if any vacancies were found
@@ -99,6 +103,7 @@ The request is routed to the `searchByDates` function in the Puppeteer controlle
 ```
 
 **Fields:**
+
 - `hasAvailability` (boolean): Duplicate of parent-level flag for convenience
 - `status` (string): Status code - `"AVAILABLE"`, `"NO AVAILABILITY"`, or `"ERROR"`
 - `summary` (string): Human-readable summary of results
@@ -147,6 +152,7 @@ Vacancies organized by hotel for easier filtering and display:
 **Function:** `searchByDates(req, res)`
 
 **Responsibilities:**
+
 1. Extract and validate query parameters
 2. Call the Puppeteer script
 3. Format the response
@@ -183,12 +189,14 @@ export const searchByDates = async (req, res) => {
 **Function:** `searchVacanciesByDay(startDate, endDate, hotel)`
 
 **Responsibilities:**
+
 1. Convert date strings to Date objects
 2. Validate dates
 3. Call the core scraping function
 4. Format results
 
 **Date Conversion:**
+
 ```javascript
 // Convert "2025-04-03" to Date object
 const [year, month, day] = startDate.split('-').map(Number);
@@ -196,6 +204,7 @@ checkInDate = new Date(year, month - 1, day);
 ```
 
 **Validation:**
+
 ```javascript
 // Ensure dates are valid
 if (isNaN(checkInDate.getTime())) {
@@ -213,6 +222,7 @@ if (checkOutDate <= checkInDate) {
 **Function:** `openVagasPage(fridayDate, sundayDate, weekendNumber, totalWeekends, hotel)`
 
 **Browser Pool Management:**
+
 ```javascript
 const browserPool = new BrowserPool();
 const browser = await browserPool.getBrowser();
@@ -221,6 +231,7 @@ const browser = await browserPool.getBrowser();
 The browser pool reuses browser instances for 5 minutes to improve performance.
 
 **Page Navigation:**
+
 1. Navigate to AFPESP website
 2. Wait for page to load (`networkidle2`)
 3. Set hotel selection
@@ -230,7 +241,8 @@ The browser pool reuses browser instances for 5 minutes to improve performance.
 7. Wait for results
 
 **Target URL:**
-```
+
+```url
 https://associadoh.afpesp.org.br/Servicos/Reservas/Vagas-disponiveis.aspx
 ```
 
@@ -289,6 +301,7 @@ await page.waitForSelector('#lyConsulta', { timeout: 15000 });
 ### Step 4: Result Parsing
 
 **Get HTML Content:**
+
 ```javascript
 const lyConsultaHTML = await page.evaluate(() => {
   const element = document.getElementById('lyConsulta');
@@ -297,18 +310,21 @@ const lyConsultaHTML = await page.evaluate(() => {
 ```
 
 **Check for "No Availability" Message:**
+
 ```javascript
 const noRoomMessage = 'No período escolhido não há nenhum quarto disponível...';
 const hasNoRoomMessage = lyConsultaContent.includes(noRoomMessage);
 ```
 
 **Extract Hotel Sections:**
+
 ```javascript
 // Split HTML by hotel section dividers
 const hotelSections = pageSource.split(/<div class="cc_tit">/i);
 ```
 
 **Parse Vacancies with Regex:**
+
 ```javascript
 const vacancyPatterns = [
   /(\w+(?:\s+\w+)*)\s*\(até\s+(\d+)\s+pessoas?\)\s*(\d{1,2}\/\d{1,2})\s*-\s*(\d{1,2}\/\d{1,2})\s*\([^)]+\)\s*-\s*(\d+)\s+Quarto\(s\)(?:\s*-\s*adaptado)?/gim
@@ -321,11 +337,13 @@ vacancyPatterns.forEach(pattern => {
 ```
 
 **Example Match:**
-```
+
+```text
 COQUEIROS (até 3 pessoas)01/06 - 01/07 (30 dias livres) - 38 Quarto(s)
 ```
 
 **Extracted Components:**
+
 - Room Type: `COQUEIROS`
 - Capacity: `3 pessoas`
 - Start Date: `01/06`
@@ -336,6 +354,7 @@ COQUEIROS (até 3 pessoas)01/06 - 01/07 (30 dias livres) - 38 Quarto(s)
 ### Step 5: Data Structuring
 
 **Group by Hotel:**
+
 ```javascript
 const hotelGroups = {};
 foundVacancies.forEach(vacancy => {
@@ -347,6 +366,7 @@ foundVacancies.forEach(vacancy => {
 ```
 
 **Build Response:**
+
 ```javascript
 return {
   hasAvailability: true,
@@ -362,7 +382,8 @@ return {
 ## Example Walkthrough
 
 ### Request
-```
+
+```http
 GET /api/vagas/search?hotel=-1&checkin=2025-04-03&checkout=2025-12-05
 ```
 
@@ -396,6 +417,7 @@ GET /api/vagas/search?hotel=-1&checkin=2025-04-03&checkout=2025-12-05
    - Builds summary string
 
 7. **Response Formation**
+
    ```json
    {
      "success": true,
@@ -416,7 +438,7 @@ GET /api/vagas/search?hotel=-1&checkin=2025-04-03&checkout=2025-12-05
 
 ## Architecture Diagram
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────────┐
 │                         HTTP Request                             │
 │  GET /api/vagas/search?hotel=-1&checkin=2025-04-03              │
@@ -506,7 +528,7 @@ GET /api/vagas/search?hotel=-1&checkin=2025-04-03&checkout=2025-12-05
 │  │ 5. Data Parsing                                          │   │
 │  │    a. Check for "No Availability" message                │   │
 │  │    b. Split HTML by hotel sections                       │   │
-│  │       - Delimiter: <div class="cc_tit">                  │   │
+│  │       - Delimiter: div with class "cc_tit"               │   │
 │  │    c. Extract hotel names from section headers           │   │
 │  │    d. Apply vacancy regex patterns:                      │   │
 │  │       - Room type (até X pessoas)                        │   │
@@ -573,16 +595,19 @@ GET /api/vagas/search?hotel=-1&checkin=2025-04-03&checkout=2025-12-05
 ## Performance Optimizations
 
 ### 1. Browser Pool
+
 - Reuses browser instances for 5 minutes
 - Reduces startup overhead
 - Shared across multiple requests
 
 ### 2. Headless Mode
+
 - Always runs without GUI
 - 40-60% less resource consumption vs Selenium
 - Better for CI/CD and production environments
 
 ### 3. Minimal Browser Flags
+
 ```javascript
 args: [
   '--no-sandbox',
@@ -596,6 +621,7 @@ args: [
 ```
 
 ### 4. Smart Waiting
+
 - Uses `networkidle2` for complete page loads
 - Targeted selector waiting instead of arbitrary timeouts
 - 2-second buffer after results for complete rendering
@@ -605,6 +631,7 @@ args: [
 ## Error Handling
 
 ### Validation Errors (400)
+
 ```json
 {
   "error": "Both checkin and checkout parameters are required",
@@ -613,6 +640,7 @@ args: [
 ```
 
 ### Server Errors (500)
+
 ```json
 {
   "success": false,
@@ -622,7 +650,9 @@ args: [
 ```
 
 ### Search Errors
+
 When scraping fails, the result object indicates the error:
+
 ```json
 {
   "success": false,
@@ -641,12 +671,14 @@ When scraping fails, the result object indicates the error:
 The API implements special booking rules for Christmas and New Year periods. These are pre-defined closed packages with fixed dates:
 
 #### Christmas Package
+
 - **Check-in Date:** December 22nd
 - **Check-out Date:** December 27th
 - **Duration:** 5 days/4 nights
 - **Rule:** Reservations during December 22-27 **must** use these exact dates
 
 #### New Year Package
+
 - **Check-in Date:** December 27th
 - **Check-out Date:** January 2nd
 - **Duration:** 6 days/5 nights
@@ -654,19 +686,24 @@ The API implements special booking rules for Christmas and New Year periods. The
 
 #### Validation Logic
 
-When processing search requests, the system should validate:
+When processing search requests, the system validates booking rules based on the `applyBookingRules` parameter:
 
-1. **Date Range Check:** If the requested dates fall within either holiday package period
-2. **Exact Match Requirement:** If in a package period, dates must match exactly:
+1. **Parameter Check:** Check if `applyBookingRules` query parameter is present and its value
+   - If `applyBookingRules=false`: Skip validation and allow any date range
+   - If `applyBookingRules=true` or omitted (default): Apply holiday package validation
+2. **Date Range Check:** If validation is enabled, check if dates fall within either holiday package period
+3. **Exact Match Requirement:** If in a package period and rules enabled, dates must match exactly:
    - Christmas: `checkin=YYYY-12-22` AND `checkout=YYYY-12-27`
    - New Year: `checkin=YYYY-12-27` AND `checkout=YYYY+1-01-02`
-3. **Rejection:** Any partial or custom dates within these periods should be rejected
+4. **Rejection:** Any partial or custom dates within these periods are rejected (when rules enabled)
 
 **Business Rule References:**
-- **BR-18:** Holiday reservation periods are pre-defined as closed packages
-- **BR-19:** Reservations cannot be made on different dates during holiday periods
 
-**Implementation Note:** These rules apply at the business logic layer and should be validated before initiating the Puppeteer scraping process to avoid unnecessary resource usage.
+- **BR-18:** Holiday reservation periods are pre-defined as closed packages
+- **BR-19:** Reservations cannot be made on different dates during holiday periods (by default)
+- **BR-20:** Booking rules can be optionally disabled via `applyBookingRules=false` parameter
+
+**Implementation Note:** These rules apply at the business logic layer and should be validated before initiating the Puppeteer scraping process to avoid unnecessary resource usage. The `applyBookingRules` parameter provides flexibility for users who need to search custom dates during holiday periods.
 
 ---
 
@@ -694,6 +731,7 @@ When processing search requests, the system should validate:
 The `/api/vagas/search` endpoint provides a robust, optimized solution for scraping hotel vacancy data. It leverages Puppeteer's efficiency to deliver structured, queryable results with comprehensive availability information organized by hotel and room type.
 
 **Key Benefits:**
+
 - ✅ 40-60% resource savings vs Selenium
 - ✅ Always headless for production reliability
 - ✅ Browser instance pooling for performance

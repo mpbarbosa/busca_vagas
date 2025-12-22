@@ -1,10 +1,11 @@
 /**
  * Booking Rules Integration Tests
- * Tests for API endpoint validation of holiday packages (BR-18, BR-19)
+ * Tests for API endpoint validation of holiday packages (BR-18, BR-19, BR-20)
  * 
  * @module tests/integration/bookingRules
- * @version 1.4.0
+ * @version 1.5.0
  * @since 1.4.0
+ * @updated 1.5.0 - Added tests for applyBookingRules parameter (BR-20)
  */
 
 import request from 'supertest';
@@ -51,6 +52,8 @@ describe('Booking Rules API Integration Tests', () => {
       expect(response.body.package).toBe('Christmas Package');
       expect(response.body.documentation.businessRules).toContain('BR-18');
       expect(response.body.documentation.businessRules).toContain('BR-19');
+      expect(response.body.documentation.businessRules).toContain('BR-20');
+      expect(response.body.documentation.bypassOption).toContain('applyBookingRules=false');
     });
     
     test('should reject Christmas dates with wrong check-in', async () => {
@@ -284,6 +287,126 @@ describe('Booking Rules API Integration Tests', () => {
       expect(response.status).toBe(400);
       expect(response.body.error).toContain('required');
     });
+    
+  });
+  
+  describe('GET /api/vagas/search - applyBookingRules Parameter (BR-20)', () => {
+    
+    test('should bypass Christmas rules when applyBookingRules=false', async () => {
+      const response = await request(app)
+        .get('/api/vagas/search')
+        .query({
+          checkin: '2024-12-23',
+          checkout: '2024-12-26',
+          hotel: 'Todas',
+          applyBookingRules: 'false'
+        });
+      
+      // Should NOT return validation error (may timeout or succeed with scraping)
+      expect(response.status).not.toBe(400);
+      
+      // If successful, check response structure
+      if (response.status === 200) {
+        expect(response.body.query.applyBookingRules).toBe(false);
+        expect(response.body.note).toContain('bypassed');
+      }
+    }, 30000);
+    
+    test('should bypass New Year rules when applyBookingRules=false', async () => {
+      const response = await request(app)
+        .get('/api/vagas/search')
+        .query({
+          checkin: '2024-12-28',
+          checkout: '2025-01-01',
+          hotel: 'Todas',
+          applyBookingRules: 'false'
+        });
+      
+      // Should NOT return validation error
+      expect(response.status).not.toBe(400);
+      
+      // If successful, check response structure
+      if (response.status === 200) {
+        expect(response.body.query.applyBookingRules).toBe(false);
+        expect(response.body.note).toContain('bypassed');
+      }
+    }, 30000);
+    
+    test('should enforce rules by default when applyBookingRules is omitted', async () => {
+      const response = await request(app)
+        .get('/api/vagas/search')
+        .query({
+          checkin: '2024-12-23',
+          checkout: '2024-12-26'
+        });
+      
+      expect(response.status).toBe(400);
+      expect(response.body.code).toBe('INVALID_CHRISTMAS_PACKAGE');
+    });
+    
+    test('should enforce rules when applyBookingRules=true', async () => {
+      const response = await request(app)
+        .get('/api/vagas/search')
+        .query({
+          checkin: '2024-12-23',
+          checkout: '2024-12-26',
+          applyBookingRules: 'true'
+        });
+      
+      expect(response.status).toBe(400);
+      expect(response.body.code).toBe('INVALID_CHRISTMAS_PACKAGE');
+    });
+    
+    test('should accept valid Christmas package with applyBookingRules=true', async () => {
+      const response = await request(app)
+        .get('/api/vagas/search')
+        .query({
+          checkin: '2024-12-22',
+          checkout: '2024-12-27',
+          hotel: 'Todas',
+          applyBookingRules: 'true'
+        });
+      
+      // Should not return validation error
+      if (response.status === 400) {
+        expect(response.body.code).not.toBe('INVALID_CHRISTMAS_PACKAGE');
+      }
+    }, 30000);
+    
+    test('should accept valid Christmas package with applyBookingRules=false', async () => {
+      const response = await request(app)
+        .get('/api/vagas/search')
+        .query({
+          checkin: '2024-12-22',
+          checkout: '2024-12-27',
+          hotel: 'Todas',
+          applyBookingRules: 'false'
+        });
+      
+      // Should not return validation error
+      if (response.status === 400) {
+        expect(response.body.code).not.toBe('INVALID_CHRISTMAS_PACKAGE');
+      }
+      
+      // If successful, should include note about bypassed rules
+      if (response.status === 200) {
+        expect(response.body.query.applyBookingRules).toBe(false);
+      }
+    }, 30000);
+    
+    test('should work with non-holiday dates and applyBookingRules=false', async () => {
+      const response = await request(app)
+        .get('/api/vagas/search')
+        .query({
+          checkin: '2024-11-15',
+          checkout: '2024-11-20',
+          hotel: 'Todas',
+          applyBookingRules: 'false'
+        });
+      
+      // Should not return validation error
+      expect(response.status).not.toBe(400);
+    }, 30000);
     
   });
   

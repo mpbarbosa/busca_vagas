@@ -156,9 +156,10 @@ searchVacanciesByDay('2024-12-25').catch(console.error);
 5. **Hotel Selection**: The function searches ALL hotels by default (selects "Todas" option).
 
 6. **Holiday Package Rules**: ⚠️ **Important Booking Restrictions**
-   - **Christmas Package** (Dec 22-27): Only full package bookings are allowed during this period
-   - **New Year Package** (Dec 27-Jan 2): Only full package bookings are allowed during this period
-   - Single-day searches during these periods may return results, but actual bookings must follow package rules
+   - **Christmas Package** (Dec 22-27): Only full package bookings are allowed during this period (by default)
+   - **New Year Package** (Dec 27-Jan 2): Only full package bookings are allowed during this period (by default)
+   - **Bypass Option**: Use `applyBookingRules=false` parameter to search custom dates during holiday periods
+   - Single-day searches during these periods may return results, but actual bookings must follow package rules (unless bypassed)
    - See [Functional Requirements](./FUNCTIONAL_REQUIREMENTS.md#631-booking-rules) for complete details
 
 ## Error Handling

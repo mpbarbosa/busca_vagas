@@ -56,9 +56,16 @@ const {
 
 **Holiday Package Restrictions:**
 
-When searching for dates during Christmas and New Year periods, be aware that bookings must follow pre-defined package dates:
+When searching for dates during Christmas and New Year periods, be aware that bookings must follow pre-defined package dates by default:
 
 - **Christmas Package:** December 22-27 (full period required)
 - **New Year Package:** December 27 - January 2 (full period required)
+
+**To bypass these restrictions** and search custom dates during holiday periods, add the `applyBookingRules=false` parameter to your search:
+
+```bash
+# Custom dates during holiday period (rules bypassed)
+curl "http://localhost:3000/api/vagas/search?checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false"
+```
 
 For complete details, see [Booking Rules](docs/api/FUNCTIONAL_REQUIREMENTS.md#631-booking-rules).

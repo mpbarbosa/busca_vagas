@@ -1,7 +1,7 @@
 # API Documentation
 
-**Version:** 1.3.0  
-**Last Updated:** December 2, 2025
+**Version:** 1.5.0  
+**Last Updated:** December 21, 2025
 
 ## Base URL
 
@@ -298,12 +298,16 @@ Realiza uma busca automatizada de vagas disponíveis em hotéis para uma data es
 - `checkin` (required): Data inicial para busca no formato YYYY-MM-DD (ex: 2025-12-25)
 - `checkout` (required): Data final para busca no formato YYYY-MM-DD (ex: 2025-12-26)
 - `hotel` (optional): Nome do hotel ou "Todas" para todos os hotéis (padrão: "Todas")
+- `applyBookingRules` (optional): Aplicar regras de pacotes de feriados (padrão: true)
+  - `true` - Aplica restrições de pacotes de feriados (Natal e Ano Novo)
+  - `false` - Permite datas personalizadas durante períodos de feriados
 
 **Example Request:**
 
 ```plaintext
 GET /api/vagas/search?checkin=2025-12-25&checkout=2025-12-26
 GET /api/vagas/search?checkin=2025-12-25&checkout=2025-12-26&hotel=Appenzell
+GET /api/vagas/search?checkin=2025-12-24&checkout=2025-12-26&applyBookingRules=false
 GET /api/vagas/search/bydates?checkin=2025-12-25&checkout=2025-12-26
 ```
 
@@ -364,10 +368,11 @@ During the Christmas and New Year periods, reservation dates are pre-defined in 
 #### Important Notes
 
 ⚠️ **Booking Restrictions:**
-1. During these holiday periods, reservations **cannot** be made on different dates
-2. Only the exact package dates are accepted
-3. Partial periods within these packages are not allowed
+1. During these holiday periods, reservations **cannot** be made on different dates (by default)
+2. Only the exact package dates are accepted (when applyBookingRules=true)
+3. Partial periods within these packages are not allowed (when applyBookingRules=true)
 4. These rules apply to all hotels in the system
+5. To bypass these restrictions and search custom dates during holiday periods, use `applyBookingRules=false` parameter
 
 **Example Valid Requests:**
 
@@ -379,7 +384,7 @@ GET /api/vagas/search?checkin=2024-12-22&checkout=2024-12-27
 GET /api/vagas/search?checkin=2024-12-27&checkout=2025-01-02
 ```
 
-**Example Invalid Requests:**
+**Example Invalid Requests (with applyBookingRules=true):**
 
 ```bash
 # Invalid - Partial Christmas period
@@ -390,6 +395,19 @@ GET /api/vagas/search?checkin=2024-12-28&checkout=2024-12-31
 
 # Invalid - Custom dates during holiday period
 GET /api/vagas/search?checkin=2024-12-24&checkout=2024-12-25
+```
+
+**Example Valid Requests (with applyBookingRules=false):**
+
+```bash
+# Valid - Custom dates during Christmas period (rules bypassed)
+GET /api/vagas/search?checkin=2024-12-23&checkout=2024-12-26&applyBookingRules=false
+
+# Valid - Custom dates during New Year period (rules bypassed)
+GET /api/vagas/search?checkin=2024-12-28&checkout=2024-12-31&applyBookingRules=false
+
+# Valid - Partial dates during holiday period (rules bypassed)
+GET /api/vagas/search?checkin=2024-12-24&checkout=2024-12-25&applyBookingRules=false
 ```
 
 ---

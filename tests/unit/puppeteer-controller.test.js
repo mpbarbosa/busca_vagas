@@ -5,6 +5,7 @@
  * from the Puppeteer controller in isolation.
  */
 
+import { jest } from '@jest/globals';
 import request from 'supertest';
 import app from '../../src/server.js';
 import * as puppeteerController from '../../src/controllers/vagasControllerPuppeteer.js';
